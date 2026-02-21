@@ -813,7 +813,7 @@ class ModalManager {
         this.videoData = {
             title: document.getElementById('videoTitle').value.trim(),
             description: document.getElementById('videoDescription').value.trim(),
-            type: document.getElementById('videoType').value,
+            type: this.videoData?.type || document.getElementById('videoType').value, // Keep existing type or use from hidden field
             genre: document.getElementById('videoGenre').value,
             year: parseInt(document.getElementById('videoYear').value) || new Date().getFullYear(),
             rating: parseFloat(document.getElementById('videoRating').value) || 0,
@@ -829,6 +829,9 @@ class ModalManager {
         const sourceType = activeTab ? activeTab.dataset.source : 'balancer';
         
         this.videoData.sourceCategory = sourceType;
+        
+        // Set content type based on source
+        this.videoData.type = sourceType;
         
         if (sourceType === 'balancer') {
             const balancerType = document.getElementById('balancerType').value;
@@ -925,6 +928,11 @@ class ModalManager {
         try {
             this.collectStep1Data();
             this.collectStep2Data();
+            
+            // Log content type for debugging
+            logger.info('Saving content with type:', this.videoData.type);
+            logger.info('Source type:', this.videoData.sourceType);
+            logger.info('Full video data:', this.videoData);
             
             if (this.editMode && this.editVideoId) {
                 // Update existing video

@@ -58,6 +58,7 @@ class I18n {
                 'filter.balancer': 'Балансеры',
                 'filter.direct': 'Прямые ссылки',
                 'filter.social': 'Соцсети',
+                'filter.music': 'Музыка',
                 'filter.custom': 'Custom',
                 'filter.favorites': 'Избранное',
                 
@@ -504,6 +505,7 @@ class I18n {
                 'filter.balancer': 'Balancers',
                 'filter.direct': 'Direct Links',
                 'filter.social': 'Social Media',
+                'filter.music': 'Music',
                 'filter.custom': 'Custom',
                 'filter.favorites': 'Favorites',
                 

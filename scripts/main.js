@@ -251,6 +251,7 @@ function createVideoCard(video) {
         'balancer': 'Балансер',
         'direct': 'Прямая ссылка',
         'social': 'Соцсети',
+        'music': 'Музыка',
         'custom': 'Custom',
         'movie': 'Видео',
         'series': 'Сериал',
