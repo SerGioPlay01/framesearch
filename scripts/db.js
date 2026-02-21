@@ -560,6 +560,25 @@ class FramesearchDB {
     }
 
     // Generate share code (compact base64 encoded data)
+    // Helper function to encode Unicode strings to base64
+    unicodeToBase64(str) {
+        // Encode string to UTF-8 bytes, then to base64
+        const utf8Bytes = new TextEncoder().encode(str);
+        const binaryString = Array.from(utf8Bytes, byte => String.fromCharCode(byte)).join('');
+        return btoa(binaryString);
+    }
+
+    // Helper function to decode base64 to Unicode strings
+    base64ToUnicode(base64) {
+        // Decode base64 to binary string, then to UTF-8
+        const binaryString = atob(base64);
+        const bytes = new Uint8Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return new TextDecoder().decode(bytes);
+    }
+
     async generateShareCode(videoId, password = null) {
         const video = await this.getVideo(videoId);
         if (!video) throw new Error('Video not found');
@@ -582,8 +601,8 @@ class FramesearchDB {
             return 'E:' + dataString;
         }
         
-        // Compress and encode for non-encrypted data
-        return 'P:' + btoa(dataString);
+        // Compress and encode for non-encrypted data using Unicode-safe encoding
+        return 'P:' + this.unicodeToBase64(dataString);
     }
 
     // Import from share code
@@ -605,8 +624,8 @@ class FramesearchDB {
                 }
                 jsonString = await this.decrypt(data, password);
             } else if (type === 'P:') {
-                // Plain base64 data
-                jsonString = atob(data);
+                // Plain base64 data - use Unicode-safe decoding
+                jsonString = this.base64ToUnicode(data);
             } else {
                 throw new Error('Неверный формат кода');
             }
@@ -658,9 +677,9 @@ class FramesearchDB {
             const encoded = encodeURIComponent(dataString);
             return `${window.location.origin}${window.location.pathname}?share=${encoded}&encrypted=1`;
         } else {
-            // For non-encrypted data, use base64
-            const encoded = btoa(encodeURIComponent(dataString));
-            return `${window.location.origin}${window.location.pathname}?share=${encoded}`;
+            // For non-encrypted data, use Unicode-safe base64 encoding
+            const encoded = this.unicodeToBase64(dataString);
+            return `${window.location.origin}${window.location.pathname}?share=${encodeURIComponent(encoded)}`;
         }
     }
 
@@ -699,7 +718,16 @@ class FramesearchDB {
                     throw new Error('Требуется пароль для расшифровки');
                 }
                 // Decrypt encrypted data
-                jsonString = await this.decrypt(shareData, password);
+                jsonString = await this.decrypt(decodeURIComponent(shareData), password);
+            } else {
+                // Decode base64 for non-encrypted data using Unicode-safe decoding
+                try {
+                    jsonString = this.base64ToUnicode(decodeURIComponent(shareData));
+                } catch (e) {
+                    // If decoding fails, try to parse as is (for backward compatibility)
+                    console.warn('Base64 decode failed, trying direct parse:', e);
+                    jsonString = shareData;
+                }
             }
             
             const data = JSON.parse(jsonString);
