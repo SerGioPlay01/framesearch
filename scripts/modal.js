@@ -995,6 +995,8 @@ class ModalManager {
         const vibixPoster = document.getElementById('vibixPoster').checked;
         const preview = document.getElementById('vibixPreview');
         
+        if (!preview) return;
+        
         if (vibixId) {
             let insTag = `<ins data-publisher-id="675593060" data-type="${vibixType}" data-id="${vibixId}"`;
             
@@ -1015,12 +1017,22 @@ class ModalManager {
             
             preview.innerHTML = insTag;
             
-            // Reinitialize Vibix SDK for the new element
-            if (window.RendexSDK) {
-                setTimeout(() => {
-                    window.RendexSDK.init();
-                }, 100);
-            }
+            // Reinitialize Vibix SDK for the new element with retry mechanism
+            const initVibix = () => {
+                if (window.RendexSDK && typeof window.RendexSDK.init === 'function') {
+                    try {
+                        window.RendexSDK.init();
+                        console.log('Vibix preview initialized');
+                    } catch (error) {
+                        console.error('Error initializing Vibix:', error);
+                    }
+                } else {
+                    console.warn('Vibix SDK not loaded yet, retrying...');
+                    setTimeout(initVibix, 200);
+                }
+            };
+            
+            setTimeout(initVibix, 100);
         } else {
             preview.innerHTML = '';
         }
@@ -1253,6 +1265,8 @@ class ModalManager {
             document.getElementById('iframeBalancer').style.display = 'block';
         } else if (balancerType === 'vibix') {
             document.getElementById('vibixBalancer').style.display = 'block';
+            // Initialize Vibix preview when switching to this tab
+            setTimeout(() => this.previewVibix(), 100);
         }
     }
 

@@ -395,7 +395,10 @@ class ThemeManager {
         // Open modal button
         const themeBtn = document.getElementById('themeToggleBtn');
         if (themeBtn) {
-            themeBtn.addEventListener('click', () => this.openModal());
+            // Remove old listener if exists
+            const newBtn = themeBtn.cloneNode(true);
+            themeBtn.parentNode.replaceChild(newBtn, themeBtn);
+            newBtn.addEventListener('click', () => this.openModal());
         }
 
         // Theme selection
@@ -693,6 +696,7 @@ window.addEventListener('languageChanged', () => {
         const wasActive = modal.classList.contains('active');
         modal.remove();
         themeManager.createThemeModal();
+        themeManager.attachEventListeners(); // Re-attach event listeners after recreating modal
         if (wasActive) {
             setTimeout(() => themeManager.openModal(), 100);
         }
