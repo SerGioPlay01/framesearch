@@ -25,6 +25,19 @@
     box-shadow: 0 20px 40px rgba(99, 102, 241, 0.1);
 }
 
+/* Music Player - Adaptive height */
+.video-container.music-player {
+    padding-top: 0;
+    height: auto;
+    min-height: 200px;
+}
+
+.video-container.music-player iframe {
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
 .video-player {
     position: absolute;
     top: 0;

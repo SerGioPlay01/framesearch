@@ -6,9 +6,6 @@
  * © 2026 Framesearch
  */
 
-// Debug: Log script loading
-console.log('[Music Sources] Script loading started');
-
 // Ensure logger is available
 if (typeof logger === 'undefined') {
     console.error('Logger not loaded! Please ensure logger.js is included before music-sources.js');
@@ -302,10 +299,6 @@ class MusicSourcesManager {
 // Create global instance
 const musicSourcesManager = new MusicSourcesManager();
 window.musicSourcesManager = musicSourcesManager;
-
-// Debug: Confirm instance created
-console.log('[Music Sources] Manager instance created:', musicSourcesManager);
-console.log('[Music Sources] Window.musicSourcesManager:', window.musicSourcesManager);
 
 // Export for use in other scripts
 window.MusicSourcesManager = MusicSourcesManager;

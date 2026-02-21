@@ -64,11 +64,6 @@ async function loadVideo(videoId) {
             return;
         }
         
-        // Debug: Log loaded video data
-        logger.info('Loaded video data:', currentVideo);
-        logger.info('Source type:', currentVideo.sourceType);
-        logger.info('Source category:', currentVideo.sourceCategory);
-        
         // Increment views
         await db.incrementViews(videoId);
         
@@ -182,10 +177,13 @@ function loadVideoPlayer() {
     if (isMusic) {
         logger.music('Loading music player', currentVideo);
         
+        // Add music-player class for adaptive styling
+        videoContainer.classList.add('music-player');
+        
         if (currentVideo.musicPlatform === 'direct') {
             // Direct audio file
             videoContainer.innerHTML = `
-                <div style="display: flex; align-items: center; justify-content: center; min-height: 200px; background: rgba(0,0,0,0.3); border-radius: 12px;">
+                <div style="display: flex; align-items: center; justify-content: center; min-height: 200px; background: rgba(0,0,0,0.3); border-radius: 12px; padding: 2rem;">
                     <audio controls style="width: 90%; max-width: 600px;">
                         <source src="${currentVideo.sourceUrl}" type="${currentVideo.audioType || 'audio/mpeg'}">
                         Ваш браузер не поддерживает аудио элемент.
@@ -201,16 +199,15 @@ function loadVideoPlayer() {
                 // It's an embed code
                 videoContainer.innerHTML = currentVideo.sourceUrl;
             } else {
-                // It's a URL - create iframe
+                // It's a URL - create iframe with adaptive height
                 videoContainer.innerHTML = `
                     <iframe 
                         src="${currentVideo.sourceUrl}" 
-                        class="video-player"
                         frameborder="0" 
                         allowtransparency="true"
                         allow="encrypted-media; autoplay; clipboard-write; fullscreen; picture-in-picture"
                         loading="lazy"
-                        style="border-radius: 12px;"
+                        style="border-radius: 12px; width: 100%; height: 380px; display: block;"
                     ></iframe>
                 `;
             }
