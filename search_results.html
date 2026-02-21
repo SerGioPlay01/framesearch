@@ -96,13 +96,14 @@
         <!-- Search Header -->
         <section class="search-header animate-fade-in">
             <div class="search-header-content glass">
-                <h1>Поиск контента</h1>
+                <h1 data-i18n="search.content">Поиск контента</h1>
                 
                 <div class="search-input-wrapper">
                     <input 
                         type="text" 
                         id="searchInput"
                         placeholder="Поиск видео, сериалов, актёров..." 
+                        data-i18n="search.placeholderLarge"
                         class="search-input-large"
                         value="фантастика"
                     >
@@ -113,15 +114,15 @@
                 </div>
 
                 <div class="quick-filters">
-                    <button class="filter-btn active">Все</button>
-                    <button class="filter-btn">Видео</button>
-                    <button class="filter-btn">Сериалы</button>
-                    <button class="filter-btn">Мультфильмы</button>
-                    <button class="filter-btn">Документальные</button>
+                    <button class="filter-btn active" data-i18n="search.filter.all">Все</button>
+                    <button class="filter-btn" data-i18n="search.filter.movies">Видео</button>
+                    <button class="filter-btn" data-i18n="search.filter.series">Сериалы</button>
+                    <button class="filter-btn" data-i18n="search.filter.cartoons">Мультфильмы</button>
+                    <button class="filter-btn" data-i18n="search.filter.documentaries">Документальные</button>
                 </div>
 
                 <div class="search-stats">
-                    Найдено <span class="highlight">24</span> результата по запросу "<span class="query">фантастика</span>"
+                    <span data-i18n="search.found">Найдено</span> <span class="highlight">24</span> <span data-i18n="search.results.count">результата</span> <span data-i18n="search.query">по запросу</span> "<span class="query">фантастика</span>"
                 </div>
             </div>
         </section>
@@ -132,19 +133,19 @@
                 <div class="filters-row">
                     <div class="filter-select-wrapper">
                         <select class="filter-select">
-                            <option>Все жанры</option>
-                            <option>Фантастика</option>
-                            <option>Фэнтези</option>
-                            <option>Драма</option>
-                            <option>Боевик</option>
-                            <option>Комедия</option>
+                            <option data-i18n="search.genre.all">Все жанры</option>
+                            <option data-i18n="search.genre.scifi">Фантастика</option>
+                            <option data-i18n="search.genre.fantasy">Фэнтези</option>
+                            <option data-i18n="search.genre.drama">Драма</option>
+                            <option data-i18n="search.genre.action">Боевик</option>
+                            <option data-i18n="search.genre.comedy">Комедия</option>
                         </select>
                         <i data-lucide="chevron-down" class="filter-select-icon"></i>
                     </div>
 
                     <div class="filter-select-wrapper">
                         <select class="filter-select">
-                            <option>Любой год</option>
+                            <option data-i18n="search.year.any">Любой год</option>
                             <option>2026</option>
                             <option>2023</option>
                             <option>2022</option>
@@ -155,7 +156,7 @@
 
                     <div class="filter-select-wrapper">
                         <select class="filter-select">
-                            <option>Любой рейтинг</option>
+                            <option data-i18n="search.rating.any">Любой рейтинг</option>
                             <option>8+ ⭐</option>
                             <option>7+ ⭐</option>
                             <option>6+ ⭐</option>
@@ -165,10 +166,10 @@
 
                     <div class="filter-select-wrapper filter-sort">
                         <select class="filter-select">
-                            <option>По популярности</option>
-                            <option>По рейтингу</option>
-                            <option>По дате выхода</option>
-                            <option>По названию</option>
+                            <option data-i18n="search.sort.popularity">По популярности</option>
+                            <option data-i18n="search.sort.rating">По рейтингу</option>
+                            <option data-i18n="search.sort.date">По дате выхода</option>
+                            <option data-i18n="search.sort.title">По названию</option>
                         </select>
                         <i data-lucide="chevron-down" class="filter-select-icon"></i>
                     </div>
@@ -180,7 +181,7 @@
         <section class="popular-searches animate-fade-in delay-200">
             <h2>
                 <i data-lucide="trending-up"></i>
-                Популярное сейчас
+                <span data-i18n="search.popular">Популярное сейчас</span>
             </h2>
             <div class="tags-list">
                 <button class="tag">🔥 Дюна 2</button>

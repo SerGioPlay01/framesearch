@@ -28,12 +28,14 @@ class ImportManager {
             return;
         }
         
+        const t = (key) => window.i18n ? window.i18n.t(key) : key;
+        
         const modalHTML = `
             <div id="importModal" class="modal">
                 <div class="modal-overlay"></div>
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2>Импорт контента</h2>
+                        <h2 data-i18n="import.content">${t('import.content')}</h2>
                         <button class="modal-close" onclick="importManager.close()">
                             <i data-lucide="x"></i>
                         </button>
@@ -44,11 +46,11 @@ class ImportManager {
                             <div class="import-tabs">
                                 <button class="import-tab active" data-tab="file" onclick="importManager.switchTab('file')">
                                     <i data-lucide="file-up"></i>
-                                    Из файла
+                                    <span data-i18n="import.fromFile">${t('import.fromFile')}</span>
                                 </button>
                                 <button class="import-tab" data-tab="link" onclick="importManager.switchTab('link')">
                                     <i data-lucide="share-2"></i>
-                                    По коду
+                                    <span data-i18n="import.fromCode">${t('import.fromCode')}</span>
                                 </button>
                             </div>
                             
@@ -58,14 +60,14 @@ class ImportManager {
                                     <i data-lucide="file-up"></i>
                                 </div>
                                 
-                                <h3>Загрузите файл с контентом</h3>
-                                <p>Поддерживаются файлы .framesearch и .json</p>
+                                <h3 data-i18n="import.uploadFile">${t('import.uploadFile')}</h3>
+                                <p data-i18n="import.supportedFormats">${t('import.supportedFormats')}</p>
                                 
                                 <input type="file" id="importFileInput" accept=".json,.framesearch" style="display: none;">
                                 
                                 <button class="btn btn-primary btn-large" onclick="document.getElementById('importFileInput').click()">
                                     <i data-lucide="upload"></i>
-                                    Выбрать файл
+                                    <span data-i18n="import.chooseFile">${t('import.chooseFile')}</span>
                                 </button>
                                 
                                 <div id="importFileInfo" class="file-info" style="display: none;">
@@ -81,12 +83,12 @@ class ImportManager {
                                 <div id="importPasswordSection" style="display: none; margin-top: 1.5rem;">
                                     <p style="color: #fbbf24; margin-bottom: 1rem;">
                                         <i data-lucide="lock"></i>
-                                        Файл защищен паролем
+                                        <span data-i18n="import.fileProtected">${t('import.fileProtected')}</span>
                                     </p>
-                                    <input type="password" id="importPasswordInput" placeholder="Введите пароль для расшифровки" class="form-input">
+                                    <input type="password" id="importPasswordInput" placeholder="${t('import.enterPassword')}" data-i18n="import.enterPassword" class="form-input">
                                     <button class="btn btn-primary" onclick="importManager.importWithPassword()" style="margin-top: 1rem;">
                                         <i data-lucide="check"></i>
-                                        Импортировать
+                                        <span data-i18n="import.importBtn">${t('import.importBtn')}</span>
                                     </button>
                                 </div>
                             </div>
@@ -97,20 +99,20 @@ class ImportManager {
                                     <i data-lucide="share-2"></i>
                                 </div>
                                 
-                                <h3>Импорт по коду</h3>
-                                <p>Вставьте код, полученный от другого пользователя</p>
+                                <h3 data-i18n="import.byCode">${t('import.byCode')}</h3>
+                                <p data-i18n="import.byCode.desc">${t('import.byCode.desc')}</p>
                                 
-                                <textarea id="importCodeInput" placeholder="Вставьте код сюда..." class="form-input code-textarea" rows="4" style="margin-bottom: 1rem;"></textarea>
+                                <textarea id="importCodeInput" placeholder="${t('import.pasteCode')}" data-i18n="import.pasteCode" class="form-input code-textarea" rows="4" style="margin-bottom: 1rem;"></textarea>
                                 
                                 <button class="btn btn-primary btn-large" onclick="importManager.importFromCode()">
                                     <i data-lucide="download"></i>
-                                    Импортировать
+                                    <span data-i18n="import.importBtn">${t('import.importBtn')}</span>
                                 </button>
                             </div>
                             
                             <div class="import-warning">
                                 <i data-lucide="info"></i>
-                                <p>Импортированные данные будут добавлены к вашей коллекции</p>
+                                <p data-i18n="import.warning">${t('import.warning')}</p>
                             </div>
                         </div>
                     </div>
@@ -196,34 +198,36 @@ class ImportManager {
     }
 
     async importFromCode() {
+        const t = (key) => window.i18n ? window.i18n.t(key) : key;
+        
         try {
             const codeInput = document.getElementById('importCodeInput');
             const code = codeInput.value.trim();
             
             if (!code) {
-                await dialog.alert('Вставьте код для импорта', 'Ошибка');
+                await dialog.alert(t('import.error.noCode'), t('import.error.title'));
                 return;
             }
             
             // Try import without password first
             try {
                 await db.importFromShareCode(code, null);
-                await dialog.alert('Контент успешно добавлен!', 'Успех');
+                await dialog.alert(t('import.success.message'), t('import.success.title'));
                 this.close();
                 window.location.reload();
             } catch (error) {
                 console.log('Import failed, checking if password needed:', error);
                 
                 // If password required, ask for it
-                if (error.message.includes('Требуется пароль')) {
-                    const password = await dialog.prompt('Введите пароль для расшифровки:', '', 'Требуется пароль', true);
+                if (error.message.includes('Требуется пароль') || error.message.includes('Password required')) {
+                    const password = await dialog.prompt(t('import.enterPasswordPrompt'), '', t('import.passwordRequired'), true);
                     if (password) {
                         await db.importFromShareCode(code, password);
-                        await dialog.alert('Контент успешно добавлен!', 'Успех');
+                        await dialog.alert(t('import.success.message'), t('import.success.title'));
                         this.close();
                         window.location.reload();
                     } else {
-                        await dialog.alert('Импорт отменен', 'Отмена');
+                        await dialog.alert(t('import.cancelled'), t('import.error.title'));
                     }
                 } else {
                     throw error;
@@ -231,7 +235,7 @@ class ImportManager {
             }
         } catch (error) {
             console.error('Import from code failed:', error);
-            await dialog.alert('Ошибка импорта: ' + error.message, 'Ошибка');
+            await dialog.alert(t('import.error.message') + ': ' + error.message, t('import.error.title'));
         }
     }
 
@@ -257,6 +261,8 @@ class ImportManager {
     }
 
     async tryImport() {
+        const t = (key) => window.i18n ? window.i18n.t(key) : key;
+        
         if (!this.selectedFile) return;
 
         const reader = new FileReader();
@@ -293,36 +299,38 @@ class ImportManager {
                     try {
                         await db.importData(data);
                         console.log('Import successful');
-                        await dialog.alert('Импорт выполнен успешно!', 'Успех');
+                        await dialog.alert(t('import.success.message'), t('import.success.title'));
                         this.close();
                         
                         // Reload page to refresh everything
                         window.location.reload();
                     } catch (error) {
                         console.error('Import failed:', error);
-                        await dialog.alert('Ошибка импорта: ' + error.message, 'Ошибка');
+                        await dialog.alert(t('import.error.message') + ': ' + error.message, t('import.error.title'));
                     }
                 }
             } catch (error) {
                 console.error('Import failed:', error);
-                await dialog.alert('Ошибка импорта: ' + error.message, 'Ошибка');
+                await dialog.alert(t('import.error.message') + ': ' + error.message, t('import.error.title'));
             }
         };
         reader.readAsText(this.selectedFile);
     }
 
     async importWithPassword() {
+        const t = (key) => window.i18n ? window.i18n.t(key) : key;
+        
         try {
             const password = document.getElementById('importPasswordInput').value;
             
             if (!password) {
-                await dialog.alert('Введите пароль для расшифровки', 'Ошибка');
+                await dialog.alert(t('import.error.noPassword'), t('import.error.title'));
                 return;
             }
 
             await db.importData(this.importData, password);
             console.log('Import successful');
-            await dialog.alert('Импорт выполнен успешно!', 'Успех');
+            await dialog.alert(t('import.success.message'), t('import.success.title'));
             this.close();
             
             // Reload page to refresh everything
@@ -331,16 +339,16 @@ class ImportManager {
             console.error('Import failed:', error);
             
             // Show user-friendly error message
-            let errorMessage = 'Неверный пароль или поврежденный файл';
-            if (error.message.includes('Неверный формат')) {
-                errorMessage = 'Неверный формат зашифрованных данных';
-            } else if (error.message.includes('Неверный пароль')) {
-                errorMessage = 'Неверный пароль. Попробуйте еще раз.';
-            } else if (error.message.includes('Поврежденные')) {
-                errorMessage = 'Файл поврежден или неполный';
+            let errorMessage = t('import.error.wrongPassword');
+            if (error.message.includes('Неверный формат') || error.message.includes('Invalid format')) {
+                errorMessage = t('import.error.invalidFormat');
+            } else if (error.message.includes('Неверный пароль') || error.message.includes('Wrong password')) {
+                errorMessage = t('import.error.wrongPasswordRetry');
+            } else if (error.message.includes('Поврежденные') || error.message.includes('Corrupted')) {
+                errorMessage = t('import.error.corrupted');
             }
             
-            await dialog.alert(errorMessage, 'Ошибка импорта');
+            await dialog.alert(errorMessage, t('import.error.title'));
         }
     }
 }
