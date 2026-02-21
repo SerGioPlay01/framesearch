@@ -10,13 +10,13 @@
 [![PWA](https://img.shields.io/badge/PWA-Ready-success.svg)](manifest.json)
 [![Languages](https://img.shields.io/badge/Languages-RU%20%7C%20EN-informational.svg)](scripts/i18n.js)
 
-[🇷� Русский](README.md) | [🇬🇧 English](README_EN.md)
+[🇷Русский](README.md) | [🇬🇧 English](README_EN.md)
 
 </div>
 
 ---
 
-## � О проекте
+## О проекте
 
 **Framesearch** — это современное веб-приложение для организации и управления личной коллекцией видеоконтента. Все данные хранятся локально в браузере, обеспечивая полную конфиденциальность и автономность работы.
 
