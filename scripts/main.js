@@ -43,6 +43,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadCollections();
     await loadVideos();
     
+    // Initialize responsive features for filter buttons
+    if (typeof initFilterButtonsScroll === 'function') {
+        initFilterButtonsScroll();
+    }
+    
     // Check if we need to open a collection from URL hash
     if (window.location.hash) {
         const match = window.location.hash.match(/#collection-(\d+)/);
@@ -61,54 +66,65 @@ window.addEventListener('popstate', async (event) => {
     } else {
         // Going back to main view
         if (currentCollectionId) {
-            currentCollectionId = null;
-            
-            // Show action buttons
-            const actionButtons = document.querySelector('.action-buttons');
-            if (actionButtons) {
-                actionButtons.style.display = 'block';
-            }
-            
-            // Restore section header with filters
-            const sectionHeader = document.querySelector('.section-header');
-            if (sectionHeader) {
-                sectionHeader.innerHTML = `
-                    <h2 class="section-title">Моя коллекция</h2>
-                    <div class="filter-buttons">
-                        <button class="filter-btn active" data-filter="all">Все</button>
-                        <button class="filter-btn" data-filter="balancer">Балансеры</button>
-                        <button class="filter-btn" data-filter="direct">Прямые ссылки</button>
-                        <button class="filter-btn" data-filter="social">Соцсети</button>
-                        <button class="filter-btn" data-filter="custom">Custom</button>
-                        <button class="filter-btn" data-filter="favorites">Избранное</button>
-                    </div>
-                `;
-                if (typeof lucide !== 'undefined') {
-                    lucide.createIcons();
-                }
-            }
-            
-            // Show collections
-            const collectionsContainer = document.querySelector('.collections-container');
-            if (collectionsContainer) {
-                collectionsContainer.style.display = 'block';
-            }
-            
-            // Hide cards grid
-            const cardsGrid = document.querySelector('.cards-grid');
-            if (cardsGrid) {
-                cardsGrid.style.display = 'none';
-            }
-            
-            // Reload collections and videos
-            await loadCollections();
-            await loadVideos();
-            
-            // Reinitialize filters
-            initFilters();
+            await closeCollectionView();
         }
     }
 });
+
+// Helper function to close collection view
+async function closeCollectionView() {
+    currentCollectionId = null;
+    
+    // Show action buttons
+    const actionButtons = document.querySelector('.action-buttons');
+    if (actionButtons) {
+        actionButtons.style.display = 'block';
+    }
+    
+    // Restore section header with filters
+    const sectionHeader = document.getElementById('mainSectionHeader');
+    if (sectionHeader) {
+        sectionHeader.innerHTML = `
+            <h2 class="section-title">Моя коллекция</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">Все</button>
+                <button class="filter-btn" data-filter="balancer">Балансеры</button>
+                <button class="filter-btn" data-filter="direct">Прямые ссылки</button>
+                <button class="filter-btn" data-filter="social">Соцсети</button>
+                <button class="filter-btn" data-filter="custom">Custom</button>
+                <button class="filter-btn" data-filter="favorites">Избранное</button>
+            </div>
+        `;
+        sectionHeader.style.display = 'flex';
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    }
+    
+    // Show collections
+    const collectionsContainer = document.querySelector('.collections-container');
+    if (collectionsContainer) {
+        collectionsContainer.style.display = 'block';
+    }
+    
+    // Show cards grid
+    const cardsGrid = document.querySelector('.cards-grid');
+    if (cardsGrid) {
+        cardsGrid.style.display = 'grid';
+    }
+    
+    // Reload collections and videos
+    await loadCollections();
+    await loadVideos();
+    
+    // Reinitialize filters
+    initFilters();
+    
+    // Reinitialize responsive features
+    if (typeof initFilterButtonsScroll === 'function') {
+        initFilterButtonsScroll();
+    }
+}
 
 
 // Navbar scroll effect
@@ -153,6 +169,16 @@ async function loadVideos(filter = 'all') {
         if (sectionHeader) sectionHeader.style.display = 'flex';
         if (actionButtons) actionButtons.style.display = 'block';
         if (emptyState) emptyState.style.display = 'none';
+        
+        // Reinitialize responsive features when showing content
+        if (sectionHeader && sectionHeader.style.display !== 'none') {
+            // Small delay to ensure DOM is updated
+            setTimeout(() => {
+                if (typeof initFilterButtonsScroll === 'function') {
+                    initFilterButtonsScroll();
+                }
+            }, 50);
+        }
         
         // Apply filter
         if (filter !== 'all') {
@@ -265,6 +291,11 @@ function createVideoCard(video) {
 function initFilters() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     
+    if (filterButtons.length === 0) {
+        console.warn('No filter buttons found during initialization');
+        return;
+    }
+    
     filterButtons.forEach(button => {
         button.addEventListener('click', async () => {
             filterButtons.forEach(btn => btn.classList.remove('active'));
@@ -273,8 +304,15 @@ function initFilters() {
             const filter = button.getAttribute('data-filter') || 'all';
             currentFilter = filter;
             await loadVideos(filter);
+            
+            // Reinitialize responsive features after filter change
+            if (typeof initFilterButtonsScroll === 'function') {
+                initFilterButtonsScroll();
+            }
         });
     });
+    
+    console.log(`✅ Initialized ${filterButtons.length} filter buttons`);
 }
 
 // Search functionality
@@ -846,57 +884,14 @@ async function openCollection(collectionId) {
 }
 
 // Close collection
-function closeCollection() {
-    currentCollectionId = null;
-    
+async function closeCollection() {
     // Update browser history
     if (window.location.hash) {
         history.back();
+    } else {
+        // If no hash, directly close the collection view
+        await closeCollectionView();
     }
-    
-    // Show action buttons
-    const actionButtons = document.querySelector('.action-buttons');
-    if (actionButtons) {
-        actionButtons.style.display = 'block';
-    }
-    
-    // Restore section header with filters
-    const sectionHeader = document.getElementById('mainSectionHeader');
-    if (sectionHeader) {
-        sectionHeader.innerHTML = `
-            <h2 class="section-title">Моя коллекция</h2>
-            <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="all">Все</button>
-                <button class="filter-btn" data-filter="balancer">Балансеры</button>
-                <button class="filter-btn" data-filter="direct">Прямые ссылки</button>
-                <button class="filter-btn" data-filter="social">Соцсети</button>
-                <button class="filter-btn" data-filter="custom">Custom</button>
-                <button class="filter-btn" data-filter="favorites">Избранное</button>
-            </div>
-        `;
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
-    }
-    
-    // Show collections
-    const collectionsContainer = document.querySelector('.collections-container');
-    if (collectionsContainer) {
-        collectionsContainer.style.display = 'block';
-    }
-    
-    // Hide cards grid
-    const cardsGrid = document.querySelector('.cards-grid');
-    if (cardsGrid) {
-        cardsGrid.style.display = 'none';
-    }
-    
-    // Reload collections and videos
-    loadCollections();
-    loadVideos();
-    
-    // Reinitialize filters
-    initFilters();
 }
 
 // Edit collection

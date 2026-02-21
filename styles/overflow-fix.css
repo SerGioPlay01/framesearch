@@ -34,6 +34,20 @@ body > * {
     overflow-x: hidden;
 }
 
+/* Allow navbar to show dropdowns */
+.navbar {
+    overflow: visible !important;
+}
+
+.navbar-container,
+.navbar-content {
+    overflow: visible !important;
+}
+
+.nav-actions {
+    overflow: visible !important;
+}
+
 /* ===== CONTAINER FIXES ===== */
 
 /* Main containers */
@@ -187,6 +201,7 @@ body > * {
     .navbar {
         width: 100%;
         max-width: 100vw;
+        overflow: visible !important;
     }
     
     .navbar-container {
@@ -194,11 +209,17 @@ body > * {
         max-width: 100%;
         padding-left: 0.5rem;
         padding-right: 0.5rem;
+        overflow: visible !important;
     }
     
     .navbar-content {
         width: 100%;
         max-width: 100%;
+        overflow: visible !important;
+    }
+    
+    .nav-actions {
+        overflow: visible !important;
     }
     
     /* Fix for main content padding */
