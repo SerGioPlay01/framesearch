@@ -9,6 +9,20 @@
  * © 2026 Framesearch.  
  */
 
+// Ensure logger is available
+if (typeof logger === 'undefined') {
+    console.error('Logger not loaded! Please ensure logger.js is included before video-player.js');
+    window.logger = {
+        log: console.log.bind(console),
+        info: console.info.bind(console),
+        warn: console.warn.bind(console),
+        error: console.error.bind(console),
+        success: console.log.bind(console),
+        debug: console.debug.bind(console),
+        video: console.log.bind(console)
+    };
+}
+
 let currentVideo = null;
 let currentEpisodes = [];
 

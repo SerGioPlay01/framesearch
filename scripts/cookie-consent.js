@@ -9,6 +9,20 @@
  * © 2026 Framesearch.  
  */
 
+// Ensure logger is available
+if (typeof logger === 'undefined') {
+    console.error('Logger not loaded! Please ensure logger.js is included before cookie-consent.js');
+    window.logger = {
+        log: console.log.bind(console),
+        info: console.info.bind(console),
+        warn: console.warn.bind(console),
+        error: console.error.bind(console),
+        success: console.log.bind(console),
+        debug: console.debug.bind(console),
+        cookie: console.log.bind(console)
+    };
+}
+
 class CookieConsentManager {
     constructor() {
         this.consentKey = 'framesearch-cookie-consent';
