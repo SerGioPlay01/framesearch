@@ -1,7 +1,7 @@
 {
-  "name": "Framesearch - Видеохранилище",
+  "name": "Framesearch - Персональное видеохранилище",
   "short_name": "Framesearch",
-  "description": "Персональное видеохранилище для управления видеоконтентом из балансеров, прямых ссылок, соцсетей и кастомных источников. Разработано SerGioPlay",
+  "description": "Современное персональное видеохранилище для управления коллекцией видео, фильмов, сериалов и аниме. Локальное хранение в IndexedDB, поддержка видеобалансеров, прямых ссылок, соцсетей и кастомных источников. Умный поиск, коллекции, темы оформления и обмен данными без серверов. Разработано SerGioPlay.",
   "author": "SerGioPlay (https://github.com/SerGioPlay01)",
   "start_url": "/index.html",
   "display": "standalone",
@@ -11,7 +11,7 @@
   "scope": "/",
   "lang": "ru",
   "dir": "ltr",
-  "categories": ["entertainment", "utilities"],
+  "categories": ["entertainment", "utilities", "productivity"],
   "icons": [
     {
       "src": "favicon.svg",
@@ -37,20 +37,22 @@
       "src": "screenshots/desktop.png",
       "sizes": "1280x720",
       "type": "image/png",
-      "form_factor": "wide"
+      "form_factor": "wide",
+      "label": "Главная страница Framesearch на десктопе"
     },
     {
       "src": "screenshots/mobile.png",
       "sizes": "750x1334",
       "type": "image/png",
-      "form_factor": "narrow"
+      "form_factor": "narrow",
+      "label": "Framesearch на мобильном устройстве"
     }
   ],
   "shortcuts": [
     {
       "name": "Добавить видео",
       "short_name": "Добавить",
-      "description": "Быстро добавить новое видео",
+      "description": "Быстро добавить новое видео в коллекцию",
       "url": "/index.html?action=add",
       "icons": [
         {
@@ -62,8 +64,20 @@
     {
       "name": "Поиск",
       "short_name": "Поиск",
-      "description": "Поиск в коллекции",
+      "description": "Поиск видео в коллекции",
       "url": "/search_results.html",
+      "icons": [
+        {
+          "src": "icons/icon-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Импорт",
+      "short_name": "Импорт",
+      "description": "Импортировать видео из файла или кода",
+      "url": "/index.html?action=import",
       "icons": [
         {
           "src": "icons/icon-96x96.png",

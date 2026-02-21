@@ -42,7 +42,7 @@ class CollectionsManager {
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Название коллекции *</label>
-                            <input type="text" id="collectionName" placeholder="Например: Любимые фильмы" required>
+                            <input type="text" id="collectionName" placeholder="Например: Любимое видео" required>
                         </div>
 
                         <div class="form-group">

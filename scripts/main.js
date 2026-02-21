@@ -216,7 +216,7 @@ function createVideoCard(video) {
         'direct': 'Прямая ссылка',
         'social': 'Соцсети',
         'custom': 'Custom',
-        'movie': 'Фильм',
+        'movie': 'Видео',
         'series': 'Сериал',
         'anime': 'Аниме'
     };
@@ -643,7 +643,7 @@ window.closeInstructions = function() {
 // Show stats
 window.showStats = async function() {
     const stats = await db.getStats();
-    await dialog.alert(`Всего видео: ${stats.total}\nФильмов: ${stats.movies}\nСериалов: ${stats.series}\nАниме: ${stats.anime}\nВ избранном: ${stats.favorites}\nПросмотров: ${stats.totalViews}`, 'Статистика коллекции');
+    await dialog.alert(`Всего видео: ${stats.total}\nВидео: ${stats.movies}\nСериалов: ${stats.series}\nАниме: ${stats.anime}\nВ избранном: ${stats.favorites}\nПросмотров: ${stats.totalViews}`, 'Статистика коллекции');
 };
 
 // Export data - open share manager

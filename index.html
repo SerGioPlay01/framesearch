@@ -13,10 +13,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Framesearch - Видеохранилище</title>
+    <title>Framesearch - Персональное видеохранилище | Управление коллекцией видео</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Framesearch - современное персональное видеохранилище для управления коллекцией видео, фильмов, сериалов и аниме. Локальное хранение, PWA приложение, умный поиск, коллекции и обмен данными без серверов.">
+    <meta name="keywords" content="видеохранилище, управление видео, коллекция фильмов, сериалы, аниме, PWA приложение, локальное хранение, IndexedDB, видеобалансеры, организация видео, каталог видео, личная медиатека">
+    <meta name="author" content="SerGioPlay">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="Russian">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://framesearch-lac.vercel.app/">
+    <meta property="og:title" content="Framesearch - Персональное видеохранилище">
+    <meta property="og:description" content="Организуйте и управляйте видеоконтентом из различных источников. Локальное хранение, PWA приложение, умный поиск и коллекции.">
+    <meta property="og:image" content="https://framesearch-lac.vercel.app/screenshots/screenshot.png">
+    <meta property="og:site_name" content="Framesearch">
+    <meta property="og:locale" content="ru_RU">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://framesearch-lac.vercel.app/">
+    <meta property="twitter:title" content="Framesearch - Персональное видеохранилище">
+    <meta property="twitter:description" content="Организуйте и управляйте видеоконтентом из различных источников. Локальное хранение, PWA приложение, умный поиск и коллекции.">
+    <meta property="twitter:image" content="https://framesearch-lac.vercel.app/screenshots/screenshot.png">
+    
+    <!-- Additional SEO -->
+    <link rel="canonical" href="https://framesearch-lac.vercel.app/">
+    <meta name="application-name" content="Framesearch">
+    <meta name="msapplication-TileColor" content="#a5b4fc">
     
     <!-- PWA Meta Tags -->
-    <meta name="description" content="Персональное видеохранилище для управления коллекцией фильмов, сериалов и аниме">
     <meta name="theme-color" content="#a5b4fc">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -48,6 +75,44 @@
     
     <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Structured Data / JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Framesearch",
+      "description": "Персональное видеохранилище для управления коллекцией видео, фильмов, сериалов и аниме",
+      "url": "https://framesearch-lac.vercel.app/",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "SerGioPlay",
+        "url": "https://sergioplay-dev.vercel.app/"
+      },
+      "featureList": [
+        "Локальное хранение данных в IndexedDB",
+        "PWA приложение для оффлайн работы",
+        "Поддержка 4 типов источников видео",
+        "Умный поиск по коллекции",
+        "Организация в коллекции",
+        "6 готовых тем оформления",
+        "Обмен данными по коду",
+        "Горячие клавиши",
+        "Полная приватность без серверов"
+      ],
+      "screenshot": "https://framesearch-lac.vercel.app/screenshots/screenshot.png",
+      "softwareVersion": "1.0.0",
+      "datePublished": "2026-01-01",
+      "inLanguage": ["ru", "en"]
+    }
+    </script>
 </head>
 <body>
 
@@ -179,9 +244,9 @@
                                 <i data-lucide="tv"></i>
                             </div>
                             <h4 data-i18n="usecase.library.title">Личная медиатека</h4>
-                            <p data-i18n="usecase.library.desc">Создайте каталог всех фильмов и сериалов, которые вы хотите посмотреть. Добавляйте ссылки на видеобалансеры, сохраняйте постеры и описания.</p>
+                            <p data-i18n="usecase.library.desc">Создайте каталог всех видео и сериалов, которые вы хотите посмотреть. Добавляйте ссылки на видеобалансеры, сохраняйте постеры и описания.</p>
                             <div class="use-case-example">
-                                <strong>Пример:</strong> <span data-i18n="usecase.library.example">Коллекция "К просмотру" с фильмами из списка IMDb Top 250</span>
+                                <strong>Пример:</strong> <span data-i18n="usecase.library.example">Коллекция "К просмотру" с видео из списка IMDb Top 250</span>
                             </div>
                         </div>
 
@@ -190,7 +255,7 @@
                                 <i data-lucide="users"></i>
                             </div>
                             <h4 data-i18n="usecase.family.title">Семейная коллекция</h4>
-                            <p data-i18n="usecase.family.desc">Организуйте семейные фильмы по категориям: детские мультфильмы, семейные комедии, образовательные видео. Делитесь коллекциями между устройствами.</p>
+                            <p data-i18n="usecase.family.desc">Организуйте семейное видео по категориям: детские мультфильмы, семейные комедии, образовательные видео. Делитесь коллекциями между устройствами.</p>
                             <div class="use-case-example">
                                 <strong>Пример:</strong> <span data-i18n="usecase.family.example">Папки "Для детей", "Семейный вечер", "Образовательное"</span>
                             </div>
@@ -227,7 +292,7 @@
                             <div class="step-number">1</div>
                             <div class="step-content">
                                 <h4 data-i18n="quickstart.step1.title">Добавьте видео</h4>
-                                <p data-i18n="quickstart.step1.desc">Нажмите кнопку "+" и заполните информацию о фильме или сериале</p>
+                                <p data-i18n="quickstart.step1.desc">Нажмите кнопку "+" и заполните информацию о видео или сериале</p>
                             </div>
                         </div>
                         <div class="step-card">
@@ -282,7 +347,7 @@
                             <i data-lucide="star"></i>
                             <div>
                                 <strong data-i18n="quickstart.favorites.title">Избранное</strong>
-                                <p data-i18n="quickstart.favorites.desc">Отмечайте любимые фильмы для быстрого доступа</p>
+                                <p data-i18n="quickstart.favorites.desc">Отмечайте любимое видео для быстрого доступа</p>
                             </div>
                         </div>
                         <div class="tip-item">
@@ -304,7 +369,7 @@
                     <i data-lucide="plus-circle"></i>
                     <div class="action-card-content">
                         <h3>Добавить видео</h3>
-                        <p>Фильм, сериал или аниме</p>
+                        <p>Видео, сериал или аниме</p>
                     </div>
                 </button>
                 

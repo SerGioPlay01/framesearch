@@ -142,7 +142,7 @@ class ModalManager {
                                     <label>Выберите балансер</label>
                                     <select id="balancerType" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white;">
                                         <option value="iframe">Iframe URL (Kodik, Collaps, Alloha, HDRezka)</option>
-                                        <option value="vibix">Vibix (по ID фильма/сериала)</option>
+                                        <option value="vibix">Vibix (по ID видео/сериала)</option>
                                     </select>
                                 </div>
                                 
@@ -161,7 +161,7 @@ class ModalManager {
                                     <div class="form-group">
                                         <label>Тип контента</label>
                                         <select id="vibixType" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white;">
-                                            <option value="movie">Фильм (movie)</option>
+                                            <option value="movie">Видео (movie)</option>
                                             <option value="series">Сериал (series)</option>
                                             <option value="kp">По ID Кинопоиска (kp)</option>
                                             <option value="imdb">По IMDB ID (imdb)</option>
@@ -171,7 +171,7 @@ class ModalManager {
                                     <div class="form-group">
                                         <label>ID контента</label>
                                         <input type="text" id="vibixId" placeholder="Например: 187471 или tt0111161">
-                                        <p class="help-text">ID фильма/сериала из базы Vibix, Кинопоиска или IMDB</p>
+                                        <p class="help-text">ID видео/сериала из базы Vibix, Кинопоиска или IMDB</p>
                                     </div>
                                     
                                     <div class="form-row">

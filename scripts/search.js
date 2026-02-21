@@ -96,7 +96,7 @@ function applyFilters(videos) {
     
     // Type filter
     if (typeFilter && typeFilter !== 'все') {
-        if (typeFilter.includes('фильм')) {
+        if (typeFilter.includes('видео')) {
             filtered = filtered.filter(v => v.type === 'movie');
         } else if (typeFilter.includes('сериал')) {
             filtered = filtered.filter(v => v.type === 'series');
