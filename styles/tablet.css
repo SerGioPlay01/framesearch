@@ -1,0 +1,495 @@
+/**
+ * Framesearch - Tablet Optimizations
+ * 
+ * Автор: SerGioPlay
+ * GitHub: https://github.com/SerGioPlay01
+ * Проект: https://github.com/SerGioPlay01/framesearch
+ * Сайт: https://sergioplay-dev.vercel.app/
+ * 
+ * © 2026 Framesearch.  
+ */
+
+/* ===== TABLET PORTRAIT (640px - 767px) ===== */
+@media (min-width: 640px) and (max-width: 767px) {
+    /* Navigation */
+    .navbar-content {
+        height: 72px;
+    }
+    
+    .logo {
+        font-size: 1.375rem;
+    }
+    
+    .search-input {
+        width: 14rem;
+    }
+    
+    .search-input:focus {
+        width: 18rem;
+    }
+    
+    /* Main Content */
+    .main-content {
+        padding: 5.5rem 1.5rem 3rem;
+    }
+    
+    /* Section Headers */
+    .section-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
+    
+    /* Filter Buttons - Horizontal Scroll with Indicators */
+    .filter-buttons {
+        position: relative;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: thin;
+        scroll-behavior: smooth;
+        padding-bottom: 0.75rem;
+    }
+    
+    .filter-buttons::before,
+    .filter-buttons::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0.75rem;
+        width: 40px;
+        pointer-events: none;
+        z-index: 1;
+    }
+    
+    .filter-buttons::before {
+        left: 0;
+        background: linear-gradient(to right, var(--bg-primary), transparent);
+    }
+    
+    .filter-buttons::after {
+        right: 0;
+        background: linear-gradient(to left, var(--bg-primary), transparent);
+    }
+    
+    /* Cards Grid */
+    .cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
+    }
+    
+    .card-title {
+        font-size: 1rem;
+    }
+    
+    /* Action Buttons */
+    .action-buttons-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+    
+    .action-card {
+        padding: 1.5rem;
+    }
+    
+    .action-card i {
+        width: 2.25rem;
+        height: 2.25rem;
+    }
+    
+    .action-card h3 {
+        font-size: 1.125rem;
+    }
+    
+    /* Collections */
+    .collections-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
+    }
+    
+    /* Welcome Screen */
+    .welcome-container {
+        padding: 2.5rem 2rem;
+    }
+    
+    .welcome-title {
+        font-size: 2rem;
+    }
+    
+    .welcome-features {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+    
+    .feature-item {
+        padding: 1.5rem;
+    }
+    
+    /* Modal */
+    .modal-content {
+        max-width: 90%;
+        border-radius: 1.25rem;
+    }
+    
+    .modal-header {
+        padding: 1.5rem 1.75rem;
+    }
+    
+    .modal-body {
+        padding: 1.75rem;
+    }
+    
+    /* Footer */
+    .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ===== TABLET LANDSCAPE (768px - 1023px) ===== */
+@media (min-width: 768px) and (max-width: 1023px) {
+    /* Navigation */
+    .navbar-content {
+        height: 80px;
+    }
+    
+    .logo {
+        font-size: 1.5rem;
+    }
+    
+    .search-input {
+        width: 16rem;
+    }
+    
+    .search-input:focus {
+        width: 20rem;
+    }
+    
+    .nav-menu {
+        display: flex;
+        gap: 1.5rem;
+    }
+    
+    /* Main Content */
+    .main-content {
+        padding: 6rem 2rem 3rem;
+    }
+    
+    /* Hero Section */
+    .hero-content {
+        min-height: 500px;
+        padding: 3rem;
+    }
+    
+    .hero-title {
+        font-size: 2.75rem;
+    }
+    
+    .hero-description {
+        font-size: 1.125rem;
+    }
+    
+    /* Section Headers */
+    .section-title {
+        font-size: 1.75rem;
+    }
+    
+    /* Filter Buttons - Horizontal Scroll */
+    .filter-buttons {
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: thin;
+        scroll-behavior: smooth;
+        padding-bottom: 0.75rem;
+        position: relative;
+    }
+    
+    .filter-buttons::before,
+    .filter-buttons::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0.75rem;
+        width: 60px;
+        pointer-events: none;
+        z-index: 1;
+    }
+    
+    .filter-buttons::before {
+        left: 0;
+        background: linear-gradient(to right, var(--bg-primary), transparent);
+    }
+    
+    .filter-buttons::after {
+        right: 0;
+        background: linear-gradient(to left, var(--bg-primary), transparent);
+    }
+    
+    .filter-btn {
+        padding: 0.625rem 1.25rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Cards Grid */
+    .cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .card-title {
+        font-size: 1.125rem;
+    }
+    
+    /* Action Buttons */
+    .action-buttons-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .action-card {
+        padding: 1.75rem;
+    }
+    
+    .action-card i {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+    
+    .action-card h3 {
+        font-size: 1.25rem;
+    }
+    
+    /* Collections */
+    .collections-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+    
+    /* Welcome Screen */
+    .welcome-container {
+        padding: 3rem 2.5rem;
+        max-width: 900px;
+    }
+    
+    .welcome-title {
+        font-size: 2.25rem;
+    }
+    
+    .welcome-features {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .use-cases-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .quick-start-steps {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Modal */
+    .modal-content {
+        max-width: 85%;
+        max-height: 85vh;
+    }
+    
+    .source-tabs {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    /* Footer */
+    .footer-content {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .footer-bottom {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+/* ===== TABLET SPECIFIC ENHANCEMENTS ===== */
+@media (min-width: 640px) and (max-width: 1023px) {
+    /* Better hover states for tablets with mouse */
+    @media (hover: hover) {
+        .card:hover {
+            transform: translateY(-12px) scale(1.03);
+        }
+        
+        .action-card:hover {
+            transform: translateY(-6px);
+        }
+        
+        .filter-btn:hover {
+            transform: translateY(-2px);
+        }
+    }
+    
+    /* Touch-friendly spacing */
+    .btn,
+    .filter-btn,
+    .action-btn {
+        min-height: 48px;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    /* Improved card interactions */
+    .card-actions {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .card:hover .card-actions,
+    .card:focus-within .card-actions {
+        opacity: 1;
+    }
+    
+    /* Better modal sizing */
+    .modal-content {
+        border-radius: 1.5rem;
+    }
+    
+    /* Optimized grid gaps */
+    .welcome-features,
+    .use-cases-grid,
+    .tips-grid {
+        gap: 1.5rem;
+    }
+    
+    /* Enhanced scrollbar for tablets */
+    .filter-buttons::-webkit-scrollbar {
+        height: 6px;
+    }
+    
+    .filter-buttons::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 3px;
+    }
+    
+    .filter-buttons::-webkit-scrollbar-thumb {
+        background: var(--accent-primary);
+        border-radius: 3px;
+    }
+    
+    .filter-buttons::-webkit-scrollbar-thumb:hover {
+        background: var(--accent-secondary);
+    }
+    
+    /* Split view support for iPadOS */
+    @supports (width: 50vw) {
+        .cards-grid {
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        }
+    }
+}
+
+/* ===== TABLET LANDSCAPE SPECIFIC ===== */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape) {
+    /* Optimize for wider screens */
+    .cards-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .action-buttons-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .collections-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .welcome-features {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    /* Compact header for more content space */
+    .navbar-content {
+        height: 72px;
+    }
+    
+    .hero-content {
+        min-height: 450px;
+        padding: 2.5rem;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+}
+
+/* ===== TABLET PORTRAIT SPECIFIC ===== */
+@media (min-width: 640px) and (max-width: 1023px) and (orientation: portrait) {
+    /* Optimize for taller screens */
+    .hero-content {
+        min-height: 550px;
+    }
+    
+    .welcome-container {
+        max-width: 700px;
+    }
+    
+    /* Better use of vertical space */
+    .main-content {
+        padding-bottom: 4rem;
+    }
+    
+    /* Larger touch targets in portrait */
+    .fab {
+        width: 64px;
+        height: 64px;
+    }
+    
+    .fab i {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+/* ===== IPAD PRO SPECIFIC (1024px+) ===== */
+@media (min-width: 1024px) and (max-width: 1366px) {
+    .cards-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.75rem;
+    }
+    
+    .action-buttons-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .collections-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .welcome-features {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    /* No need for horizontal scroll on larger tablets */
+    .filter-buttons {
+        flex-wrap: wrap;
+        overflow-x: visible;
+    }
+    
+    .filter-buttons::before,
+    .filter-buttons::after {
+        display: none;
+    }
+}
+
+/* ===== FOLDABLE DEVICES SUPPORT ===== */
+@media (min-width: 640px) and (max-width: 1023px) {
+    /* Support for dual-screen and foldable devices */
+    @media (horizontal-viewport-segments: 2) {
+        .main-content {
+            padding-left: env(viewport-segment-left 0 0);
+            padding-right: env(viewport-segment-right 1 0);
+        }
+        
+        .cards-grid {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+    }
+}

@@ -1,0 +1,410 @@
+/**
+ * Framesearch - Touch & Mobile Enhancements
+ * 
+ * Автор: SerGioPlay
+ * GitHub: https://github.com/SerGioPlay01
+ * Проект: https://github.com/SerGioPlay01/framesearch
+ * Сайт: https://sergioplay-dev.vercel.app/
+ * 
+ * © 2026 Framesearch.  
+ */
+
+/* ===== TOUCH OPTIMIZATIONS ===== */
+
+/* Increase touch target sizes for mobile */
+@media (max-width: 768px) {
+    .btn,
+    .filter-btn,
+    .action-btn,
+    .icon-btn,
+    .card-action-btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    /* Better tap highlighting */
+    * {
+        -webkit-tap-highlight-color: rgba(165, 180, 252, 0.2);
+        -webkit-touch-callout: none;
+    }
+    
+    /* Prevent text selection on interactive elements */
+    .btn,
+    .filter-btn,
+    .action-btn,
+    .card,
+    .action-card,
+    .collection-card {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    
+    /* Allow text selection in content areas */
+    .card-title,
+    .card-meta,
+    .description-card p,
+    .welcome-description,
+    input,
+    textarea {
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
+    }
+}
+
+/* ===== PULL TO REFRESH INDICATOR ===== */
+.pull-to-refresh-indicator {
+    position: fixed;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 40px;
+    background: var(--accent-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bg-primary);
+    transition: all 0.3s ease;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.pull-to-refresh-indicator i {
+    width: 24px;
+    height: 24px;
+}
+
+/* ===== SWIPE GESTURES INDICATORS ===== */
+.swipe-indicator {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(165, 180, 252, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bg-primary);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 9999;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.swipe-indicator.left {
+    left: 20px;
+}
+
+.swipe-indicator.right {
+    right: 20px;
+}
+
+.swipe-indicator.show {
+    opacity: 1;
+}
+
+.swipe-indicator i {
+    width: 32px;
+    height: 32px;
+}
+
+/* ===== MOBILE NAVIGATION IMPROVEMENTS ===== */
+@media (max-width: 768px) {
+    /* Sticky navbar with smooth hide/show */
+    .navbar {
+        transition: transform 0.3s ease;
+    }
+    
+    .navbar.hidden {
+        transform: translateY(-100%);
+    }
+    
+    /* Bottom navigation bar for mobile */
+    .mobile-bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        background: rgba(15, 23, 42, 0.95);
+        backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        z-index: 999;
+        padding: 0 1rem;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .mobile-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.5rem;
+        color: #9ca3af;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        flex: 1;
+        max-width: 80px;
+    }
+    
+    .mobile-nav-item:active {
+        transform: scale(0.95);
+    }
+    
+    .mobile-nav-item.active {
+        color: var(--accent-primary);
+    }
+    
+    .mobile-nav-item i {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .mobile-nav-item span {
+        font-size: 0.7rem;
+        font-weight: 500;
+    }
+    
+    /* Add padding to main content to account for bottom nav */
+    .main-content {
+        padding-bottom: 80px;
+    }
+}
+
+/* ===== IMPROVED SCROLLING ===== */
+@media (max-width: 768px) {
+    /* Smooth scrolling */
+    html {
+        scroll-behavior: smooth;
+    }
+    
+    /* Better momentum scrolling on iOS */
+    .modal-body,
+    .cards-grid,
+    .filter-buttons {
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Hide scrollbar but keep functionality */
+    .filter-buttons {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .filter-buttons::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/* ===== LOADING STATES ===== */
+.skeleton-loader {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.05) 25%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.05) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
+    border-radius: 0.5rem;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.skeleton-card {
+    aspect-ratio: 2/3;
+    border-radius: 1rem;
+}
+
+.skeleton-text {
+    height: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.skeleton-text.short {
+    width: 60%;
+}
+
+/* ===== TOUCH FEEDBACK ===== */
+@media (max-width: 768px) {
+    .btn:active,
+    .filter-btn:active,
+    .action-btn:active,
+    .card:active,
+    .action-card:active {
+        transform: scale(0.97);
+        opacity: 0.9;
+    }
+    
+    /* Ripple effect */
+    .ripple {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .ripple::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+    
+    .ripple:active::after {
+        width: 300px;
+        height: 300px;
+    }
+}
+
+/* ===== SAFE AREA INSETS (for notched devices) ===== */
+@supports (padding: max(0px)) {
+    .navbar {
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+        padding-top: env(safe-area-inset-top);
+    }
+    
+    .mobile-bottom-nav {
+        padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+    }
+    
+    .main-content {
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+    }
+    
+    .fab {
+        bottom: max(1rem, calc(env(safe-area-inset-bottom) + 1rem));
+        right: max(1rem, calc(env(safe-area-inset-right) + 1rem));
+    }
+}
+
+/* ===== ORIENTATION LOCK INDICATOR ===== */
+.orientation-lock-message {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--bg-primary);
+    z-index: 99999;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 2rem;
+    text-align: center;
+}
+
+.orientation-lock-message i {
+    width: 80px;
+    height: 80px;
+    color: var(--accent-primary);
+    animation: rotate-device 2s ease-in-out infinite;
+}
+
+@keyframes rotate-device {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(90deg);
+    }
+}
+
+.orientation-lock-message h2 {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.orientation-lock-message p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Show orientation message on very small landscape screens */
+@media (max-height: 400px) and (orientation: landscape) {
+    .orientation-lock-message {
+        display: flex;
+    }
+    
+    body > *:not(.orientation-lock-message) {
+        display: none !important;
+    }
+}
+
+/* ===== IMPROVED FORM INPUTS FOR MOBILE ===== */
+@media (max-width: 768px) {
+    input,
+    textarea,
+    select {
+        font-size: 16px !important; /* Prevents zoom on iOS */
+    }
+    
+    /* Better input focus states */
+    input:focus,
+    textarea:focus,
+    select:focus {
+        transform: scale(1.02);
+        box-shadow: 0 0 0 4px rgba(165, 180, 252, 0.2);
+    }
+}
+
+/* ===== ACCESSIBILITY IMPROVEMENTS ===== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .glass,
+    .glass-card {
+        border-width: 2px;
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .btn,
+    .filter-btn,
+    .action-btn {
+        border: 2px solid currentColor;
+    }
+}
+
+/* Dark mode adjustments for OLED screens */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-primary: #000000;
+        --bg-secondary: #0a0a0a;
+    }
+}

@@ -382,6 +382,7 @@ body {
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
+    position: relative;
 }
 
 .filter-btn {
@@ -400,6 +401,67 @@ body {
 .filter-btn.active {
     color: white;
     background: rgba(255, 255, 255, 0.2);
+}
+
+/* Horizontal Scroll Container for Mobile */
+.filter-buttons-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.filter-buttons-scroll-indicator {
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    color: var(--bg-primary);
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.filter-buttons-scroll-indicator.left {
+    left: -8px;
+}
+
+.filter-buttons-scroll-indicator.right {
+    right: -8px;
+}
+
+.filter-buttons-scroll-indicator.show {
+    opacity: 0.8;
+}
+
+.filter-buttons-scroll-indicator i {
+    width: 18px;
+    height: 18px;
+}
+
+/* Scrollbar styling for filter buttons */
+.filter-buttons::-webkit-scrollbar {
+    height: 4px;
+}
+
+.filter-buttons::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+}
+
+.filter-buttons::-webkit-scrollbar-thumb {
+    background: var(--accent-primary);
+    border-radius: 2px;
+}
+
+.filter-buttons::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-secondary);
 }
 
 /* ===== CARDS GRID ===== */
