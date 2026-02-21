@@ -47,7 +47,7 @@
     object-fit: cover;
 }
 
-/* Vibix iframe styles */
+/* Video iframe styles */
 .video-placeholder ins,
 .video-placeholder ins iframe {
     position: absolute !important;

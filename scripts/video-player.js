@@ -217,63 +217,7 @@ function loadVideoPlayer() {
         return;
     }
     
-    if (currentVideo.sourceType === 'vibix') {
-        // Vibix player
-        logger.video('Initializing Vibix player', {
-            type: currentVideo.vibixType,
-            id: currentVideo.vibixId,
-            design: currentVideo.vibixDesign,
-            voiceover: currentVideo.vibixVoiceover,
-            poster: currentVideo.vibixPoster
-        });
-        
-        let insTag = `<ins data-publisher-id="675593060" data-type="${currentVideo.vibixType}" data-id="${currentVideo.vibixId}"`;
-        
-        // Add responsive dimensions
-        insTag += ` data-width="100%" data-height="100%"`;
-        
-        if (currentVideo.vibixDesign) {
-            insTag += ` data-design="${currentVideo.vibixDesign}"`;
-        }
-        if (currentVideo.vibixVoiceover) {
-            insTag += ` data-voiceover="${currentVideo.vibixVoiceover}"`;
-        }
-        if (currentVideo.vibixPoster) {
-            insTag += ` data-poster="true"`;
-        }
-        
-        insTag += `></ins>`;
-        
-        logger.debug('Vibix ins tag', insTag);
-        videoContainer.innerHTML = insTag;
-        
-        // Initialize Vibix SDK with retry mechanism
-        let retryCount = 0;
-        const maxRetries = 20;
-        
-        const initVibix = () => {
-            if (window.RendexSDK && typeof window.RendexSDK.init === 'function') {
-                try {
-                    // Call init() to process all <ins> tags on the page
-                    window.RendexSDK.init();
-                    logger.success('Vibix SDK initialized successfully');
-                } catch (error) {
-                    logger.error('Error initializing Vibix SDK', error);
-                }
-            } else {
-                retryCount++;
-                if (retryCount < maxRetries) {
-                    logger.warning(`Vibix SDK not loaded yet, retrying... (${retryCount}/${maxRetries})`);
-                    setTimeout(initVibix, 300);
-                } else {
-                    logger.error('Vibix SDK failed to load after maximum retries');
-                }
-            }
-        };
-        
-        // Start initialization after a short delay to ensure DOM is ready
-        setTimeout(initVibix, 200);
-    } else if (currentVideo.sourceType === 'file' || currentVideo.sourceType === 'url' || currentVideo.sourceType === 'direct') {
+    if (currentVideo.sourceType === 'file' || currentVideo.sourceType === 'url' || currentVideo.sourceType === 'direct') {
         // Local file or direct URL
         videoContainer.innerHTML = `
             <video id="videoPlayer" class="video-player">

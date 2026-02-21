@@ -42,7 +42,7 @@
 1. **Necessary** (Необходимые): IndexedDB, localStorage, Service Worker
 2. **Functional** (Функциональные): theme.js, i18n.js, view-mode.js
 3. **Analytics** (Аналитика): Yandex.Metrica, Google Analytics
-4. **External** (Внешние): Kodik, Collaps, Alloha, HDRezka, Vibix
+4. **External** (Внешние): Kodik, Collaps, Alloha, HDRezka
 
 ### Мониторинг
 - **MutationObserver**: Отслеживает изменения DOM

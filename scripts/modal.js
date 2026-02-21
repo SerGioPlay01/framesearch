@@ -146,7 +146,6 @@ class ModalManager {
                                     <label>Выберите балансер</label>
                                     <select id="balancerType" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white;">
                                         <option value="iframe">Iframe URL (Kodik, Collaps, Alloha, HDRezka)</option>
-                                        <option value="vibix">Vibix (по ID видео/сериала)</option>
                                     </select>
                                 </div>
                                 
@@ -158,57 +157,6 @@ class ModalManager {
                                         <p class="help-text">Вставьте ссылку на видео из Kodik, Collaps, Alloha или HDRezka</p>
                                     </div>
                                     <div id="iframePreview" class="iframe-preview"></div>
-                                </div>
-                                
-                                <!-- Vibix Source -->
-                                <div class="balancer-option" id="vibixBalancer" style="display: none;">
-                                    <div class="form-group">
-                                        <label>Тип контента</label>
-                                        <select id="vibixType" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white;">
-                                            <option value="movie">Видео (movie)</option>
-                                            <option value="series">Сериал (series)</option>
-                                            <option value="kp">По ID Кинопоиска (kp)</option>
-                                            <option value="imdb">По IMDB ID (imdb)</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label>ID контента</label>
-                                        <input type="text" id="vibixId" placeholder="Например: 187471 (movie/series), 326 (kp) или tt0111161 (imdb)">
-                                        <p class="help-text">
-                                            <strong>movie/series:</strong> ID из базы Vibix<br>
-                                            <strong>kp:</strong> ID Кинопоиска (например, 326 для "Побег из Шоушенка")<br>
-                                            <strong>imdb:</strong> IMDB ID с префиксом tt (например, tt0111161)
-                                        </p>
-                                    </div>
-                                    
-                                    <div class="form-row">
-                                        <div class="form-group">
-                                            <label>Дизайн плеера (1-6)</label>
-                                            <select id="vibixDesign" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white;">
-                                                <option value="1">1 - По умолчанию</option>
-                                                <option value="2">2 - Монохром</option>
-                                                <option value="3">3 - Синий Неон</option>
-                                                <option value="4">4 - Ютуб</option>
-                                                <option value="5">5 - Ночной Минимализм</option>
-                                                <option value="6">6 - Карусель эпизодов</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>ID озвучки (опционально)</label>
-                                            <input type="text" id="vibixVoiceover" placeholder="Например: 4">
-                                            <p class="help-text" style="font-size: 0.75rem; margin-top: 0.25rem;">Оставьте пустым для всех озвучек</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                                            <input type="checkbox" id="vibixPoster">
-                                            <span>Показать постер перед воспроизведением</span>
-                                        </label>
-                                    </div>
-                                    
-                                    <div id="vibixPreview" class="iframe-preview"></div>
                                 </div>
                             </div>
 
@@ -453,13 +401,6 @@ class ModalManager {
             iframeUrlInput.addEventListener('input', (e) => this.previewIframe(e));
         }
         
-        // Vibix preview
-        document.getElementById('vibixId').addEventListener('input', () => this.previewVibix());
-        document.getElementById('vibixType').addEventListener('change', () => this.previewVibix());
-        document.getElementById('vibixDesign').addEventListener('input', () => this.previewVibix());
-        document.getElementById('vibixVoiceover').addEventListener('input', () => this.previewVibix());
-        document.getElementById('vibixPoster').addEventListener('change', () => this.previewVibix());
-
         // Direct video preview
         document.getElementById('directUrl').addEventListener('input', () => this.previewDirect());
 
@@ -772,18 +713,10 @@ class ModalManager {
         if (sourceType === 'balancer') {
             const balancerType = document.getElementById('balancerType').value;
             
-            if (balancerType === 'vibix') {
-                const vibixId = document.getElementById('vibixId').value.trim();
-                if (!vibixId) {
-                    await dialog.alert('Пожалуйста, введите ID контента для Vibix', 'Ошибка валидации');
-                    return false;
-                }
-            } else {
-                const url = document.getElementById('iframeUrl').value.trim();
-                if (!url) {
-                    await dialog.alert('Пожалуйста, введите URL видеобалансера', 'Ошибка валидации');
-                    return false;
-                }
+            const url = document.getElementById('iframeUrl').value.trim();
+            if (!url) {
+                await dialog.alert('Пожалуйста, введите URL видеобалансера', 'Ошибка валидации');
+                return false;
             }
         } else if (sourceType === 'direct') {
             const url = document.getElementById('directUrl').value.trim();
@@ -849,15 +782,7 @@ class ModalManager {
             const balancerType = document.getElementById('balancerType').value;
             this.videoData.sourceType = balancerType;
             
-            if (balancerType === 'vibix') {
-                this.videoData.vibixType = document.getElementById('vibixType').value;
-                this.videoData.vibixId = document.getElementById('vibixId').value.trim();
-                this.videoData.vibixDesign = document.getElementById('vibixDesign').value;
-                this.videoData.vibixVoiceover = document.getElementById('vibixVoiceover').value.trim();
-                this.videoData.vibixPoster = document.getElementById('vibixPoster').checked;
-            } else {
-                this.videoData.sourceUrl = document.getElementById('iframeUrl').value.trim();
-            }
+            this.videoData.sourceUrl = document.getElementById('iframeUrl').value.trim();
         } else if (sourceType === 'direct') {
             this.videoData.sourceType = 'direct';
             this.videoData.sourceUrl = document.getElementById('directUrl').value.trim();
@@ -1104,69 +1029,6 @@ class ModalManager {
         }
     }
     
-    handleSourceTypeChange(e) {
-        const sourceType = e.target.value;
-        const iframeSource = document.getElementById('iframeSource');
-        const vibixSource = document.getElementById('vibixSource');
-        
-        if (sourceType === 'vibix') {
-            iframeSource.style.display = 'none';
-            vibixSource.style.display = 'block';
-            this.previewVibix();
-        } else {
-            iframeSource.style.display = 'block';
-            vibixSource.style.display = 'none';
-        }
-    }
-    
-    previewVibix() {
-        const vibixId = document.getElementById('vibixId').value.trim();
-        const vibixType = document.getElementById('vibixType').value;
-        const vibixDesign = document.getElementById('vibixDesign').value;
-        const vibixVoiceover = document.getElementById('vibixVoiceover').value.trim();
-        const vibixPoster = document.getElementById('vibixPoster').checked;
-        const preview = document.getElementById('vibixPreview');
-        
-        if (!preview) return;
-        
-        if (vibixId) {
-            let insTag = `<ins data-publisher-id="675593060" data-type="${vibixType}" data-id="${vibixId}"`;
-            
-            // Add responsive dimensions
-            insTag += ` data-width="100%" data-height="100%"`;
-            
-            if (vibixDesign) {
-                insTag += ` data-design="${vibixDesign}"`;
-            }
-            if (vibixVoiceover) {
-                insTag += ` data-voiceover="${vibixVoiceover}"`;
-            }
-            if (vibixPoster) {
-                insTag += ` data-poster="true"`;
-            }
-            
-            insTag += `></ins>`;
-            
-            preview.innerHTML = insTag;
-            
-            // Reinitialize Vibix SDK for the new element with retry mechanism
-            const initVibix = () => {
-                if (window.RendexSDK && typeof window.RendexSDK.init === 'function') {
-                    try {
-                        window.RendexSDK.init();
-                    } catch (error) {
-                        logger.error('Error initializing Vibix', error);
-                    }
-                } else {
-                    setTimeout(initVibix, 200);
-                }
-            };
-            
-            setTimeout(initVibix, 100);
-        } else {
-            preview.innerHTML = '';
-        }
-    }
     
     previewDirectUrl(e) {
         const url = e.target.value.trim();
@@ -1306,20 +1168,7 @@ class ModalManager {
             }
             
             // Load source data
-            if (video.sourceType === 'vibix') {
-                document.getElementById('sourceType').value = 'vibix';
-                document.getElementById('iframeSource').style.display = 'none';
-                document.getElementById('vibixSource').style.display = 'block';
-                
-                document.getElementById('vibixType').value = video.vibixType || 'movie';
-                document.getElementById('vibixId').value = video.vibixId || '';
-                document.getElementById('vibixDesign').value = video.vibixDesign || '1';
-                document.getElementById('vibixVoiceover').value = video.vibixVoiceover || '';
-                document.getElementById('vibixPoster').checked = video.vibixPoster || false;
-            } else {
-                document.getElementById('sourceType').value = 'iframe';
-                document.getElementById('iframeUrl').value = video.sourceUrl || '';
-            }
+            document.getElementById('iframeUrl').value = video.sourceUrl || '';
 
             this.videoData = { ...video };
 
@@ -1393,10 +1242,6 @@ class ModalManager {
 
         if (balancerType === 'iframe') {
             document.getElementById('iframeBalancer').style.display = 'block';
-        } else if (balancerType === 'vibix') {
-            document.getElementById('vibixBalancer').style.display = 'block';
-            // Initialize Vibix preview when switching to this tab
-            setTimeout(() => this.previewVibix(), 100);
         }
     }
 

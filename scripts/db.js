@@ -93,15 +93,9 @@ class FramesearchDB {
                 rating: videoData.rating || 0,
                 duration: videoData.duration,
                 poster: videoData.poster, // base64 or URL
-                sourceType: videoData.sourceType, // 'iframe', 'vibix', 'direct', etc.
+                sourceType: videoData.sourceType, // 'iframe', 'direct', etc.
                 sourceUrl: videoData.sourceUrl, // file URL or iframe URL
                 sourceCategory: videoData.sourceCategory, // 'balancer', 'direct', 'social', 'custom'
-                // Vibix specific fields
-                vibixType: videoData.vibixType,
-                vibixId: videoData.vibixId,
-                vibixDesign: videoData.vibixDesign,
-                vibixVoiceover: videoData.vibixVoiceover,
-                vibixPoster: videoData.vibixPoster,
                 // Other fields
                 videoType: videoData.videoType, // for direct videos
                 collectionId: videoData.collectionId || null,

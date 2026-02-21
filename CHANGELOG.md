@@ -22,7 +22,7 @@
 - 📱 PWA функционал с оффлайн поддержкой
 - ⌨️ Горячие клавиши (Ctrl+K, Ctrl+N, Esc)
 - 🎯 4 типа источников видео:
-  - Балансеры (Kodik, Collaps, Alloha, HDRezka, Vibix)
+  - Балансеры (Kodik, Collaps, Alloha, HDRezka)
   - Прямые ссылки на видеофайлы
   - Соцсети (YouTube, VK, RuTube, Vimeo)
   - Custom iframe код

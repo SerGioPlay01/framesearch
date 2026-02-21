@@ -131,9 +131,8 @@ class CookieConsentManager {
             if (src.includes('collaps')) this.detectedScripts.external.add('Collaps Player');
             if (src.includes('alloha')) this.detectedScripts.external.add('Alloha Player');
             if (src.includes('hdrezka')) this.detectedScripts.external.add('HDRezka Player');
-            if (src.includes('vibix')) this.detectedScripts.external.add('Vibix Player');
             if (!src.includes('kodik') && !src.includes('collaps') && !src.includes('alloha') && 
-                !src.includes('hdrezka') && !src.includes('vibix')) {
+                !src.includes('hdrezka')) {
                 this.detectedScripts.external.add('External iframe');
             }
         });
@@ -218,7 +217,7 @@ class CookieConsentManager {
         if (src.includes('metrika') || src.includes('analytics')) return 'analytics';
         if (src.includes('theme') || src.includes('i18n')) return 'functional';
         if (src.includes('kodik') || src.includes('collaps') || src.includes('alloha') || 
-            src.includes('hdrezka') || src.includes('vibix') || element.tagName === 'IFRAME') {
+            src.includes('hdrezka') || element.tagName === 'IFRAME') {
             return 'external';
         }
         

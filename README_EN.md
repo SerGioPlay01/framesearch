@@ -98,7 +98,6 @@ Video balancers with support for many movies and series:
 - **Collaps** — `https://collaps.cc/...`
 - **Alloha** — `https://alloha.tv/...`
 - **HDRezka** — `https://hdrezka.ag/...`
-- **Vibix** — `https://vibix.org/...`
 
 #### 🔗 Direct Links
 Direct URLs to video files:
