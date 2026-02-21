@@ -65,6 +65,11 @@ class FloatingActionsManager {
                     </button>
                 </div>
                 
+                <!-- Menu Toggle Button -->
+                <button class="fab-menu-toggle" id="fabMenuToggle" title="Меню" aria-label="Открыть меню действий">
+                    <i data-lucide="menu"></i>
+                </button>
+                
                 <!-- Main Add Button -->
                 <button class="fab-main" id="fabMain" title="Добавить видео" aria-label="Добавить новое видео">
                     <i data-lucide="plus"></i>
@@ -87,6 +92,7 @@ class FloatingActionsManager {
         
         this.container = document.getElementById('floatingActions');
         this.mainButton = document.getElementById('fabMain');
+        this.menuToggle = document.getElementById('fabMenuToggle');
         this.secondaryActions = document.getElementById('fabSecondary');
         this.backdrop = document.getElementById('fabBackdrop');
         this.scrollTopButton = document.getElementById('scrollTopBtn');
@@ -98,14 +104,15 @@ class FloatingActionsManager {
     }
 
     attachEventListeners() {
-        // Main button - Toggle menu
+        // Main button - Open add video modal
         if (this.mainButton) {
             this.mainButton.addEventListener('click', (e) => {
                 e.stopPropagation();
-                if (this.isExpanded) {
-                    this.collapseSecondaryActions();
+                // Open add video modal
+                if (typeof modal !== 'undefined' && modal.open) {
+                    modal.open();
                 } else {
-                    this.expandSecondaryActions();
+                    logger.warn('Modal object not found');
                 }
             });
         }
@@ -114,6 +121,18 @@ class FloatingActionsManager {
         if (this.backdrop) {
             this.backdrop.addEventListener('click', () => {
                 this.collapseSecondaryActions();
+            });
+        }
+
+        // Menu toggle button - Toggle secondary actions
+        if (this.menuToggle) {
+            this.menuToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.isExpanded) {
+                    this.collapseSecondaryActions();
+                } else {
+                    this.expandSecondaryActions();
+                }
             });
         }
 
@@ -214,14 +233,14 @@ class FloatingActionsManager {
     expandSecondaryActions() {
         this.isExpanded = true;
         this.secondaryActions?.classList.add('expanded');
-        this.mainButton?.classList.add('active');
+        this.menuToggle?.classList.add('active');
         this.backdrop?.classList.add('active');
     }
 
     collapseSecondaryActions() {
         this.isExpanded = false;
         this.secondaryActions?.classList.remove('expanded');
-        this.mainButton?.classList.remove('active');
+        this.menuToggle?.classList.remove('active');
         this.backdrop?.classList.remove('active');
     }
 

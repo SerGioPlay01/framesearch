@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     
-    <!-- Лендинг (главная страница для поисковиков) -->
+    <!-- Главная страница (лендинг) - приоритет для поисковиков -->
     <url>
-        <loc>https://framesearch.netlify.app/landing.html</loc>
+        <loc>https://framesearch-lac.vercel.app/</loc>
         <lastmod>2026-02-21</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
+        <image:image>
+            <image:loc>https://framesearch-lac.vercel.app/preview.jpg</image:loc>
+            <image:title>Framesearch - Персональное видеохранилище</image:title>
+        </image:image>
     </url>
     
-    <!-- Главная страница приложения -->
+    <!-- Приложение -->
     <url>
-        <loc>https://framesearch.netlify.app/</loc>
+        <loc>https://framesearch-lac.vercel.app/app</loc>
         <lastmod>2026-02-21</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
@@ -22,7 +27,7 @@
     
     <!-- Страница поиска -->
     <url>
-        <loc>https://framesearch.netlify.app/search_results.html</loc>
+        <loc>https://framesearch-lac.vercel.app/search_results</loc>
         <lastmod>2026-02-21</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
@@ -30,7 +35,7 @@
     
     <!-- Страница видео -->
     <url>
-        <loc>https://framesearch.netlify.app/video_id.html</loc>
+        <loc>https://framesearch-lac.vercel.app/video_id</loc>
         <lastmod>2026-02-21</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -38,7 +43,7 @@
     
     <!-- Условия использования -->
     <url>
-        <loc>https://framesearch.netlify.app/terms.html</loc>
+        <loc>https://framesearch-lac.vercel.app/terms</loc>
         <lastmod>2026-02-21</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
@@ -46,7 +51,7 @@
     
     <!-- Политика конфиденциальности -->
     <url>
-        <loc>https://framesearch.netlify.app/privacy.html</loc>
+        <loc>https://framesearch-lac.vercel.app/privacy</loc>
         <lastmod>2026-02-21</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
@@ -54,7 +59,7 @@
     
     <!-- Cookies -->
     <url>
-        <loc>https://framesearch.netlify.app/cookies.html</loc>
+        <loc>https://framesearch-lac.vercel.app/cookies</loc>
         <lastmod>2026-02-21</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.4</priority>
@@ -62,7 +67,7 @@
     
     <!-- Лицензии -->
     <url>
-        <loc>https://framesearch.netlify.app/license.html</loc>
+        <loc>https://framesearch-lac.vercel.app/license</loc>
         <lastmod>2026-02-21</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.4</priority>
@@ -70,7 +75,7 @@
     
     <!-- Отказ от ответственности -->
     <url>
-        <loc>https://framesearch.netlify.app/disclaimer.html</loc>
+        <loc>https://framesearch-lac.vercel.app/disclaimer</loc>
         <lastmod>2026-02-21</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.4</priority>

@@ -1,17 +1,26 @@
 # Framesearch - Robots.txt
-# https://framesearch.netlify.app/
+# https://framesearch-lac.vercel.app/
 
 User-agent: *
-Allow: /landing.html
 Allow: /
+Allow: /app
+Allow: /search_results
+Allow: /video_id
+Allow: /terms
+Allow: /privacy
+Allow: /cookies
+Allow: /license
+Allow: /disclaimer
 Disallow: /scripts/
 Disallow: /styles/
 Disallow: /res/
 Disallow: /*.js$
 Disallow: /*.css$
+Disallow: /landing.html
+Disallow: /app.html
 
 # Sitemap
-Sitemap: https://framesearch.netlify.app/sitemap.xml
+Sitemap: https://framesearch-lac.vercel.app/sitemap.xml
 
 # Crawl-delay (optional, adjust as needed)
 Crawl-delay: 1
@@ -39,3 +48,19 @@ Allow: /
 User-agent: YandexBot
 Allow: /
 Crawl-delay: 1
+
+# Block AI crawlers (optional)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
