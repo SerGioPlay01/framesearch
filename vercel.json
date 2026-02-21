@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/app",
+      "destination": "/landing.html"
+    },
+    {
       "source": "/video_id",
       "destination": "/video_id.html"
     },
@@ -29,6 +33,15 @@
       "destination": "/disclaimer.html"
     }
   ],
+  "redirects": [
+    {
+      "source": "/landing.html",
+      "destination": "/app",
+      "permanent": false
+    }
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false,
   "headers": [
     {
       "source": "/sw.js",
@@ -36,6 +49,10 @@
         {
           "key": "Cache-Control",
           "value": "no-cache, no-store, must-revalidate"
+        },
+        {
+          "key": "Service-Worker-Allowed",
+          "value": "/"
         }
       ]
     },
