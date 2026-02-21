@@ -174,18 +174,30 @@ class ModalManager {
                                     
                                     <div class="form-group">
                                         <label>ID контента</label>
-                                        <input type="text" id="vibixId" placeholder="Например: 187471 или tt0111161">
-                                        <p class="help-text">ID видео/сериала из базы Vibix, Кинопоиска или IMDB</p>
+                                        <input type="text" id="vibixId" placeholder="Например: 187471 (movie/series), 326 (kp) или tt0111161 (imdb)">
+                                        <p class="help-text">
+                                            <strong>movie/series:</strong> ID из базы Vibix<br>
+                                            <strong>kp:</strong> ID Кинопоиска (например, 326 для "Побег из Шоушенка")<br>
+                                            <strong>imdb:</strong> IMDB ID с префиксом tt (например, tt0111161)
+                                        </p>
                                     </div>
                                     
                                     <div class="form-row">
                                         <div class="form-group">
                                             <label>Дизайн плеера (1-6)</label>
-                                            <input type="number" id="vibixDesign" min="1" max="6" value="1">
+                                            <select id="vibixDesign" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white;">
+                                                <option value="1">1 - По умолчанию</option>
+                                                <option value="2">2 - Монохром</option>
+                                                <option value="3">3 - Синий Неон</option>
+                                                <option value="4">4 - Ютуб</option>
+                                                <option value="5">5 - Ночной Минимализм</option>
+                                                <option value="6">6 - Карусель эпизодов</option>
+                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <label>ID озвучки (опционально)</label>
                                             <input type="text" id="vibixVoiceover" placeholder="Например: 4">
+                                            <p class="help-text" style="font-size: 0.75rem; margin-top: 0.25rem;">Оставьте пустым для всех озвучек</p>
                                         </div>
                                     </div>
                                     

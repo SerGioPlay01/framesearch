@@ -254,6 +254,7 @@ function loadVideoPlayer() {
         const initVibix = () => {
             if (window.RendexSDK && typeof window.RendexSDK.init === 'function') {
                 try {
+                    // Call init() to process all <ins> tags on the page
                     window.RendexSDK.init();
                     logger.success('Vibix SDK initialized successfully');
                 } catch (error) {
@@ -270,7 +271,7 @@ function loadVideoPlayer() {
             }
         };
         
-        // Start initialization after a short delay
+        // Start initialization after a short delay to ensure DOM is ready
         setTimeout(initVibix, 200);
     } else if (currentVideo.sourceType === 'file' || currentVideo.sourceType === 'url' || currentVideo.sourceType === 'direct') {
         // Local file or direct URL
