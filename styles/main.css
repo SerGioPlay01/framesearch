@@ -16,6 +16,11 @@
     box-sizing: border-box;
 }
 
+html {
+    overflow-x: hidden;
+    width: 100%;
+}
+
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-primary);
@@ -25,6 +30,9 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    max-width: 100vw;
+    position: relative;
 }
 
 /* ===== BACKGROUND ===== */
@@ -214,6 +222,7 @@ body {
     max-width: 1280px;
     margin: 0 auto;
     width: 100%;
+    overflow-x: hidden;
 }
 
 /* ===== HERO SECTION ===== */
@@ -370,12 +379,15 @@ body {
     margin-bottom: 2rem;
     flex-wrap: wrap;
     gap: 1rem;
+    width: 100%;
+    overflow: hidden;
 }
 
 .section-title {
     font-size: 1.5rem;
     font-weight: 700;
     color: white;
+    flex-shrink: 0;
 }
 
 .filter-buttons {
@@ -1081,10 +1093,19 @@ body.scrolling::before {
 
 /* Mobile First - Base Styles for Small Devices */
 @media (max-width: 639px) {
+    /* Prevent horizontal scroll */
+    html,
+    body {
+        overflow-x: hidden;
+        max-width: 100vw;
+        position: relative;
+    }
+    
     /* Navigation */
     .navbar-content {
         height: 64px;
         padding: 0 0.5rem;
+        width: 100%;
     }
     
     .logo {
@@ -1103,6 +1124,9 @@ body.scrolling::before {
     /* Main Content */
     .main-content {
         padding: 5rem 0.75rem 2rem;
+        width: 100%;
+        max-width: 100vw;
+        overflow-x: hidden;
     }
     
     /* Filter Buttons - Horizontal Scroll */
@@ -1119,6 +1143,7 @@ body.scrolling::before {
         margin: 0 -0.75rem;
         padding-left: 0.75rem;
         padding-right: 0.75rem;
+        width: calc(100% + 1.5rem);
     }
     
     .filter-buttons::-webkit-scrollbar {
@@ -1136,18 +1161,28 @@ body.scrolling::before {
     .cards-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.75rem;
+        width: 100%;
     }
     
-    /* Action Buttons */
+    /* Action Buttons - Fixed for mobile */
+    .action-buttons {
+        width: 100%;
+        overflow: hidden;
+        margin-bottom: 2rem;
+    }
+    
     .action-buttons-container {
         grid-template-columns: 1fr;
         gap: 0.75rem;
+        width: 100%;
     }
     
     .action-card {
         padding: 1rem;
         flex-direction: row;
         text-align: left;
+        width: 100%;
+        min-width: 0;
     }
     
     .action-card i {
@@ -1155,12 +1190,23 @@ body.scrolling::before {
         height: 1.75rem;
     }
     
+    .action-card-content {
+        min-width: 0;
+        overflow: hidden;
+    }
+    
     .action-card h3 {
         font-size: 0.95rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     
     .action-card p {
         font-size: 0.7rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     
     /* Section Header */
@@ -1169,6 +1215,7 @@ body.scrolling::before {
         align-items: flex-start;
         gap: 1rem;
         margin-bottom: 1.5rem;
+        width: 100%;
     }
     
     .section-title {
@@ -1176,14 +1223,21 @@ body.scrolling::before {
     }
     
     /* Collections */
+    .collections-container {
+        width: 100%;
+        overflow: hidden;
+    }
+    
     .collections-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.75rem;
+        width: 100%;
     }
     
     /* Welcome Screen */
     .welcome-container {
         padding: 2rem 1rem;
+        width: 100%;
     }
     
     .welcome-title {
@@ -1207,10 +1261,12 @@ body.scrolling::before {
     .welcome-features {
         grid-template-columns: 1fr;
         gap: 1rem;
+        width: 100%;
     }
     
     .feature-item {
         padding: 1.25rem;
+        width: 100%;
     }
     
     .welcome-actions {
@@ -1225,11 +1281,13 @@ body.scrolling::before {
     /* Footer */
     .footer {
         padding: 2rem 1rem;
+        width: 100%;
     }
     
     .footer-content {
         grid-template-columns: 1fr;
         gap: 2rem;
+        width: 100%;
     }
     
     .footer-bottom-links {
@@ -1805,12 +1863,15 @@ body.scrolling::before {
 /* ===== ACTION BUTTONS ===== */
 .action-buttons {
     margin-bottom: 3rem;
+    width: 100%;
+    overflow: hidden;
 }
 
 .action-buttons-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
+    width: 100%;
 }
 
 .action-card {
@@ -1824,6 +1885,8 @@ body.scrolling::before {
     gap: 1rem;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 0;
+    overflow: hidden;
 }
 
 .action-card:hover {
@@ -1849,6 +1912,8 @@ body.scrolling::before {
 .action-card-content {
     flex: 1;
     text-align: left;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .action-card h3 {
@@ -1856,12 +1921,18 @@ body.scrolling::before {
     font-weight: 600;
     color: white;
     margin: 0 0 0.25rem 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .action-card p {
     font-size: 0.75rem;
     color: #9ca3af;
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 

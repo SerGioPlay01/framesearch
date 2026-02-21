@@ -174,8 +174,9 @@ class ShareManager {
     async exportToFile() {
         try {
             const encrypt = document.getElementById('exportEncrypt').checked;
-            const password = encrypt ? document.getElementById('exportPassword').value : null;
+            const password = document.getElementById('exportPassword').value;
 
+            // Проверяем пароль только если шифрование включено
             if (encrypt && !password) {
                 await dialog.alert('Введите пароль для шифрования', 'Ошибка');
                 return;
@@ -184,10 +185,10 @@ class ShareManager {
             let data;
             if (this.videoId) {
                 // Export single video data
-                data = await db.exportVideoData(this.videoId, password);
+                data = await db.exportVideoData(this.videoId, encrypt ? password : null);
             } else {
                 // Export all data
-                data = await db.exportData(password);
+                data = await db.exportData(encrypt ? password : null);
             }
 
             const blob = new Blob([data], { type: 'application/json' });
@@ -214,14 +215,15 @@ class ShareManager {
             }
 
             const encrypt = document.getElementById('codeEncrypt').checked;
-            const password = encrypt ? document.getElementById('codePassword').value : null;
+            const password = document.getElementById('codePassword').value;
 
+            // Проверяем пароль только если шифрование включено
             if (encrypt && !password) {
                 await dialog.alert('Введите пароль для шифрования', 'Ошибка');
                 return;
             }
 
-            const code = await db.generateShareCode(this.videoId, password);
+            const code = await db.generateShareCode(this.videoId, encrypt ? password : null);
             
             document.getElementById('shareCodeText').textContent = code;
             document.getElementById('generatedCode').style.display = 'block';
