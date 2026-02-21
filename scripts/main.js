@@ -75,6 +75,8 @@ window.addEventListener('popstate', async (event) => {
 async function closeCollectionView() {
     currentCollectionId = null;
     
+    const t = (key) => window.i18n ? window.i18n.t(key) : key;
+    
     // Show action buttons
     const actionButtons = document.querySelector('.action-buttons');
     if (actionButtons) {
@@ -85,14 +87,14 @@ async function closeCollectionView() {
     const sectionHeader = document.getElementById('mainSectionHeader');
     if (sectionHeader) {
         sectionHeader.innerHTML = `
-            <h2 class="section-title">Моя коллекция</h2>
+            <h2 class="section-title" data-i18n="nav.collections">${t('nav.collections')}</h2>
             <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="all">Все</button>
-                <button class="filter-btn" data-filter="balancer">Балансеры</button>
-                <button class="filter-btn" data-filter="direct">Прямые ссылки</button>
-                <button class="filter-btn" data-filter="social">Соцсети</button>
-                <button class="filter-btn" data-filter="custom">Custom</button>
-                <button class="filter-btn" data-filter="favorites">Избранное</button>
+                <button class="filter-btn active" data-filter="all" data-i18n="filter.all">${t('filter.all')}</button>
+                <button class="filter-btn" data-filter="balancer" data-i18n="filter.balancer">${t('filter.balancer')}</button>
+                <button class="filter-btn" data-filter="direct" data-i18n="filter.direct">${t('filter.direct')}</button>
+                <button class="filter-btn" data-filter="social" data-i18n="filter.social">${t('filter.social')}</button>
+                <button class="filter-btn" data-filter="custom" data-i18n="filter.custom">${t('filter.custom')}</button>
+                <button class="filter-btn" data-filter="favorites" data-i18n="filter.favorites">${t('filter.favorites')}</button>
             </div>
         `;
         sectionHeader.style.display = 'flex';
@@ -147,7 +149,7 @@ function initNavbar() {
 async function loadVideos(filter = 'all') {
     const cardsGrid = document.querySelector('.cards-grid');
     const emptyState = document.querySelector('.empty-state');
-    const sectionHeader = document.querySelector('.section-header');
+    const sectionHeader = document.getElementById('mainSectionHeader');
     const actionButtons = document.querySelector('.action-buttons');
     
     if (!cardsGrid) return;
