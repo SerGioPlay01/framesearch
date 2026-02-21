@@ -37,10 +37,9 @@ body {
     /* Better tap highlighting */
     * {
         -webkit-tap-highlight-color: rgba(165, 180, 252, 0.2);
-        -webkit-touch-callout: none;
     }
     
-    /* Prevent text selection on interactive elements */
+    /* Prevent text selection on interactive elements ONLY */
     .btn,
     .filter-btn,
     .action-btn,
@@ -51,19 +50,34 @@ body {
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
+        -webkit-touch-callout: none;
     }
     
-    /* Allow text selection in content areas */
+    /* IMPORTANT: Allow text selection and input in form elements */
+    input,
+    textarea,
+    select,
+    [contenteditable="true"],
     .card-title,
     .card-meta,
     .description-card p,
-    .welcome-description,
+    .welcome-description {
+        -webkit-user-select: text !important;
+        -moz-user-select: text !important;
+        -ms-user-select: text !important;
+        user-select: text !important;
+        -webkit-touch-callout: default !important;
+    }
+    
+    /* Ensure inputs are focusable and keyboard appears */
     input,
-    textarea {
-        -webkit-user-select: text;
-        -moz-user-select: text;
-        -ms-user-select: text;
-        user-select: text;
+    textarea,
+    select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        pointer-events: auto !important;
+        touch-action: manipulation !important;
     }
     
     /* Fix for action buttons overflow */
@@ -405,6 +419,21 @@ body {
     textarea,
     select {
         font-size: 16px !important; /* Prevents zoom on iOS */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        -webkit-user-select: text !important;
+        user-select: text !important;
+        pointer-events: auto !important;
+        touch-action: manipulation !important;
+    }
+    
+    /* Ensure inputs are tappable and focusable */
+    input:not([type="checkbox"]):not([type="radio"]),
+    textarea,
+    select {
+        min-height: 44px;
+        padding: 0.75rem;
     }
     
     /* Better input focus states */
@@ -413,6 +442,25 @@ body {
     select:focus {
         transform: scale(1.02);
         box-shadow: 0 0 0 4px rgba(165, 180, 252, 0.2);
+        outline: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Prevent zoom on input focus for iOS */
+    input:focus,
+    textarea:focus,
+    select:focus {
+        font-size: 16px !important;
+    }
+    
+    /* Fix for modal inputs */
+    .modal input,
+    .modal textarea,
+    .modal select {
+        -webkit-user-select: text !important;
+        user-select: text !important;
+        pointer-events: auto !important;
+        touch-action: manipulation !important;
     }
 }
 
