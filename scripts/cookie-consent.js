@@ -19,7 +19,16 @@ if (typeof logger === 'undefined') {
         error: console.error.bind(console),
         success: console.log.bind(console),
         debug: console.debug.bind(console),
-        cookie: console.log.bind(console)
+        cookie: console.log.bind(console),
+        video: console.log.bind(console),
+        music: console.log.bind(console),
+        database: console.log.bind(console),
+        search: console.log.bind(console),
+        theme: console.log.bind(console),
+        importData: console.log.bind(console),
+        exportData: console.log.bind(console),
+        collection: console.log.bind(console),
+        settings: console.log.bind(console)
     };
 }
 

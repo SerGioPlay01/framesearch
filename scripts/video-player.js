@@ -19,7 +19,15 @@ if (typeof logger === 'undefined') {
         error: console.error.bind(console),
         success: console.log.bind(console),
         debug: console.debug.bind(console),
-        video: console.log.bind(console)
+        video: console.log.bind(console),
+        music: console.log.bind(console),
+        database: console.log.bind(console),
+        search: console.log.bind(console),
+        theme: console.log.bind(console),
+        importData: console.log.bind(console),
+        exportData: console.log.bind(console),
+        collection: console.log.bind(console),
+        settings: console.log.bind(console)
     };
 }
 
@@ -56,6 +64,11 @@ async function loadVideo(videoId) {
             return;
         }
         
+        // Debug: Log loaded video data
+        logger.info('Loaded video data:', currentVideo);
+        logger.info('Source type:', currentVideo.sourceType);
+        logger.info('Source category:', currentVideo.sourceCategory);
+        
         // Increment views
         await db.incrementViews(videoId);
         
@@ -76,7 +89,28 @@ async function loadVideo(videoId) {
         
     } catch (error) {
         logger.error('Error loading video', error);
-        alert('Ошибка при загрузке видео');
+        
+        // Show user-friendly error message
+        const errorContainer = document.querySelector('.video-section');
+        if (errorContainer) {
+            errorContainer.innerHTML = `
+                <div class="glass" style="padding: 2rem; text-align: center;">
+                    <i data-lucide="alert-circle" style="width: 64px; height: 64px; color: var(--danger-color); margin-bottom: 1rem;"></i>
+                    <h2 style="color: var(--danger-color); margin-bottom: 1rem;">Ошибка при загрузке контента</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                        ${error.message || 'Не удалось загрузить контент. Попробуйте обновить страницу.'}
+                    </p>
+                    <button class="btn btn-primary" onclick="window.location.href='/app'">
+                        <i data-lucide="arrow-left"></i>
+                        Вернуться на главную
+                    </button>
+                </div>
+            `;
+            
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
     }
 }
 
@@ -137,10 +171,15 @@ function loadVideoPlayer() {
     const videoContainer = document.querySelector('.video-placeholder');
     if (!videoContainer) return;
     
-    logger.video('Loading video player', { sourceType: currentVideo.sourceType, video: currentVideo });
+    // Determine content type for logging
+    const isMusic = currentVideo.sourceType === 'music' || currentVideo.sourceCategory === 'music';
+    const logMethod = isMusic ? 'music' : 'video';
+    const contentType = isMusic ? 'музыкальный плеер' : 'видеоплеер';
+    
+    logger[logMethod](`Загрузка ${contentType}`, { sourceType: currentVideo.sourceType, video: currentVideo });
     
     // Check if it's music
-    if (currentVideo.sourceType === 'music' || currentVideo.sourceCategory === 'music') {
+    if (isMusic) {
         logger.music('Loading music player', currentVideo);
         
         if (currentVideo.musicPlatform === 'direct') {

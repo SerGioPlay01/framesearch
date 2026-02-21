@@ -50,12 +50,14 @@ class Logger {
             time: '⏱️',
             database: '💾',
             video: '🎬',
+            music: '🎵',
             search: '🔍',
             theme: '🎨',
             import: '📥',
             export: '📤',
             collection: '📁',
-            settings: '⚙️'
+            settings: '⚙️',
+            cookie: '🍪'
         };
         
         this.startTime = Date.now();
@@ -314,6 +316,11 @@ class Logger {
         this.info(`${this.emoji.video} Видео: ${action}`, data);
     }
 
+    music(action, data = null) {
+        if (!this.isDevelopment) return;
+        this.info(`${this.emoji.music} Музыка: ${action}`, data);
+    }
+
     search(query, results = null) {
         if (!this.isDevelopment) return;
         this.info(`${this.emoji.search} Поиск: "${query}"`, results);
@@ -342,6 +349,11 @@ class Logger {
     settings(action, data = null) {
         if (!this.isDevelopment) return;
         this.info(`${this.emoji.settings} Настройки: ${action}`, data);
+    }
+
+    cookie(action, data = null) {
+        if (!this.isDevelopment) return;
+        this.info(`${this.emoji.cookie} Cookies: ${action}`, data);
     }
 
     // Показать историю логов
