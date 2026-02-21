@@ -282,6 +282,12 @@ class ModalManager {
                                         <p class="help-text">Вставьте ссылку на трек, альбом, плейлист или исполнителя</p>
                                     </div>
                                     
+                                    <div class="form-group" style="margin-top: 1.5rem;">
+                                        <label>Или вставьте готовый embed код</label>
+                                        <textarea id="musicEmbedCode" rows="4" placeholder='<iframe src="https://open.spotify.com/embed/..." ...></iframe>' style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-family: monospace; resize: vertical;"></textarea>
+                                        <p class="help-text">Скопируйте embed код из музыкального сервиса (Spotify, Яндекс.Музыка и т.д.)</p>
+                                    </div>
+                                    
                                     <div class="music-examples" style="margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 8px; font-size: 0.875rem;">
                                         <p style="margin-bottom: 0.5rem; color: var(--text-secondary);"><strong>Примеры ссылок:</strong></p>
                                         <ul style="margin: 0; padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.6;">
@@ -458,6 +464,7 @@ class ModalManager {
         
         // Music URL preview
         document.getElementById('musicUrl').addEventListener('input', () => this.previewMusic());
+        document.getElementById('musicEmbedCode').addEventListener('input', () => this.previewMusicEmbed());
         document.getElementById('directAudioUrl').addEventListener('input', () => this.previewDirectAudio());
 
         // Episodes
@@ -877,20 +884,35 @@ class ModalManager {
                 this.videoData.sourceUrl = document.getElementById('directAudioUrl').value.trim();
                 this.videoData.audioType = document.getElementById('directAudioType').value;
             } else {
-                // Streaming service
-                const musicUrl = document.getElementById('musicUrl').value.trim();
+                // Check if embed code is provided
+                const embedCode = document.getElementById('musicEmbedCode').value.trim();
                 
-                if (typeof musicSourcesManager !== 'undefined') {
-                    const embedData = musicSourcesManager.generateEmbed(musicUrl);
-                    if (embedData) {
-                        this.videoData.sourceUrl = embedData.embedUrl;
-                        this.videoData.musicType = embedData.type;
-                        this.videoData.originalMusicUrl = embedData.originalUrl;
+                if (embedCode) {
+                    // Use embed code directly
+                    this.videoData.sourceUrl = embedCode;
+                    this.videoData.musicEmbedCode = embedCode;
+                    
+                    // Try to extract src for reference
+                    const srcMatch = embedCode.match(/src=["']([^"']+)["']/);
+                    if (srcMatch) {
+                        this.videoData.musicEmbedSrc = srcMatch[1];
+                    }
+                } else {
+                    // Streaming service URL
+                    const musicUrl = document.getElementById('musicUrl').value.trim();
+                    
+                    if (typeof musicSourcesManager !== 'undefined') {
+                        const embedData = musicSourcesManager.generateEmbed(musicUrl);
+                        if (embedData) {
+                            this.videoData.sourceUrl = embedData.embedUrl;
+                            this.videoData.musicType = embedData.type;
+                            this.videoData.originalMusicUrl = embedData.originalUrl;
+                        } else {
+                            this.videoData.sourceUrl = musicUrl;
+                        }
                     } else {
                         this.videoData.sourceUrl = musicUrl;
                     }
-                } else {
-                    this.videoData.sourceUrl = musicUrl;
                 }
             }
         } else if (sourceType === 'custom') {
@@ -1525,6 +1547,33 @@ class ModalManager {
         };
 
         waitForManager();
+    }
+
+    // Preview music embed code
+    previewMusicEmbed() {
+        const embedCode = document.getElementById('musicEmbedCode').value.trim();
+        const preview = document.getElementById('musicPreview');
+
+        if (!embedCode) {
+            preview.innerHTML = '';
+            return;
+        }
+
+        // Extract src from iframe
+        const srcMatch = embedCode.match(/src=["']([^"']+)["']/);
+        
+        if (srcMatch) {
+            const src = srcMatch[1];
+            preview.innerHTML = `
+                <div style="margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">
+                    <strong>Embed код распознан</strong>
+                </div>
+                ${embedCode}
+            `;
+            logger.success('Music embed code recognized', src);
+        } else {
+            preview.innerHTML = '<p style="color: var(--danger-color);">Не удалось распознать embed код. Убедитесь что это iframe.</p>';
+        }
     }
 
     // Preview direct audio

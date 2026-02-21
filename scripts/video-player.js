@@ -153,19 +153,30 @@ function loadVideoPlayer() {
                     </audio>
                 </div>
             `;
+        } else if (currentVideo.musicEmbedCode) {
+            // Use provided embed code directly
+            videoContainer.innerHTML = currentVideo.musicEmbedCode;
+        } else if (currentVideo.sourceUrl) {
+            // Check if sourceUrl is an iframe code or URL
+            if (currentVideo.sourceUrl.includes('<iframe')) {
+                // It's an embed code
+                videoContainer.innerHTML = currentVideo.sourceUrl;
+            } else {
+                // It's a URL - create iframe
+                videoContainer.innerHTML = `
+                    <iframe 
+                        src="${currentVideo.sourceUrl}" 
+                        class="video-player"
+                        frameborder="0" 
+                        allowtransparency="true"
+                        allow="encrypted-media; autoplay; clipboard-write; fullscreen; picture-in-picture"
+                        loading="lazy"
+                        style="border-radius: 12px;"
+                    ></iframe>
+                `;
+            }
         } else {
-            // Streaming service embed
-            videoContainer.innerHTML = `
-                <iframe 
-                    src="${currentVideo.sourceUrl}" 
-                    class="video-player"
-                    frameborder="0" 
-                    allowtransparency="true"
-                    allow="encrypted-media; autoplay; clipboard-write; fullscreen; picture-in-picture"
-                    loading="lazy"
-                    style="border-radius: 12px;"
-                ></iframe>
-            `;
+            videoContainer.innerHTML = '<p style="color: var(--danger-color); text-align: center; padding: 2rem;">Не удалось загрузить музыкальный плеер</p>';
         }
         return;
     }
