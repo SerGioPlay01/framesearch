@@ -34,6 +34,12 @@ class FloatingActionsManager {
                 
                 <!-- Secondary Actions -->
                 <div class="fab-secondary" id="fabSecondary">
+                    <!-- Add Content -->
+                    <button class="fab-btn add-btn" id="addContentFabBtn" title="Добавить контент" aria-label="Добавить новое видео или музыку">
+                        <span class="fab-label" data-i18n="action.addVideo">Добавить контент</span>
+                        <i data-lucide="plus-circle"></i>
+                    </button>
+                    
                     <!-- Privacy Settings -->
                     <button class="fab-btn privacy-btn" id="privacyFabBtn" title="Настройки конфиденциальности" aria-label="Настройки конфиденциальности">
                         <span class="fab-label">Конфиденциальность</span>
@@ -65,14 +71,9 @@ class FloatingActionsManager {
                     </button>
                 </div>
                 
-                <!-- Menu Toggle Button -->
-                <button class="fab-menu-toggle" id="fabMenuToggle" title="Меню" aria-label="Открыть меню действий">
+                <!-- Main Menu Button -->
+                <button class="fab-main" id="fabMain" title="Меню" aria-label="Открыть меню действий">
                     <i data-lucide="menu"></i>
-                </button>
-                
-                <!-- Main Add Button -->
-                <button class="fab-main" id="fabMain" title="Добавить видео" aria-label="Добавить новое видео">
-                    <i data-lucide="plus"></i>
                 </button>
             </div>
         `;
@@ -92,7 +93,6 @@ class FloatingActionsManager {
         
         this.container = document.getElementById('floatingActions');
         this.mainButton = document.getElementById('fabMain');
-        this.menuToggle = document.getElementById('fabMenuToggle');
         this.secondaryActions = document.getElementById('fabSecondary');
         this.backdrop = document.getElementById('fabBackdrop');
         this.scrollTopButton = document.getElementById('scrollTopBtn');
@@ -104,15 +104,14 @@ class FloatingActionsManager {
     }
 
     attachEventListeners() {
-        // Main button - Open add video modal
+        // Main button - Toggle menu
         if (this.mainButton) {
             this.mainButton.addEventListener('click', (e) => {
                 e.stopPropagation();
-                // Open add video modal
-                if (typeof modal !== 'undefined' && modal.open) {
-                    modal.open();
+                if (this.isExpanded) {
+                    this.collapseSecondaryActions();
                 } else {
-                    logger.warn('Modal object not found');
+                    this.expandSecondaryActions();
                 }
             });
         }
@@ -124,15 +123,16 @@ class FloatingActionsManager {
             });
         }
 
-        // Menu toggle button - Toggle secondary actions
-        if (this.menuToggle) {
-            this.menuToggle.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (this.isExpanded) {
-                    this.collapseSecondaryActions();
+        // Add Content button
+        const addContentBtn = document.getElementById('addContentFabBtn');
+        if (addContentBtn) {
+            addContentBtn.addEventListener('click', () => {
+                if (typeof modal !== 'undefined' && modal.open) {
+                    modal.open();
                 } else {
-                    this.expandSecondaryActions();
+                    logger.warn('Modal object not found');
                 }
+                this.collapseSecondaryActions();
             });
         }
 
@@ -233,14 +233,14 @@ class FloatingActionsManager {
     expandSecondaryActions() {
         this.isExpanded = true;
         this.secondaryActions?.classList.add('expanded');
-        this.menuToggle?.classList.add('active');
+        this.mainButton?.classList.add('active');
         this.backdrop?.classList.add('active');
     }
 
     collapseSecondaryActions() {
         this.isExpanded = false;
         this.secondaryActions?.classList.remove('expanded');
-        this.menuToggle?.classList.remove('active');
+        this.mainButton?.classList.remove('active');
         this.backdrop?.classList.remove('active');
     }
 

@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (videoId) {
         await loadVideo(videoId);
     } else {
-        window.location.href = '/';
+        window.location.href = '/app';
     }
 });
 
@@ -52,7 +52,7 @@ async function loadVideo(videoId) {
         
         if (!currentVideo) {
             alert('Видео не найдено');
-            window.location.href = '/';
+            window.location.href = '/app';
             return;
         }
         
@@ -138,6 +138,37 @@ function loadVideoPlayer() {
     if (!videoContainer) return;
     
     logger.video('Loading video player', { sourceType: currentVideo.sourceType, video: currentVideo });
+    
+    // Check if it's music
+    if (currentVideo.sourceType === 'music' || currentVideo.sourceCategory === 'music') {
+        logger.music('Loading music player', currentVideo);
+        
+        if (currentVideo.musicPlatform === 'direct') {
+            // Direct audio file
+            videoContainer.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: center; min-height: 200px; background: rgba(0,0,0,0.3); border-radius: 12px;">
+                    <audio controls style="width: 90%; max-width: 600px;">
+                        <source src="${currentVideo.sourceUrl}" type="${currentVideo.audioType || 'audio/mpeg'}">
+                        Ваш браузер не поддерживает аудио элемент.
+                    </audio>
+                </div>
+            `;
+        } else {
+            // Streaming service embed
+            videoContainer.innerHTML = `
+                <iframe 
+                    src="${currentVideo.sourceUrl}" 
+                    class="video-player"
+                    frameborder="0" 
+                    allowtransparency="true"
+                    allow="encrypted-media; autoplay; clipboard-write; fullscreen; picture-in-picture"
+                    loading="lazy"
+                    style="border-radius: 12px;"
+                ></iframe>
+            `;
+        }
+        return;
+    }
     
     if (currentVideo.sourceType === 'vibix') {
         // Vibix player
@@ -464,7 +495,7 @@ function initActionButtons() {
                     }
                     
                     alert('Контент удален');
-                    window.location.href = '/';
+                    window.location.href = '/app';
                 } catch (error) {
                     logger.error('Error deleting video', error);
                     alert('Ошибка при удалении');

@@ -84,41 +84,6 @@
 }
 
 .fab-main.active i {
-    transform: rotate(45deg);
-}
-
-/* ===== MENU TOGGLE BUTTON ===== */
-.fab-menu-toggle {
-    width: 48px;
-    height: 48px;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    margin-bottom: 0.75rem;
-}
-
-.fab-menu-toggle:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-}
-
-.fab-menu-toggle i {
-    width: 20px;
-    height: 20px;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.fab-menu-toggle.active i {
     transform: rotate(90deg);
 }
 
@@ -171,11 +136,11 @@
 }
 
 .fab-secondary.expanded .fab-btn:nth-child(1) {
-    transition-delay: 0.05s;
+    transition-delay: 0.25s;
 }
 
 .fab-secondary.expanded .fab-btn:nth-child(2) {
-    transition-delay: 0.1s;
+    transition-delay: 0.2s;
 }
 
 .fab-secondary.expanded .fab-btn:nth-child(3) {
@@ -183,11 +148,15 @@
 }
 
 .fab-secondary.expanded .fab-btn:nth-child(4) {
-    transition-delay: 0.2s;
+    transition-delay: 0.1s;
 }
 
 .fab-secondary.expanded .fab-btn:nth-child(5) {
-    transition-delay: 0.25s;
+    transition-delay: 0.05s;
+}
+
+.fab-secondary.expanded .fab-btn:nth-child(6) {
+    transition-delay: 0s;
 }
 
 .fab-btn:hover {

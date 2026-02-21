@@ -130,6 +130,10 @@ class ModalManager {
                                     <i data-lucide="share-2"></i>
                                     Соцсети
                                 </button>
+                                <button class="source-tab" data-source="music">
+                                    <i data-lucide="music"></i>
+                                    Музыка
+                                </button>
                                 <button class="source-tab" data-source="custom">
                                     <i data-lucide="code"></i>
                                     Кастомный iframe
@@ -253,6 +257,63 @@ class ModalManager {
                                 </div>
                                 
                                 <div id="socialPreview" class="iframe-preview"></div>
+                            </div>
+
+                            <!-- Music Source -->
+                            <div class="source-content" id="musicSource" style="display: none;">
+                                <div class="form-group">
+                                    <label>Музыкальная платформа</label>
+                                    <select id="musicPlatform" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white;">
+                                        <option value="spotify">Spotify</option>
+                                        <option value="yandex">Яндекс.Музыка</option>
+                                        <option value="soundcloud">SoundCloud</option>
+                                        <option value="vk">VK Музыка</option>
+                                        <option value="apple">Apple Music</option>
+                                        <option value="deezer">Deezer</option>
+                                        <option value="direct">Прямая ссылка на аудио</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Streaming Services -->
+                                <div class="music-option" id="streamingOption">
+                                    <div class="form-group">
+                                        <label>URL трека, альбома или плейлиста</label>
+                                        <input type="url" id="musicUrl" placeholder="https://open.spotify.com/track/...">
+                                        <p class="help-text">Вставьте ссылку на трек, альбом, плейлист или исполнителя</p>
+                                    </div>
+                                    
+                                    <div class="music-examples" style="margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 8px; font-size: 0.875rem;">
+                                        <p style="margin-bottom: 0.5rem; color: var(--text-secondary);"><strong>Примеры ссылок:</strong></p>
+                                        <ul style="margin: 0; padding-left: 1.5rem; color: var(--text-secondary); line-height: 1.6;">
+                                            <li><strong>Spotify:</strong> https://open.spotify.com/track/...</li>
+                                            <li><strong>Яндекс.Музыка:</strong> https://music.yandex.ru/album/.../track/...</li>
+                                            <li><strong>SoundCloud:</strong> https://soundcloud.com/artist/track</li>
+                                            <li><strong>VK:</strong> https://vk.com/audio...</li>
+                                            <li><strong>Apple Music:</strong> https://music.apple.com/...</li>
+                                            <li><strong>Deezer:</strong> https://deezer.com/track/...</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <!-- Direct Audio Link -->
+                                <div class="music-option" id="directAudioOption" style="display: none;">
+                                    <div class="form-group">
+                                        <label>Прямая ссылка на аудиофайл</label>
+                                        <input type="url" id="directAudioUrl" placeholder="https://example.com/audio.mp3">
+                                        <p class="help-text">Поддерживаются форматы: MP3, WAV, OGG, FLAC</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Тип аудио</label>
+                                        <select id="directAudioType" style="width: 100%; padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white;">
+                                            <option value="audio/mpeg">MP3</option>
+                                            <option value="audio/wav">WAV</option>
+                                            <option value="audio/ogg">OGG</option>
+                                            <option value="audio/flac">FLAC</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div id="musicPreview" class="iframe-preview"></div>
                             </div>
 
                             <!-- Custom Iframe Source -->
@@ -391,6 +452,13 @@ class ModalManager {
 
         // Custom iframe preview
         document.getElementById('customIframe').addEventListener('input', () => this.previewCustom());
+
+        // Music platform selector
+        document.getElementById('musicPlatform').addEventListener('change', (e) => this.handleMusicPlatformChange(e));
+        
+        // Music URL preview
+        document.getElementById('musicUrl').addEventListener('input', () => this.previewMusic());
+        document.getElementById('directAudioUrl').addEventListener('input', () => this.previewDirectAudio());
 
         // Episodes
         document.getElementById('addEpisodeBtn').addEventListener('click', () => this.showEpisodeForm());
@@ -798,6 +866,32 @@ class ModalManager {
                 const match = rutubeId.match(rutubeRegex);
                 if (match) rutubeId = match[1];
                 this.videoData.sourceUrl = `https://rutube.ru/play/embed/${rutubeId}`;
+            }
+        } else if (sourceType === 'music') {
+            const musicPlatform = document.getElementById('musicPlatform').value;
+            this.videoData.sourceType = 'music';
+            this.videoData.musicPlatform = musicPlatform;
+            
+            if (musicPlatform === 'direct') {
+                // Direct audio file
+                this.videoData.sourceUrl = document.getElementById('directAudioUrl').value.trim();
+                this.videoData.audioType = document.getElementById('directAudioType').value;
+            } else {
+                // Streaming service
+                const musicUrl = document.getElementById('musicUrl').value.trim();
+                
+                if (typeof musicSourcesManager !== 'undefined') {
+                    const embedData = musicSourcesManager.generateEmbed(musicUrl);
+                    if (embedData) {
+                        this.videoData.sourceUrl = embedData.embedUrl;
+                        this.videoData.musicType = embedData.type;
+                        this.videoData.originalMusicUrl = embedData.originalUrl;
+                    } else {
+                        this.videoData.sourceUrl = musicUrl;
+                    }
+                } else {
+                    this.videoData.sourceUrl = musicUrl;
+                }
             }
         } else if (sourceType === 'custom') {
             this.videoData.sourceType = 'custom';
@@ -1239,6 +1333,7 @@ class ModalManager {
             'balancer': 'balancer',      // Видеобалансер
             'direct': 'direct',          // Прямая ссылка
             'social': 'social',          // Соцсети
+            'music': 'music',            // Музыка
             'custom': 'custom'           // Кастомный iframe
         };
         
@@ -1365,6 +1460,84 @@ class ModalManager {
 
         // Sanitize and display
         preview.innerHTML = iframeCode;
+    }
+
+    // Handle music platform change
+    handleMusicPlatformChange(e) {
+        const platform = e.target.value;
+
+        document.querySelectorAll('.music-option').forEach(option => {
+            option.style.display = 'none';
+        });
+
+        if (platform === 'direct') {
+            document.getElementById('directAudioOption').style.display = 'block';
+        } else {
+            document.getElementById('streamingOption').style.display = 'block';
+        }
+
+        // Clear preview
+        document.getElementById('musicPreview').innerHTML = '';
+    }
+
+    // Preview music
+    previewMusic() {
+        const url = document.getElementById('musicUrl').value.trim();
+        const preview = document.getElementById('musicPreview');
+
+        if (!url) {
+            preview.innerHTML = '';
+            return;
+        }
+
+        // Check if music sources manager is available
+        if (typeof musicSourcesManager === 'undefined') {
+            preview.innerHTML = '<p style="color: var(--danger-color);">Ошибка: Music Sources Manager не загружен</p>';
+            logger.error('Music Sources Manager not loaded');
+            return;
+        }
+
+        // Generate embed
+        const embedData = musicSourcesManager.generateEmbed(url);
+
+        if (!embedData) {
+            preview.innerHTML = '<p style="color: var(--danger-color);">Неподдерживаемая ссылка. Проверьте формат URL.</p>';
+            return;
+        }
+
+        // Create iframe
+        const iframe = musicSourcesManager.createIframe(embedData);
+
+        if (iframe) {
+            preview.innerHTML = `
+                <div style="margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">
+                    <strong>Платформа:</strong> ${embedData.platformName} | <strong>Тип:</strong> ${embedData.type}
+                </div>
+                ${iframe}
+            `;
+            logger.success('Music preview generated', embedData);
+        } else {
+            preview.innerHTML = '<p style="color: var(--danger-color);">Не удалось создать превью</p>';
+        }
+    }
+
+    // Preview direct audio
+    previewDirectAudio() {
+        const url = document.getElementById('directAudioUrl').value.trim();
+        const audioType = document.getElementById('directAudioType').value;
+        const preview = document.getElementById('musicPreview');
+
+        if (!url) {
+            preview.innerHTML = '';
+            return;
+        }
+
+        preview.innerHTML = `
+            <audio controls style="width: 100%; margin-top: 1rem;">
+                <source src="${url}" type="${audioType}">
+                Ваш браузер не поддерживает аудио элемент.
+            </audio>
+        `;
     }
 }
 
