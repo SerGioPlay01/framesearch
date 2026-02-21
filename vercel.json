@@ -5,6 +5,10 @@
       "destination": "/landing.html"
     },
     {
+      "source": "/app.html",
+      "destination": "/landing.html"
+    },
+    {
       "source": "/video_id",
       "destination": "/video_id.html"
     },
@@ -33,14 +37,7 @@
       "destination": "/disclaimer.html"
     }
   ],
-  "redirects": [
-    {
-      "source": "/landing.html",
-      "destination": "/app",
-      "permanent": false
-    }
-  ],
-  "cleanUrls": true,
+  "cleanUrls": false,
   "trailingSlash": false,
   "headers": [
     {

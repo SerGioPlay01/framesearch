@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<!--
+  Framesearch - Персональное видеохранилище
+  
+  Автор: SerGioPlay
+  GitHub: https://github.com/SerGioPlay01
+  Проект: https://github.com/SerGioPlay01/framesearch
+  Сайт: https://sergioplay-dev.vercel.app/
+  
+  © 2026 Framesearch.  
+-->
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Framesearch - Персональное видеохранилище | Управление коллекцией видео</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Framesearch - современное персональное видеохранилище для управления коллекцией видео, фильмов, сериалов и аниме. Локальное хранение, PWA приложение, умный поиск, коллекции и обмен данными без серверов.">
+    <meta name="keywords" content="видеохранилище, управление видео, коллекция фильмов, сериалы, аниме, PWA приложение, локальное хранение, IndexedDB, видеобалансеры, организация видео, каталог видео, личная медиатека">
+    <meta name="author" content="SerGioPlay">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="Russian">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://framesearch-lac.vercel.app/">
+    <meta property="og:title" content="Framesearch - Персональное видеохранилище">
+    <meta property="og:description" content="Организуйте и управляйте видеоконтентом из различных источников. Локальное хранение, PWA приложение, умный поиск и коллекции.">
+    <meta property="og:image" content="https://framesearch-lac.vercel.app/preview.jpg">
+    <meta property="og:site_name" content="Framesearch">
+    <meta property="og:locale" content="ru_RU">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://framesearch-lac.vercel.app/">
+    <meta property="twitter:title" content="Framesearch - Персональное видеохранилище">
+    <meta property="twitter:description" content="Организуйте и управляйте видеоконтентом из различных источников. Локальное хранение, PWA приложение, умный поиск и коллекции.">
+    <meta property="twitter:image" content="https://framesearch-lac.vercel.app/preview.jpg">
+    
+    <!-- Additional SEO -->
+    <link rel="canonical" href="https://framesearch-lac.vercel.app/">
+    <meta name="application-name" content="Framesearch">
+    <meta name="msapplication-TileColor" content="#a5b4fc">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#a5b4fc">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Framesearch">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Vibix SDK -->
+    <script src="https://graphicslab.io/sdk/v2/rendex-sdk.min.js"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Prevent FOUC - Load theme immediately -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('framesearch-theme') || 'default';
+            const customColors = localStorage.getItem('framesearch-custom-colors');
+            
+            const themes = {
+                default: {
+                    '--bg-primary': '#0f172a',
+                    '--bg-secondary': '#1e293b',
+                    '--bg-tertiary': '#334155',
+                    '--text-primary': '#ffffff',
+                    '--text-secondary': '#cbd5e1',
+                    '--accent-primary': '#a5b4fc',
+                    '--accent-secondary': '#818cf8',
+                    '--glass-bg': 'rgba(30, 41, 59, 0.4)',
+                    '--glass-border': 'rgba(255, 255, 255, 0.05)',
+                    '--overlay-start': 'rgba(15, 23, 42, 0.3)',
+                    '--overlay-end': 'rgba(15, 23, 42, 0.95)',
+                    '--card-hover-scale': '1.05',
+                    '--border-radius': '12px',
+                    '--shadow-color': 'rgba(0, 0, 0, 0.3)',
+                    '--btn-primary-bg': '#a5b4fc',
+                    '--btn-primary-hover': '#818cf8',
+                    '--btn-secondary-bg': 'rgba(255, 255, 255, 0.05)',
+                    '--btn-secondary-hover': 'rgba(255, 255, 255, 0.1)',
+                    '--danger-color': '#ef4444',
+                    '--danger-hover': '#dc2626',
+                    '--success-color': '#10b981',
+                    '--success-hover': '#059669',
+                    '--overlay-dark': 'rgba(0, 0, 0, 0.8)',
+                    '--overlay-light': 'rgba(255, 255, 255, 0.1)'
+                }
+            };
+            
+            let colors;
+            if (savedTheme === 'custom' && customColors) {
+                try {
+                    colors = JSON.parse(customColors);
+                } catch (e) {
+                    colors = themes.default;
+                }
+            } else {
+                colors = themes.default;
+            }
+            
+            const root = document.documentElement;
+            Object.entries(colors).forEach(([property, value]) => {
+                root.style.setProperty(property, value);
+            });
+            
+            root.classList.add('theme-loaded');
+        })();
+    </script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/preloader.css">
+    <link rel="stylesheet" href="styles/keyboard-fix.css">
+    <link rel="stylesheet" href="styles/overflow-fix.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/modal.css">
+    <link rel="stylesheet" href="styles/touch.css">
+    <link rel="stylesheet" href="styles/tablet.css">
+    <link rel="stylesheet" href="styles/view-modes.css">
+    <link rel="stylesheet" href="styles/floating-actions.css">
+    <link rel="stylesheet" href="styles/home.css">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Structured Data / JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Framesearch",
+      "description": "Персональное видеохранилище для управления коллекцией видео, фильмов, сериалов и аниме",
+      "url": "https://framesearch-lac.vercel.app/",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "SerGioPlay",
+        "url": "https://sergioplay-dev.vercel.app/"
+      },
+      "featureList": [
+        "Локальное хранение данных в IndexedDB",
+        "PWA приложение для оффлайн работы",
+        "Поддержка 4 типов источников видео",
+        "Умный поиск по коллекции",
+        "Организация в коллекции",
+        "6 готовых тем оформления",
+        "Обмен данными по коду",
+        "Горячие клавиши",
+        "Полная приватность без серверов"
+      ],
+      "screenshot": "https://framesearch-lac.vercel.app/preview.jpg",
+      "softwareVersion": "1.0.0",
+      "datePublished": "2026-01-01",
+      "inLanguage": ["ru", "en"]
+    }
+    </script>
+</head>
+<body>
+
+    <!-- Background Elements -->
+    <div class="bg-cinematic"></div>
+    <div class="bg-overlay"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar glass" id="navbar">
+        <div class="navbar-container">
+            <div class="navbar-content">
+                <!-- Logo -->
+                <a href="/" class="logo">
+                    Frame<span class="logo-accent">search</span>
+                </a>
+
+                <!-- Search & Profile -->
+                <div class="nav-actions">
+                    <div class="search-box">
+                        <input type="text" placeholder="Поиск..." class="search-input" data-i18n="search.placeholder">
+                        <i data-lucide="search" class="search-icon"></i>
+                    </div>
+                    
+                    <!-- Language Switcher -->
+                    <div class="language-switcher">
+                        <button class="lang-btn" id="langBtn" title="Change Language">
+                            <i data-lucide="languages"></i>
+                            <span id="currentLang">RU</span>
+                        </button>
+                        <div class="lang-dropdown" id="langDropdown">
+                            <button class="lang-option" data-lang="ru">
+                                <span class="lang-flag">🇷🇺</span>
+                                <span>Русский</span>
+                            </button>
+                            <button class="lang-option" data-lang="en">
+                                <span class="lang-flag">🇬🇧</span>
+                                <span>English</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="avatar"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        
+        <!-- Empty State / Welcome Screen -->
+        <section class="empty-state" style="display: none;">
+            <div class="welcome-container glass animate-fade-in">
+                <div class="welcome-icon">
+                    <i data-lucide="film"></i>
+                </div>
+                
+                <h1 class="welcome-title" data-i18n="welcome.title">Добро пожаловать в Framesearch</h1>
+                <p class="welcome-description" data-i18n="welcome.subtitle">
+                    Организуйте и управляйте видеоконтентом из различных источников
+                </p>
+
+                <div class="welcome-features">
+                    <div class="feature-item">
+                        <i data-lucide="database"></i>
+                        <h3 data-i18n="welcome.feature.storage">Локальное хранение</h3>
+                        <p data-i18n="welcome.feature.storage.desc">IndexedDB для быстрого доступа без серверов</p>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="smartphone"></i>
+                        <h3 data-i18n="welcome.feature.pwa">PWA приложение</h3>
+                        <p data-i18n="welcome.feature.pwa.desc">Установите и работайте оффлайн</p>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="link"></i>
+                        <h3 data-i18n="welcome.feature.sources">4 типа источников</h3>
+                        <p data-i18n="welcome.feature.sources.desc">Балансеры, прямые ссылки, соцсети, кастомный iframe</p>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="search"></i>
+                        <h3 data-i18n="welcome.feature.search">Умный поиск</h3>
+                        <p data-i18n="welcome.feature.search.desc">Мгновенный поиск по всей коллекции</p>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="folder"></i>
+                        <h3 data-i18n="welcome.feature.collections">Коллекции</h3>
+                        <p data-i18n="welcome.feature.collections.desc">Организуйте видео в тематические папки</p>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="palette"></i>
+                        <h3 data-i18n="welcome.feature.themes">Темы оформления</h3>
+                        <p data-i18n="welcome.feature.themes.desc">6 готовых тем + полная кастомизация</p>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="share-2"></i>
+                        <h3 data-i18n="welcome.feature.share">Обмен данными</h3>
+                        <p data-i18n="welcome.feature.share.desc">Делитесь коллекциями по коду</p>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="shield"></i>
+                        <h3 data-i18n="welcome.feature.privacy">Приватность</h3>
+                        <p data-i18n="welcome.feature.privacy.desc">Без серверов, без отслеживания</p>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="keyboard"></i>
+                        <h3 data-i18n="welcome.feature.hotkeys">Горячие клавиши</h3>
+                        <p data-i18n="welcome.feature.hotkeys.desc">Ctrl+K для поиска, Ctrl+N для добавления</p>
+                    </div>
+                </div>
+
+                <div class="welcome-actions">
+                    <button class="btn btn-primary btn-large" onclick="modal.open()">
+                        <i data-lucide="plus"></i>
+                        <span data-i18n="welcome.add">Добавить первое видео</span>
+                    </button>
+                    <button class="btn btn-secondary btn-large" onclick="showInstructions()">
+                        <i data-lucide="book-open"></i>
+                        <span data-i18n="guide.title">Инструкция</span>
+                    </button>
+                </div>
+
+                <div class="use-cases-section">
+                    <h3 data-i18n="usecase.title">Примеры использования</h3>
+                    <p class="use-cases-intro" data-i18n="usecase.intro">Framesearch идеально подходит для различных сценариев организации видеоконтента</p>
+                    
+                    <div class="use-cases-grid">
+                        <div class="use-case-card">
+                            <div class="use-case-icon">
+                                <i data-lucide="tv"></i>
+                            </div>
+                            <h4 data-i18n="usecase.library.title">Личная медиатека</h4>
+                            <p data-i18n="usecase.library.desc">Создайте каталог всех видео и сериалов, которые вы хотите посмотреть. Добавляйте ссылки на видеобалансеры, сохраняйте постеры и описания.</p>
+                            <div class="use-case-example">
+                                <strong>Пример:</strong> <span data-i18n="usecase.library.example">Коллекция "К просмотру" с видео из списка IMDb Top 250</span>
+                            </div>
+                        </div>
+
+                        <div class="use-case-card">
+                            <div class="use-case-icon">
+                                <i data-lucide="users"></i>
+                            </div>
+                            <h4 data-i18n="usecase.family.title">Семейная коллекция</h4>
+                            <p data-i18n="usecase.family.desc">Организуйте семейное видео по категориям: детские мультфильмы, семейные комедии, образовательные видео. Делитесь коллекциями между устройствами.</p>
+                            <div class="use-case-example">
+                                <strong>Пример:</strong> <span data-i18n="usecase.family.example">Папки "Для детей", "Семейный вечер", "Образовательное"</span>
+                            </div>
+                        </div>
+
+                        <div class="use-case-card">
+                            <div class="use-case-icon">
+                                <i data-lucide="heart"></i>
+                            </div>
+                            <h4 data-i18n="usecase.thematic.title">Тематические подборки</h4>
+                            <p data-i18n="usecase.thematic.desc">Создавайте коллекции по жанрам, режиссерам или настроению. Отмечайте избранное, добавляйте рейтинги и заметки.</p>
+                            <div class="use-case-example">
+                                <strong>Пример:</strong> <span data-i18n="usecase.thematic.example">"Классика кино", "Для вечера пятницы", "Документальное"</span>
+                            </div>
+                        </div>
+
+                        <div class="use-case-card">
+                            <div class="use-case-icon">
+                                <i data-lucide="graduation-cap"></i>
+                            </div>
+                            <h4 data-i18n="usecase.education.title">Образовательный контент</h4>
+                            <p data-i18n="usecase.education.desc">Собирайте обучающие видео, лекции, курсы. Организуйте по темам и отслеживайте прогресс просмотра.</p>
+                            <div class="use-case-example">
+                                <strong>Пример:</strong> <span data-i18n="usecase.education.example">Курсы программирования, языковые уроки, научные лекции</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-start-section">
+                    <h3 data-i18n="quickstart.title">Быстрый старт</h3>
+                    <div class="quick-start-grid">
+                        <div class="step-card">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4 data-i18n="quickstart.step1.title">Добавьте видео</h4>
+                                <p data-i18n="quickstart.step1.desc">Нажмите кнопку "+" и заполните информацию о видео или сериале</p>
+                            </div>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4 data-i18n="quickstart.step2.title">Выберите источник</h4>
+                                <p data-i18n="quickstart.step2.desc">4 варианта: балансеры (Kodik, Vibix и др.), прямые ссылки, соцсети (YouTube, VK, RuTube) или кастомный iframe</p>
+                            </div>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4 data-i18n="quickstart.step3.title">Создайте коллекции</h4>
+                                <p data-i18n="quickstart.step3.desc">Организуйте видео в тематические папки для удобной навигации</p>
+                            </div>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4 data-i18n="quickstart.step4.title">Настройте под себя</h4>
+                                <p data-i18n="quickstart.step4.desc">Выберите тему оформления и установите приложение для оффлайн доступа</p>
+                            </div>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">💡</div>
+                            <div class="step-content">
+                                <h4 data-i18n="quickstart.pwa.title">Установка PWA</h4>
+                                <p data-i18n="quickstart.pwa.desc">Установите приложение на устройство для быстрого доступа</p>
+                            </div>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">🔒</div>
+                            <div class="step-content">
+                                <h4 data-i18n="quickstart.encryption.title">Шифрование</h4>
+                                <p data-i18n="quickstart.encryption.desc">Экспортируйте данные с паролем для безопасного обмена</p>
+                            </div>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">⚡</div>
+                            <div class="step-content">
+                                <h4 data-i18n="quickstart.search.title">Быстрый поиск</h4>
+                                <p data-i18n="quickstart.search.desc">Используйте поиск по названию, жанру или году</p>
+                            </div>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">⭐</div>
+                            <div class="step-content">
+                                <h4 data-i18n="quickstart.favorites.title">Избранное</h4>
+                                <p data-i18n="quickstart.favorites.desc">Отмечайте любимое видео для быстрого доступа</p>
+                            </div>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">⌨️</div>
+                            <div class="step-content">
+                                <h4 data-i18n="quickstart.hotkeys.title">Горячие клавиши</h4>
+                                <p data-i18n="quickstart.hotkeys.desc">Ctrl+K для поиска, Ctrl+N для добавления, Esc для закрытия</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Action Buttons (shown when there's content) -->
+        <section class="action-buttons" style="display: none;">
+            <div class="action-buttons-container animate-fade-in">
+                <button class="action-card glass-card" onclick="modal.open()">
+                    <i data-lucide="plus-circle"></i>
+                    <div class="action-card-content">
+                        <h3 data-i18n="action.addVideo">Добавить видео</h3>
+                        <p data-i18n="action.addVideo.desc">Видео, сериал или аниме</p>
+                    </div>
+                </button>
+                
+                <button class="action-card glass-card" onclick="collectionsManager.open()">
+                    <i data-lucide="folder-plus"></i>
+                    <div class="action-card-content">
+                        <h3 data-i18n="action.createCollection">Создать коллекцию</h3>
+                        <p data-i18n="action.createCollection.desc">Организовать видео</p>
+                    </div>
+                </button>
+                
+                <button class="action-card glass-card" onclick="window.location.href='/search_results'">
+                    <i data-lucide="search"></i>
+                    <div class="action-card-content">
+                        <h3 data-i18n="action.search">Поиск</h3>
+                        <p data-i18n="action.search.desc">Найти в коллекции</p>
+                    </div>
+                </button>
+                
+                <button class="action-card glass-card" onclick="importManager.open()">
+                    <i data-lucide="upload"></i>
+                    <div class="action-card-content">
+                        <h3 data-i18n="action.import">Импорт</h3>
+                        <p data-i18n="action.import.desc">Загрузить из файла</p>
+                    </div>
+                </button>
+            </div>
+        </section>
+
+        <!-- Collections -->
+        <div class="collections-container" style="display: none;">
+            <div class="section-header animate-fade-in">
+                <h2 class="section-title" data-i18n="collections.title">Коллекции</h2>
+                <button class="btn btn-primary" onclick="collectionsManager.open()">
+                    <i data-lucide="folder-plus"></i>
+                    <span data-i18n="collections.create">Создать коллекцию</span>
+                </button>
+            </div>
+            <div class="collections-grid">
+                <!-- Collections will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Categories / Filters -->
+        <div id="mainSectionHeader" class="section-header animate-fade-in delay-100" style="display: none;">
+            <h2 class="section-title" data-i18n="nav.collections">Моя коллекция</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all" data-i18n="filter.all">Все</button>
+                <button class="filter-btn" data-filter="balancer" data-i18n="filter.balancer">Балансеры</button>
+                <button class="filter-btn" data-filter="direct" data-i18n="filter.direct">Прямые ссылки</button>
+                <button class="filter-btn" data-filter="social" data-i18n="filter.social">Соцсети</button>
+                <button class="filter-btn" data-filter="custom" data-i18n="filter.custom">Custom</button>
+                <button class="filter-btn" data-filter="favorites" data-i18n="filter.favorites">Избранное</button>
+            </div>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="cards-grid" style="display: none;">
+            <!-- Cards will be loaded dynamically from IndexedDB -->
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer glass">
+        <div class="footer-container">
+            <div class="footer-content">
+                <!-- About -->
+                <div class="footer-section">
+                    <h3 data-i18n="footer.title">Framesearch</h3>
+                    <p data-i18n="footer.tagline">Локальное хранилище для вашей видеоколлекции</p>
+                    
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 0.5rem; border: 1px solid rgba(255, 255, 255, 0.1);">
+                        <p style="font-size: 0.875rem; color: #9ca3af; margin: 0 0 0.75rem 0;" data-i18n="footer.author">Разработчик:</p>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <a href="https://sergioplay-dev.vercel.app/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; transition: all 0.3s;">
+                                <i data-lucide="globe" style="width: 16px; height: 16px;"></i>
+                                <span>SerGioPlay</span>
+                            </a>
+                            <a href="https://github.com/SerGioPlay01" target="_blank" rel="noopener noreferrer" style="color: var(--accent-primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; transition: all 0.3s;">
+                                <i data-lucide="github" style="width: 16px; height: 16px;"></i>
+                                <span>GitHub Profile</span>
+                            </a>
+                            <a href="https://github.com/SerGioPlay01/framesearch" target="_blank" rel="noopener noreferrer" style="color: var(--accent-primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; transition: all 0.3s;">
+                                <i data-lucide="code" style="width: 16px; height: 16px;"></i>
+                                <span data-i18n="footer.links">Исходный код</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links" style="margin-top: 1.5rem;">
+                        <a href="https://vk.com/framesearch_ru" target="_blank" class="social-link" aria-label="VK">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8.5h4.5L9 4l3 9 3-9 2.5 4.5H22"/></svg>
+                        </a>
+                        <a href="https://t.me/framesearch_ru" target="_blank" class="social-link" aria-label="Telegram">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                        </a>
+                    </div>
+                    <button class="btn btn-primary" onclick="importManager.open()" style="margin-top: 1.5rem; width: 100%;">
+                        <i data-lucide="download"></i>
+                        <span data-i18n="btn.import">Импорт контента</span>
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-links">
+                    <a href="terms.html" data-i18n="footer.terms">Условия использования</a>
+                    <a href="privacy.html" data-i18n="footer.privacy">Политика конфиденциальности</a>
+                    <a href="cookies.html" data-i18n="footer.cookies">Cookies</a>
+                    <a href="license.html" data-i18n="footer.license">Лицензии</a>
+                    <a href="disclaimer.html" data-i18n="footer.disclaimer">Отказ от ответственности</a>
+                </div>
+                <p class="copyright" data-i18n="footer.copyright"></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="scripts/logger.js"></script>
+    <script src="scripts/preloader.js"></script>
+    <script src="scripts/url-cleaner.js"></script>
+    <script src="scripts/pwa.js"></script>
+    <script src="scripts/db.js"></script>
+    <script src="scripts/dialog.js"></script>
+    <script src="scripts/cookie-consent.js"></script>
+    <script src="scripts/i18n.js"></script>
+    <script src="scripts/theme.js"></script>
+    <script src="scripts/modal.js"></script>
+    <script src="scripts/share.js"></script>
+    <script src="scripts/import.js"></script>
+    <script src="scripts/collections.js"></script>
+    <script src="scripts/scrollbar.js"></script>
+    <script src="scripts/responsive.js"></script>
+    <script src="scripts/view-modes.js"></script>
+    <script src="scripts/floating-actions.js"></script>
+    <script src="scripts/main.js"></script>
+    
+    <script>
+        // Language switcher functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const langBtn = document.getElementById('langBtn');
+            const langDropdown = document.getElementById('langDropdown');
+            const currentLangSpan = document.getElementById('currentLang');
+            const langOptions = document.querySelectorAll('.lang-option');
+            
+            // Update current language display
+            const updateCurrentLang = () => {
+                const lang = i18n.getCurrentLanguage();
+                currentLangSpan.textContent = lang.toUpperCase();
+                
+                // Update active state
+                langOptions.forEach(option => {
+                    if (option.dataset.lang === lang) {
+                        option.classList.add('active');
+                    } else {
+                        option.classList.remove('active');
+                    }
+                });
+            };
+            
+            // Toggle dropdown
+            langBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                langDropdown.classList.toggle('active');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', () => {
+                langDropdown.classList.remove('active');
+            });
+            
+            // Language selection
+            langOptions.forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const lang = option.dataset.lang;
+                    i18n.setLanguage(lang);
+                    updateCurrentLang();
+                    langDropdown.classList.remove('active');
+                });
+            });
+            
+            // Initialize
+            updateCurrentLang();
+        });
+    </script>
+    
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+        
+        ym(106947056, 'init', {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true,
+            ecommerce:"dataLayer"
+        });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/106947056" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+</body>
+</html>
