@@ -412,8 +412,251 @@
 }
 
 /* Responsive */
+
+/* Mobile First - Extra Small Devices */
+@media (max-width: 374px) {
+    .video-title {
+        font-size: 1.25rem;
+    }
+    
+    .video-meta {
+        font-size: 0.75rem;
+        gap: 0.5rem;
+    }
+    
+    .video-actions {
+        gap: 0.5rem;
+    }
+    
+    .action-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+        flex: 1;
+        min-width: auto;
+    }
+    
+    .action-btn i {
+        width: 14px;
+        height: 14px;
+    }
+    
+    .description-card,
+    .episodes-section {
+        padding: 1rem;
+    }
+    
+    .description-card h3,
+    .episodes-section h3 {
+        font-size: 1rem;
+    }
+    
+    .description-card p {
+        font-size: 0.875rem;
+    }
+    
+    .description-details {
+        gap: 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .episodes-grid {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+    
+    .episode-item {
+        padding: 0.625rem;
+        gap: 0.5rem;
+    }
+    
+    .episode-number {
+        width: 2rem;
+        height: 2rem;
+        font-size: 0.75rem;
+    }
+    
+    .episode-title {
+        font-size: 0.8rem;
+    }
+    
+    .episode-duration {
+        font-size: 0.7rem;
+    }
+    
+    .video-container {
+        border-radius: 0.5rem;
+    }
+    
+    .video-play-btn {
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+    
+    .video-play-btn i {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+}
+
+/* Small Mobile Devices */
+@media (min-width: 375px) and (max-width: 639px) {
+    .video-title {
+        font-size: 1.375rem;
+    }
+    
+    .video-meta {
+        font-size: 0.8rem;
+        gap: 0.75rem;
+    }
+    
+    .video-actions {
+        gap: 0.625rem;
+    }
+    
+    .action-btn {
+        padding: 0.5rem 1.125rem;
+        font-size: 0.8rem;
+    }
+    
+    .action-btn i {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .description-card,
+    .episodes-section {
+        padding: 1.25rem;
+    }
+    
+    .description-card h3,
+    .episodes-section h3 {
+        font-size: 1.05rem;
+    }
+    
+    .description-details {
+        gap: 1.25rem;
+    }
+    
+    .episodes-grid {
+        grid-template-columns: 1fr;
+        gap: 0.625rem;
+    }
+    
+    .episode-item {
+        padding: 0.75rem;
+    }
+    
+    .episode-number {
+        width: 2.25rem;
+        height: 2.25rem;
+    }
+    
+    .video-play-btn {
+        width: 4rem;
+        height: 4rem;
+    }
+    
+    .video-play-btn i {
+        width: 1.75rem;
+        height: 1.75rem;
+    }
+}
+
+/* Tablets Portrait */
+@media (min-width: 640px) and (max-width: 767px) {
+    .video-title {
+        font-size: 1.5rem;
+    }
+    
+    .video-actions {
+        flex-wrap: wrap;
+    }
+    
+    .action-btn {
+        flex: 1;
+        min-width: 140px;
+    }
+    
+    .episodes-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .description-details {
+        flex-wrap: wrap;
+    }
+}
+
+/* Tablets Landscape and Desktop */
 @media (min-width: 768px) {
     .episodes-grid {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+    
+    .video-actions {
+        flex-wrap: wrap;
+    }
+    
+    .video-container {
+        border-radius: 1rem;
+    }
+}
+
+/* Large Tablets and Small Desktop */
+@media (min-width: 1024px) {
+    .episodes-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+    
+    .video-title {
+        font-size: 2rem;
+    }
+}
+
+/* Landscape Orientation for Mobile */
+@media (max-width: 896px) and (orientation: landscape) {
+    .video-section {
+        margin-bottom: 1rem;
+    }
+    
+    .video-container {
+        border-radius: 0.5rem;
+    }
+    
+    .video-title {
+        font-size: 1.25rem;
+    }
+    
+    .video-meta {
+        font-size: 0.75rem;
+        gap: 0.5rem;
+    }
+    
+    .video-actions {
+        gap: 0.5rem;
+    }
+    
+    .action-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .description-card,
+    .episodes-section {
+        padding: 1rem;
+    }
+    
+    .episodes-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .episode-item {
+        padding: 0.625rem;
+        gap: 0.5rem;
+    }
+    
+    .episode-number {
+        width: 2rem;
+        height: 2rem;
     }
 }
