@@ -1490,35 +1490,41 @@ class ModalManager {
             return;
         }
 
-        // Check if music sources manager is available
-        if (typeof musicSourcesManager === 'undefined') {
-            preview.innerHTML = '<p style="color: var(--danger-color);">Ошибка: Music Sources Manager не загружен</p>';
-            logger.error('Music Sources Manager not loaded');
-            return;
-        }
+        // Show loading indicator
+        preview.innerHTML = '<p style="color: var(--text-secondary);">Загрузка превью...</p>';
 
-        // Generate embed
-        const embedData = musicSourcesManager.generateEmbed(url);
+        // Wait for music sources manager to be available
+        const waitForManager = () => {
+            if (typeof musicSourcesManager === 'undefined') {
+                setTimeout(waitForManager, 100);
+                return;
+            }
 
-        if (!embedData) {
-            preview.innerHTML = '<p style="color: var(--danger-color);">Неподдерживаемая ссылка. Проверьте формат URL.</p>';
-            return;
-        }
+            // Generate embed
+            const embedData = musicSourcesManager.generateEmbed(url);
 
-        // Create iframe
-        const iframe = musicSourcesManager.createIframe(embedData);
+            if (!embedData) {
+                preview.innerHTML = '<p style="color: var(--danger-color);">Неподдерживаемая ссылка. Проверьте формат URL.</p>';
+                return;
+            }
 
-        if (iframe) {
-            preview.innerHTML = `
-                <div style="margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">
-                    <strong>Платформа:</strong> ${embedData.platformName} | <strong>Тип:</strong> ${embedData.type}
-                </div>
-                ${iframe}
-            `;
-            logger.success('Music preview generated', embedData);
-        } else {
-            preview.innerHTML = '<p style="color: var(--danger-color);">Не удалось создать превью</p>';
-        }
+            // Create iframe
+            const iframe = musicSourcesManager.createIframe(embedData);
+
+            if (iframe) {
+                preview.innerHTML = `
+                    <div style="margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">
+                        <strong>Платформа:</strong> ${embedData.platformName} | <strong>Тип:</strong> ${embedData.type}
+                    </div>
+                    ${iframe}
+                `;
+                logger.success('Music preview generated', embedData);
+            } else {
+                preview.innerHTML = '<p style="color: var(--danger-color);">Не удалось создать превью</p>';
+            }
+        };
+
+        waitForManager();
     }
 
     // Preview direct audio
