@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<!--
+  Framesearch - Персональное видеохранилище
+  
+  Автор: SerGioPlay
+  GitHub: https://github.com/SerGioPlay01
+  Проект: https://github.com/SerGioPlay01/framesearch
+  Сайт: https://sergioplay-dev.vercel.app/
+  
+  © 2026 Framesearch.  
+-->
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Эхо Бесконечности - Framesearch</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Просмотр видео в Framesearch">
+    <meta name="theme-color" content="#a5b4fc">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Vibix SDK -->
+    <script src="https://graphicslab.io/sdk/v2/rendex-sdk.min.js"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/video.css">
+    <link rel="stylesheet" href="styles/modal.css">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <!-- Background Elements -->
+    <div class="bg-cinematic"></div>
+    <div class="bg-overlay"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar glass" id="navbar">
+        <div class="navbar-container">
+            <div class="navbar-content">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <a href="index.html" class="icon-btn">
+                        <i data-lucide="arrow-left"></i>
+                    </a>
+                    <a href="index.html" class="logo">
+                        Frame<span class="logo-accent">search</span>
+                    </a>
+                </div>
+
+                <div class="nav-actions">
+                    <!-- Language Switcher -->
+                    <div class="language-switcher">
+                        <button class="lang-btn" id="langBtn" title="Change Language">
+                            <i data-lucide="languages"></i>
+                            <span id="currentLang">RU</span>
+                        </button>
+                        <div class="lang-dropdown" id="langDropdown">
+                            <button class="lang-option" data-lang="ru">
+                                <span class="lang-flag">🇷🇺</span>
+                                <span>Русский</span>
+                            </button>
+                            <button class="lang-option" data-lang="en">
+                                <span class="lang-flag">🇬🇧</span>
+                                <span>English</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button class="icon-btn" onclick="window.location.href='search_results.html'">
+                        <i data-lucide="search"></i>
+                    </button>
+                    <div class="avatar"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        
+        <!-- Video Player Section -->
+        <section class="video-section animate-fade-in">
+            <div class="video-container glass">
+                <div class="video-placeholder">
+                    <img src="https://image.qwenlm.ai/public_source/596b865b-2353-481a-a287-e440e8795d2f/110136d0c-e9bd-460c-81e5-2e2996ce6041.png" alt="Video Thumbnail">
+                    <button class="video-play-btn" id="playBtn">
+                        <i data-lucide="play"></i>
+                    </button>
+                </div>
+                
+            </div>
+        </section>
+
+        <!-- Video Info -->
+        <div class="video-info-container">
+            
+            <!-- Main Content (Left) -->
+            <div>
+                
+                <!-- Video Title & Actions -->
+                <div class="video-info animate-fade-in delay-100">
+                    <h1 class="video-title">Эхо Бесконечности</h1>
+                    <div class="video-meta">
+                        <span class="meta-badge">Фантастика</span>
+                        <span>2026</span>
+                        <span>2ч 14мин</span>
+                        <span class="meta-rating">
+                            <i data-lucide="star"></i> 8.9
+                        </span>
+                    </div>
+                    
+                    <div class="video-actions">
+                        <button class="action-btn action-btn-primary" id="favoriteBtn">
+                            <i data-lucide="heart"></i> В избранное
+                        </button>
+                        <button class="action-btn action-btn-secondary" id="shareBtn">
+                            <i data-lucide="share-2"></i> Поделиться
+                        </button>
+                        <button class="action-btn action-btn-secondary" id="editBtn">
+                            <i data-lucide="edit-2"></i> Редактировать
+                        </button>
+                        <button class="action-btn action-btn-danger" id="deleteBtn">
+                            <i data-lucide="trash-2"></i> Удалить
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="description-card glass-card animate-fade-in delay-200">
+                    <h3>О фильме</h3>
+                    <p>
+                        В далеком будущем одинокий странник обнаруживает сигнал, который меняет представление человечества о вселенной. 
+                        Визуальный шедевр о поиске смысла в пустоте космоса. Путешествуя через галактики, он сталкивается с древними 
+                        цивилизациями и загадками, которые бросают вызов самому понятию реальности.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer glass">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 data-i18n="footer.title">Framesearch</h3>
+                    <p data-i18n="footer.tagline">Локальное хранилище для вашей видеоколлекции</p>
+                    <div class="social-links" style="margin-top: 1.5rem;">
+                        <a href="https://vk.com/framesearch_ru" target="_blank" class="social-link" aria-label="VK">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8.5h4.5L9 4l3 9 3-9 2.5 4.5H22"/></svg>
+                        </a>
+                        <a href="https://t.me/framesearch_ru" target="_blank" class="social-link" aria-label="Telegram">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                        </a>
+                    </div>
+                    <button class="btn btn-primary" onclick="window.location.href='index.html'; setTimeout(() => importManager.open(), 500);" style="margin-top: 1.5rem; width: 100%;">
+                        <i data-lucide="upload"></i>
+                        <span data-i18n="btn.import">Импорт из файла</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-links">
+                    <a href="terms.html" data-i18n="footer.terms">Условия использования</a>
+                    <a href="privacy.html" data-i18n="footer.privacy">Политика конфиденциальности</a>
+                    <a href="cookies.html" data-i18n="footer.cookies">Cookies</a>
+                    <a href="license.html" data-i18n="footer.license">Лицензии</a>
+                    <a href="disclaimer.html" data-i18n="footer.disclaimer">Отказ от ответственности</a>
+                </div>
+                <p class="copyright" data-i18n="footer.copyright"></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="scripts/pwa.js"></script>
+    <script src="scripts/db.js"></script>
+    <script src="scripts/dialog.js"></script>
+    <script src="scripts/cookie-consent.js"></script>
+    <script src="scripts/i18n.js"></script>
+    <script src="scripts/theme.js"></script>
+    <script src="scripts/modal.js"></script>
+    <script src="scripts/share.js"></script>
+    <script src="scripts/import.js"></script>
+    <script src="scripts/scrollbar.js"></script>
+    <script src="scripts/video-player.js"></script>
+    
+    <script>
+        // Language switcher functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const langBtn = document.getElementById('langBtn');
+            const langDropdown = document.getElementById('langDropdown');
+            const currentLangSpan = document.getElementById('currentLang');
+            const langOptions = document.querySelectorAll('.lang-option');
+            
+            const updateCurrentLang = () => {
+                const lang = i18n.getCurrentLanguage();
+                currentLangSpan.textContent = lang.toUpperCase();
+                langOptions.forEach(option => {
+                    if (option.dataset.lang === lang) {
+                        option.classList.add('active');
+                    } else {
+                        option.classList.remove('active');
+                    }
+                });
+            };
+            
+            langBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                langDropdown.classList.toggle('active');
+            });
+            
+            document.addEventListener('click', () => {
+                langDropdown.classList.remove('active');
+            });
+            
+            langOptions.forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const lang = option.dataset.lang;
+                    i18n.setLanguage(lang);
+                    updateCurrentLang();
+                    langDropdown.classList.remove('active');
+                });
+            });
+            
+            updateCurrentLang();
+        });
+    </script>
+</body>
+</html>

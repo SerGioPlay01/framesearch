@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<!--
+  Framesearch - Персональное видеохранилище
+  
+  Автор: SerGioPlay
+  GitHub: https://github.com/SerGioPlay01
+  Проект: https://github.com/SerGioPlay01/framesearch
+  Сайт: https://sergioplay-dev.vercel.app/
+  
+  © 2026 Framesearch.  
+-->
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Поиск - Framesearch</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Поиск в видеоколлекции Framesearch">
+    <meta name="theme-color" content="#a5b4fc">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Vibix SDK -->
+    <script src="https://graphicslab.io/sdk/v2/rendex-sdk.min.js"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/search.css">
+    <link rel="stylesheet" href="styles/modal.css">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <!-- Background Elements -->
+    <div class="bg-cinematic"></div>
+    <div class="bg-overlay"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar glass" id="navbar">
+        <div class="navbar-container">
+            <div class="navbar-content">
+                <a href="index.html" class="logo">
+                    Frame<span class="logo-accent">search</span>
+                </a>
+
+                <div class="nav-actions">
+                    <!-- Language Switcher -->
+                    <div class="language-switcher">
+                        <button class="lang-btn" id="langBtn" title="Change Language">
+                            <i data-lucide="languages"></i>
+                            <span id="currentLang">RU</span>
+                        </button>
+                        <div class="lang-dropdown" id="langDropdown">
+                            <button class="lang-option" data-lang="ru">
+                                <span class="lang-flag">🇷🇺</span>
+                                <span>Русский</span>
+                            </button>
+                            <button class="lang-option" data-lang="en">
+                                <span class="lang-flag">🇬🇧</span>
+                                <span>English</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button class="icon-btn" onclick="window.location.href='index.html'">
+                        <i data-lucide="home"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        
+        <!-- Search Header -->
+        <section class="search-header animate-fade-in">
+            <div class="search-header-content glass">
+                <h1>Поиск контента</h1>
+                
+                <div class="search-input-wrapper">
+                    <input 
+                        type="text" 
+                        id="searchInput"
+                        placeholder="Поиск фильмов, сериалов, актёров..." 
+                        class="search-input-large"
+                        value="фантастика"
+                    >
+                    <i data-lucide="search" class="search-input-icon"></i>
+                    <button id="clearSearch" class="clear-search">
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+
+                <div class="quick-filters">
+                    <button class="filter-btn active">Все</button>
+                    <button class="filter-btn">Фильмы</button>
+                    <button class="filter-btn">Сериалы</button>
+                    <button class="filter-btn">Мультфильмы</button>
+                    <button class="filter-btn">Документальные</button>
+                </div>
+
+                <div class="search-stats">
+                    Найдено <span class="highlight">24</span> результата по запросу "<span class="query">фантастика</span>"
+                </div>
+            </div>
+        </section>
+
+        <!-- Filters Panel -->
+        <section class="filters-panel animate-fade-in delay-100">
+            <div class="filters-content glass">
+                <div class="filters-row">
+                    <div class="filter-select-wrapper">
+                        <select class="filter-select">
+                            <option>Все жанры</option>
+                            <option>Фантастика</option>
+                            <option>Фэнтези</option>
+                            <option>Драма</option>
+                            <option>Боевик</option>
+                            <option>Комедия</option>
+                        </select>
+                        <i data-lucide="chevron-down" class="filter-select-icon"></i>
+                    </div>
+
+                    <div class="filter-select-wrapper">
+                        <select class="filter-select">
+                            <option>Любой год</option>
+                            <option>2026</option>
+                            <option>2023</option>
+                            <option>2022</option>
+                            <option>2021</option>
+                        </select>
+                        <i data-lucide="chevron-down" class="filter-select-icon"></i>
+                    </div>
+
+                    <div class="filter-select-wrapper">
+                        <select class="filter-select">
+                            <option>Любой рейтинг</option>
+                            <option>8+ ⭐</option>
+                            <option>7+ ⭐</option>
+                            <option>6+ ⭐</option>
+                        </select>
+                        <i data-lucide="chevron-down" class="filter-select-icon"></i>
+                    </div>
+
+                    <div class="filter-select-wrapper filter-sort">
+                        <select class="filter-select">
+                            <option>По популярности</option>
+                            <option>По рейтингу</option>
+                            <option>По дате выхода</option>
+                            <option>По названию</option>
+                        </select>
+                        <i data-lucide="chevron-down" class="filter-select-icon"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Searches -->
+        <section class="popular-searches animate-fade-in delay-200">
+            <h2>
+                <i data-lucide="trending-up"></i>
+                Популярное сейчас
+            </h2>
+            <div class="tags-list">
+                <button class="tag">🔥 Дюна 2</button>
+                <button class="tag">🎬 Интерстеллар</button>
+                <button class="tag">🚀 Гравитация</button>
+                <button class="tag">🌌 Прибытие</button>
+                <button class="tag">🤖 Бегущий по лезвию</button>
+                <button class="tag">🪐 Марсианин</button>
+            </div>
+        </section>
+
+        <!-- Search Results Grid -->
+        <section class="search-results">
+            <div class="results-grid">
+                
+                <div class="result-card glass-card animate-fade-in delay-300">
+                    <div class="card-image">
+                        <img src="https://image.qwenlm.ai/public_source/596b865b-2353-481a-a287-e440e8795d2f/178011c8e-3333-4323-b886-64958da4d8e0.png" alt="Movie">
+                        <div class="card-rating">8.9</div>
+                        <div class="card-gradient"></div>
+                        <div class="card-play">
+                            <div class="play-button">
+                                <i data-lucide="play"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <h3 class="card-title">Неоновый Дождь</h3>
+                        <p class="card-meta">2026 • Фантастика</p>
+                    </div>
+                </div>
+
+                <div class="result-card glass-card animate-fade-in delay-300">
+                    <div class="card-image">
+                        <img src="https://image.qwenlm.ai/public_source/596b865b-2353-481a-a287-e440e8795d2f/110136d0c-e9bd-460c-81e5-2e2996ce6041.png" alt="Movie">
+                        <div class="card-rating">9.2</div>
+                        <div class="card-gradient"></div>
+                        <div class="card-play">
+                            <div class="play-button">
+                                <i data-lucide="play"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <h3 class="card-title">Эхо Бесконечности</h3>
+                        <p class="card-meta">2026 • Фантастика</p>
+                    </div>
+                </div>
+
+                <div class="result-card glass-card animate-fade-in delay-400">
+                    <div class="card-image">
+                        <img src="https://image.qwenlm.ai/public_source/596b865b-2353-481a-a287-e440e8795d2f/196443052-5b14-4831-ac26-cbf7975d77b1.png" alt="Movie">
+                        <div class="card-rating">8.5</div>
+                        <div class="card-gradient"></div>
+                        <div class="card-play">
+                            <div class="play-button">
+                                <i data-lucide="play"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <h3 class="card-title">Тайный Лес</h3>
+                        <p class="card-meta">2023 • Фэнтези</p>
+                    </div>
+                </div>
+
+                <div class="result-card glass-card animate-fade-in delay-400">
+                    <div class="card-image">
+                        <img src="https://image.qwenlm.ai/public_source/596b865b-2353-481a-a287-e440e8795d2f/1ad3e78ce-fd1c-4112-87a3-47be15aebb63.png" alt="Movie">
+                        <div class="card-rating">7.8</div>
+                        <div class="card-gradient"></div>
+                        <div class="card-play">
+                            <div class="play-button">
+                                <i data-lucide="play"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <h3 class="card-title">Кибер-Город</h3>
+                        <p class="card-meta">2026 • Драма</p>
+                    </div>
+                </div>
+
+                <div class="result-card glass-card animate-fade-in delay-400">
+                    <div class="card-image">
+                        <img src="https://image.qwenlm.ai/public_source/596b865b-2353-481a-a287-e440e8795d2f/1a44210b4-9877-4034-a9e0-7c27b2c7c908.png" alt="Movie">
+                        <div class="card-rating">8.7</div>
+                        <div class="card-gradient"></div>
+                        <div class="card-play">
+                            <div class="play-button">
+                                <i data-lucide="play"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <h3 class="card-title">Горизонт Событий</h3>
+                        <p class="card-meta">2023 • Приключения</p>
+                    </div>
+                </div>
+
+                <div class="result-card glass-card animate-fade-in delay-400">
+                    <div class="card-image">
+                        <img src="https://image.qwenlm.ai/public_source/596b865b-2353-481a-a287-e440e8795d2f/1c9296031-b2ca-407d-850b-618c7a0e5e5e.png" alt="Movie">
+                        <div class="card-rating">9.0</div>
+                        <div class="card-gradient"></div>
+                        <div class="card-play">
+                            <div class="play-button">
+                                <i data-lucide="play"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <h3 class="card-title">Звёздная Пыль</h3>
+                        <p class="card-meta">2026 • Фантастика</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer glass">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 data-i18n="footer.title">Framesearch</h3>
+                    <p data-i18n="footer.tagline">Локальное хранилище для вашей видеоколлекции</p>
+                    <div class="social-links" style="margin-top: 1.5rem;">
+                        <a href="https://vk.com/framesearch_ru" target="_blank" class="social-link" aria-label="VK">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8.5h4.5L9 4l3 9 3-9 2.5 4.5H22"/></svg>
+                        </a>
+                        <a href="https://t.me/framesearch_ru" target="_blank" class="social-link" aria-label="Telegram">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                        </a>
+                    </div>
+                    <button class="btn btn-primary" onclick="window.location.href='index.html'; setTimeout(() => importManager.open(), 500);" style="margin-top: 1.5rem; width: 100%;">
+                        <i data-lucide="upload"></i>
+                        <span data-i18n="btn.import">Импорт из файла</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-links">
+                    <a href="terms.html" data-i18n="footer.terms">Условия использования</a>
+                    <a href="privacy.html" data-i18n="footer.privacy">Политика конфиденциальности</a>
+                    <a href="cookies.html" data-i18n="footer.cookies">Cookies</a>
+                    <a href="license.html" data-i18n="footer.license">Лицензии</a>
+                    <a href="disclaimer.html" data-i18n="footer.disclaimer">Отказ от ответственности</a>
+                </div>
+                <p class="copyright" data-i18n="footer.copyright"></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="scripts/pwa.js"></script>
+    <script src="scripts/db.js"></script>
+    <script src="scripts/dialog.js"></script>
+    <script src="scripts/cookie-consent.js"></script>
+    <script src="scripts/i18n.js"></script>
+    <script src="scripts/theme.js"></script>
+    <script src="scripts/modal.js"></script>
+    <script src="scripts/share.js"></script>
+    <script src="scripts/import.js"></script>
+    <script src="scripts/scrollbar.js"></script>
+    <script src="scripts/search.js"></script>
+    
+    <script>
+        // Language switcher functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const langBtn = document.getElementById('langBtn');
+            const langDropdown = document.getElementById('langDropdown');
+            const currentLangSpan = document.getElementById('currentLang');
+            const langOptions = document.querySelectorAll('.lang-option');
+            
+            const updateCurrentLang = () => {
+                const lang = i18n.getCurrentLanguage();
+                currentLangSpan.textContent = lang.toUpperCase();
+                langOptions.forEach(option => {
+                    if (option.dataset.lang === lang) {
+                        option.classList.add('active');
+                    } else {
+                        option.classList.remove('active');
+                    }
+                });
+            };
+            
+            langBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                langDropdown.classList.toggle('active');
+            });
+            
+            document.addEventListener('click', () => {
+                langDropdown.classList.remove('active');
+            });
+            
+            langOptions.forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const lang = option.dataset.lang;
+                    i18n.setLanguage(lang);
+                    updateCurrentLang();
+                    langDropdown.classList.remove('active');
+                });
+            });
+            
+            updateCurrentLang();
+        });
+    </script>
+</body>
+</html>

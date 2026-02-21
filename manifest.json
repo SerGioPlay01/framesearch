@@ -1,0 +1,86 @@
+{
+  "name": "Framesearch - Видеохранилище",
+  "short_name": "Framesearch",
+  "description": "Персональное видеохранилище для управления видеоконтентом из балансеров, прямых ссылок, соцсетей и кастомных источников. Разработано SerGioPlay",
+  "author": "SerGioPlay (https://github.com/SerGioPlay01)",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#a5b4fc",
+  "orientation": "any",
+  "scope": "/",
+  "lang": "ru",
+  "dir": "ltr",
+  "categories": ["entertainment", "utilities"],
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "screenshots/mobile.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Добавить видео",
+      "short_name": "Добавить",
+      "description": "Быстро добавить новое видео",
+      "url": "/index.html?action=add",
+      "icons": [
+        {
+          "src": "icons/icon-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Поиск",
+      "short_name": "Поиск",
+      "description": "Поиск в коллекции",
+      "url": "/search_results.html",
+      "icons": [
+        {
+          "src": "icons/icon-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/index.html",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "prefer_related_applications": false
+}

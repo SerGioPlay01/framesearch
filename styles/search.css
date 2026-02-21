@@ -1,0 +1,270 @@
+/**
+ * Framesearch - Search Page Styles
+ * 
+ * Автор: SerGioPlay
+ * GitHub: https://github.com/SerGioPlay01
+ * Проект: https://github.com/SerGioPlay01/framesearch
+ * Сайт: https://sergioplay-dev.vercel.app/
+ * 
+ * © 2026 Framesearch.  
+ */
+
+.search-header {
+    margin-bottom: 2rem;
+}
+
+.search-header-content {
+    border-radius: 1rem;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.search-header h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.search-input-wrapper {
+    position: relative;
+    max-width: 48rem;
+    margin: 0 auto 1.5rem;
+}
+
+.search-input-large {
+    width: 100%;
+    padding: 1rem 3.5rem 1rem 3.5rem;
+    border-radius: 0.75rem;
+    font-size: 1.125rem;
+    color: white;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s;
+}
+
+.search-input-large:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(99, 102, 241, 0.5);
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+}
+
+.search-input-large::placeholder {
+    color: #9ca3af;
+}
+
+.search-input-icon {
+    position: absolute;
+    left: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.5rem;
+    height: 1.5rem;
+    color: #9ca3af;
+}
+
+.clear-search {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0.25rem;
+    border-radius: 9999px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+.clear-search:hover {
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 1;
+}
+
+.quick-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.search-stats {
+    text-align: center;
+    color: #9ca3af;
+    font-size: 0.875rem;
+}
+
+.search-stats .highlight {
+    color: #a5b4fc;
+    font-weight: 600;
+}
+
+.search-stats .query {
+    color: white;
+}
+
+/* Filters Panel */
+.filters-panel {
+    margin-bottom: 2rem;
+}
+
+.filters-content {
+    border-radius: 0.75rem;
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.filters-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+}
+
+.filter-select-wrapper {
+    position: relative;
+}
+
+.filter-select {
+    appearance: none;
+    padding: 0.5rem 2.5rem 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #d1d5db;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.filter-select:hover,
+.filter-select:focus {
+    outline: none;
+    background: rgba(99, 102, 241, 0.2);
+    border-color: rgba(99, 102, 241, 0.5);
+    color: #a5b4fc;
+}
+
+.filter-select-icon {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1rem;
+    height: 1rem;
+    color: #9ca3af;
+    pointer-events: none;
+}
+
+.filter-sort {
+    margin-left: auto;
+}
+
+/* Popular Searches */
+.popular-searches {
+    margin-bottom: 2rem;
+}
+
+.popular-searches h2 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.popular-searches h2 i {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #a5b4fc;
+}
+
+.tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tag {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    color: #d1d5db;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.tag:hover,
+.tag.active {
+    background: rgba(99, 102, 241, 0.2);
+    border-color: rgba(99, 102, 241, 0.4);
+    color: #a5b4fc;
+}
+
+/* Search Results Grid */
+.search-results {
+    margin-bottom: 3rem;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.result-card {
+    border-radius: 1rem;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.result-card .card-info {
+    padding: 0.75rem;
+}
+
+.result-card .card-title {
+    font-size: 0.875rem;
+}
+
+.result-card .card-meta {
+    font-size: 0.75rem;
+}
+
+/* Responsive */
+@media (min-width: 640px) {
+    .results-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 768px) {
+    .results-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .results-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+    
+    .filter-sort {
+        margin-left: auto;
+    }
+}
+
+@media (min-width: 1280px) {
+    .results-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
