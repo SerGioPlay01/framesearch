@@ -27,7 +27,7 @@
     <meta property="og:url" content="https://framesearch-lac.vercel.app/">
     <meta property="og:title" content="Framesearch - Персональное видеохранилище">
     <meta property="og:description" content="Организуйте и управляйте видеоконтентом из различных источников. Локальное хранение, PWA приложение, умный поиск и коллекции.">
-    <meta property="og:image" content="https://framesearch-lac.vercel.app/screenshots/screenshot.png">
+    <meta property="og:image" content="https://framesearch-lac.vercel.app/preview.jpg">
     <meta property="og:site_name" content="Framesearch">
     <meta property="og:locale" content="ru_RU">
     
@@ -36,7 +36,7 @@
     <meta property="twitter:url" content="https://framesearch-lac.vercel.app/">
     <meta property="twitter:title" content="Framesearch - Персональное видеохранилище">
     <meta property="twitter:description" content="Организуйте и управляйте видеоконтентом из различных источников. Локальное хранение, PWA приложение, умный поиск и коллекции.">
-    <meta property="twitter:image" content="https://framesearch-lac.vercel.app/screenshots/screenshot.png">
+    <meta property="twitter:image" content="https://framesearch-lac.vercel.app/preview.jpg">
     
     <!-- Additional SEO -->
     <link rel="canonical" href="https://framesearch-lac.vercel.app/">
@@ -107,7 +107,7 @@
         "Горячие клавиши",
         "Полная приватность без серверов"
       ],
-      "screenshot": "https://framesearch-lac.vercel.app/screenshots/screenshot.png",
+      "screenshot": "https://framesearch-lac.vercel.app/preview.jpg",
       "softwareVersion": "1.0.0",
       "datePublished": "2026-01-01",
       "inLanguage": ["ru", "en"]
@@ -368,32 +368,32 @@
                 <button class="action-card glass-card" onclick="modal.open()">
                     <i data-lucide="plus-circle"></i>
                     <div class="action-card-content">
-                        <h3>Добавить видео</h3>
-                        <p>Видео, сериал или аниме</p>
+                        <h3 data-i18n="action.addVideo">Добавить видео</h3>
+                        <p data-i18n="action.addVideo.desc">Видео, сериал или аниме</p>
                     </div>
                 </button>
                 
                 <button class="action-card glass-card" onclick="collectionsManager.open()">
                     <i data-lucide="folder-plus"></i>
                     <div class="action-card-content">
-                        <h3>Создать коллекцию</h3>
-                        <p>Организовать видео</p>
+                        <h3 data-i18n="action.createCollection">Создать коллекцию</h3>
+                        <p data-i18n="action.createCollection.desc">Организовать видео</p>
                     </div>
                 </button>
                 
                 <button class="action-card glass-card" onclick="window.location.href='search_results.html'">
                     <i data-lucide="search"></i>
                     <div class="action-card-content">
-                        <h3>Поиск</h3>
-                        <p>Найти в коллекции</p>
+                        <h3 data-i18n="action.search">Поиск</h3>
+                        <p data-i18n="action.search.desc">Найти в коллекции</p>
                     </div>
                 </button>
                 
                 <button class="action-card glass-card" onclick="importManager.open()">
                     <i data-lucide="upload"></i>
                     <div class="action-card-content">
-                        <h3>Импорт</h3>
-                        <p>Загрузить из файла</p>
+                        <h3 data-i18n="action.import">Импорт</h3>
+                        <p data-i18n="action.import.desc">Загрузить из файла</p>
                     </div>
                 </button>
             </div>
@@ -402,10 +402,10 @@
         <!-- Collections -->
         <div class="collections-container" style="display: none;">
             <div class="section-header animate-fade-in">
-                <h2 class="section-title">Коллекции</h2>
+                <h2 class="section-title" data-i18n="collections.title">Коллекции</h2>
                 <button class="btn btn-primary" onclick="collectionsManager.open()">
                     <i data-lucide="folder-plus"></i>
-                    Создать коллекцию
+                    <span data-i18n="collections.create">Создать коллекцию</span>
                 </button>
             </div>
             <div class="collections-grid">

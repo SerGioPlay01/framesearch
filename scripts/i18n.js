@@ -43,6 +43,16 @@ class I18n {
                 'btn.share': 'Поделиться',
                 'btn.play': 'Смотреть',
                 
+                // Action cards
+                'action.addVideo': 'Добавить видео',
+                'action.addVideo.desc': 'Видео, сериал или аниме',
+                'action.createCollection': 'Создать коллекцию',
+                'action.createCollection.desc': 'Организовать видео',
+                'action.search': 'Поиск',
+                'action.search.desc': 'Найти в коллекции',
+                'action.import': 'Импорт',
+                'action.import.desc': 'Загрузить из файла',
+                
                 // Filters
                 'filter.all': 'Все',
                 'filter.balancer': 'Балансеры',
@@ -408,6 +418,16 @@ class I18n {
                 'btn.import': 'Import',
                 'btn.share': 'Share',
                 'btn.play': 'Watch',
+                
+                // Action cards
+                'action.addVideo': 'Add Video',
+                'action.addVideo.desc': 'Movie, series or anime',
+                'action.createCollection': 'Create Collection',
+                'action.createCollection.desc': 'Organize videos',
+                'action.search': 'Search',
+                'action.search.desc': 'Find in collection',
+                'action.import': 'Import',
+                'action.import.desc': 'Load from file',
                 
                 // Filters
                 'filter.all': 'All',
