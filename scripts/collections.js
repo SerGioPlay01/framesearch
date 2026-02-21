@@ -155,7 +155,7 @@ class CollectionsManager {
                 document.getElementById('collectionPosterPreview').innerHTML = `<img src="${collection.poster}" alt="Poster">`;
             }
         } catch (error) {
-            console.error('Failed to load collection data:', error);
+            logger.error('Failed to load collection data', error);
         }
     }
 
@@ -177,10 +177,10 @@ class CollectionsManager {
         try {
             if (this.editMode && this.editCollectionId) {
                 await db.updateCollection(this.editCollectionId, collectionData);
-                console.log('Коллекция обновлена');
+                logger.collection('Collection updated');
             } else {
                 await db.addCollection(collectionData);
-                console.log('Коллекция создана');
+                logger.collection('Collection created');
             }
 
             this.close();
@@ -189,7 +189,7 @@ class CollectionsManager {
                 loadCollections();
             }
         } catch (error) {
-            console.error('Error saving collection:', error);
+            logger.error('Error saving collection', error);
             await dialog.alert(t('import.error.message') + ': ' + error.message, t('import.error.title'));
         }
     }

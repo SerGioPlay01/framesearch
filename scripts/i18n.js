@@ -61,6 +61,11 @@ class I18n {
                 'filter.custom': 'Custom',
                 'filter.favorites': 'Избранное',
                 
+                // View modes
+                'view.list': 'Список',
+                'view.grid': 'Плитка',
+                'view.poster': 'Постеры',
+                
                 // Search
                 'search.placeholder': 'Поиск видео...',
                 'search.placeholderLarge': 'Поиск видео, сериалов, актёров...',
@@ -299,9 +304,10 @@ class I18n {
                 'cookie.category.functional': 'Функциональные',
                 'cookie.category.functional.desc': 'Улучшают функциональность (темы, настройки)',
                 'cookie.category.analytics': 'Аналитика',
-                'cookie.category.analytics.desc': 'Помогают понять использование приложения',
+                'cookie.category.analytics.desc': 'Помогают понять использование приложения (Яндекс.Метрика)',
                 'cookie.category.external': 'Внешние сервисы',
                 'cookie.category.external.desc': 'Видеобалансеры и сторонние iframe',
+                'cookie.scripts': 'Используемые скрипты',
                 'cookie.info.local.title': 'Локальное хранение',
                 'cookie.info.local.desc': 'Все ваши данные хранятся только на этом устройстве',
                 'cookie.info.tracking.title': 'Без отслеживания',
@@ -317,7 +323,11 @@ class I18n {
                 'cookie.confirm.clear': 'Вы уверены? Это удалит все ваши данные, включая видео, коллекции и настройки.',
                 'cookie.confirm.title': 'Удалить все данные',
                 'cookie.blocked': 'Внешний контент заблокирован',
+                'cookie.blocked.desc': 'Этот контент заблокирован настройками конфиденциальности',
                 'cookie.blocked.action': 'Изменить настройки',
+                'cookie.blocked.allow': 'Разрешить',
+                'cookie.scripts.show': 'Показать список',
+                'cookie.scripts.none': 'Скрипты не обнаружены',
                 
                 // Legal pages
                 'legal.terms': 'Условия использования',
@@ -496,6 +506,11 @@ class I18n {
                 'filter.social': 'Social Media',
                 'filter.custom': 'Custom',
                 'filter.favorites': 'Favorites',
+                
+                // View modes
+                'view.list': 'List',
+                'view.grid': 'Grid',
+                'view.poster': 'Posters',
                 
                 // Search
                 'search.placeholder': 'Search videos...',
@@ -735,9 +750,10 @@ class I18n {
                 'cookie.category.functional': 'Functional',
                 'cookie.category.functional.desc': 'Enhance functionality (themes, settings)',
                 'cookie.category.analytics': 'Analytics',
-                'cookie.category.analytics.desc': 'Help understand application usage',
+                'cookie.category.analytics.desc': 'Help understand application usage (Yandex.Metrica)',
                 'cookie.category.external': 'External Services',
                 'cookie.category.external.desc': 'Video balancers and third-party iframes',
+                'cookie.scripts': 'Used scripts',
                 'cookie.info.local.title': 'Local Storage',
                 'cookie.info.local.desc': 'All your data is stored only on this device',
                 'cookie.info.tracking.title': 'No Tracking',
@@ -753,7 +769,11 @@ class I18n {
                 'cookie.confirm.clear': 'Are you sure? This will delete all your data, including videos, collections, and settings.',
                 'cookie.confirm.title': 'Delete All Data',
                 'cookie.blocked': 'External content blocked',
+                'cookie.blocked.desc': 'This content is blocked by privacy settings',
                 'cookie.blocked.action': 'Change Settings',
+                'cookie.blocked.allow': 'Allow',
+                'cookie.scripts.show': 'Show list',
+                'cookie.scripts.none': 'No scripts detected',
                 
                 // Legal pages
                 'legal.terms': 'Terms of Service',

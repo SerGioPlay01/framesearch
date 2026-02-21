@@ -65,13 +65,72 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Prevent FOUC - Load theme immediately -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('framesearch-theme') || 'default';
+            const customColors = localStorage.getItem('framesearch-custom-colors');
+            
+            const themes = {
+                default: {
+                    '--bg-primary': '#0f172a',
+                    '--bg-secondary': '#1e293b',
+                    '--bg-tertiary': '#334155',
+                    '--text-primary': '#ffffff',
+                    '--text-secondary': '#cbd5e1',
+                    '--accent-primary': '#a5b4fc',
+                    '--accent-secondary': '#818cf8',
+                    '--glass-bg': 'rgba(30, 41, 59, 0.4)',
+                    '--glass-border': 'rgba(255, 255, 255, 0.05)',
+                    '--overlay-start': 'rgba(15, 23, 42, 0.3)',
+                    '--overlay-end': 'rgba(15, 23, 42, 0.95)',
+                    '--card-hover-scale': '1.05',
+                    '--border-radius': '12px',
+                    '--shadow-color': 'rgba(0, 0, 0, 0.3)',
+                    '--btn-primary-bg': '#a5b4fc',
+                    '--btn-primary-hover': '#818cf8',
+                    '--btn-secondary-bg': 'rgba(255, 255, 255, 0.05)',
+                    '--btn-secondary-hover': 'rgba(255, 255, 255, 0.1)',
+                    '--danger-color': '#ef4444',
+                    '--danger-hover': '#dc2626',
+                    '--success-color': '#10b981',
+                    '--success-hover': '#059669',
+                    '--overlay-dark': 'rgba(0, 0, 0, 0.8)',
+                    '--overlay-light': 'rgba(255, 255, 255, 0.1)'
+                }
+            };
+            
+            let colors;
+            if (savedTheme === 'custom' && customColors) {
+                try {
+                    colors = JSON.parse(customColors);
+                } catch (e) {
+                    colors = themes.default;
+                }
+            } else {
+                colors = themes.default;
+            }
+            
+            const root = document.documentElement;
+            Object.entries(colors).forEach(([property, value]) => {
+                root.style.setProperty(property, value);
+            });
+            
+            root.classList.add('theme-loaded');
+        })();
+    </script>
+    
     <!-- Styles -->
+    <link rel="stylesheet" href="styles/preloader.css">
     <link rel="stylesheet" href="styles/keyboard-fix.css">
     <link rel="stylesheet" href="styles/overflow-fix.css">
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/modal.css">
     <link rel="stylesheet" href="styles/touch.css">
     <link rel="stylesheet" href="styles/tablet.css">
+    <link rel="stylesheet" href="styles/view-modes.css">
+    <link rel="stylesheet" href="styles/floating-actions.css">
+    <link rel="stylesheet" href="styles/home.css">
     
     <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -125,7 +184,7 @@
         <div class="navbar-container">
             <div class="navbar-content">
                 <!-- Logo -->
-                <a href="index.html" class="logo">
+                <a href="/" class="logo">
                     Frame<span class="logo-accent">search</span>
                 </a>
 
@@ -285,9 +344,9 @@
                     </div>
                 </div>
 
-                <div class="welcome-info">
+                <div class="quick-start-section">
                     <h3 data-i18n="quickstart.title">Быстрый старт</h3>
-                    <div class="quick-start-steps">
+                    <div class="quick-start-grid">
                         <div class="step-card">
                             <div class="step-number">1</div>
                             <div class="step-content">
@@ -316,44 +375,38 @@
                                 <p data-i18n="quickstart.step4.desc">Выберите тему оформления и установите приложение для оффлайн доступа</p>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="welcome-tips">
-                    <h4 data-i18n="quickstart.features">💡 Полезные возможности</h4>
-                    <div class="tips-grid">
-                        <div class="tip-item">
-                            <i data-lucide="download"></i>
-                            <div>
-                                <strong data-i18n="quickstart.pwa.title">Установка PWA</strong>
+                        <div class="step-card">
+                            <div class="step-number">💡</div>
+                            <div class="step-content">
+                                <h4 data-i18n="quickstart.pwa.title">Установка PWA</h4>
                                 <p data-i18n="quickstart.pwa.desc">Установите приложение на устройство для быстрого доступа</p>
                             </div>
                         </div>
-                        <div class="tip-item">
-                            <i data-lucide="lock"></i>
-                            <div>
-                                <strong data-i18n="quickstart.encryption.title">Шифрование</strong>
+                        <div class="step-card">
+                            <div class="step-number">🔒</div>
+                            <div class="step-content">
+                                <h4 data-i18n="quickstart.encryption.title">Шифрование</h4>
                                 <p data-i18n="quickstart.encryption.desc">Экспортируйте данные с паролем для безопасного обмена</p>
                             </div>
                         </div>
-                        <div class="tip-item">
-                            <i data-lucide="zap"></i>
-                            <div>
-                                <strong data-i18n="quickstart.search.title">Быстрый поиск</strong>
+                        <div class="step-card">
+                            <div class="step-number">⚡</div>
+                            <div class="step-content">
+                                <h4 data-i18n="quickstart.search.title">Быстрый поиск</h4>
                                 <p data-i18n="quickstart.search.desc">Используйте поиск по названию, жанру или году</p>
                             </div>
                         </div>
-                        <div class="tip-item">
-                            <i data-lucide="star"></i>
-                            <div>
-                                <strong data-i18n="quickstart.favorites.title">Избранное</strong>
+                        <div class="step-card">
+                            <div class="step-number">⭐</div>
+                            <div class="step-content">
+                                <h4 data-i18n="quickstart.favorites.title">Избранное</h4>
                                 <p data-i18n="quickstart.favorites.desc">Отмечайте любимое видео для быстрого доступа</p>
                             </div>
                         </div>
-                        <div class="tip-item">
-                            <i data-lucide="keyboard"></i>
-                            <div>
-                                <strong data-i18n="quickstart.hotkeys.title">Горячие клавиши</strong>
+                        <div class="step-card">
+                            <div class="step-number">⌨️</div>
+                            <div class="step-content">
+                                <h4 data-i18n="quickstart.hotkeys.title">Горячие клавиши</h4>
                                 <p data-i18n="quickstart.hotkeys.desc">Ctrl+K для поиска, Ctrl+N для добавления, Esc для закрытия</p>
                             </div>
                         </div>
@@ -381,7 +434,7 @@
                     </div>
                 </button>
                 
-                <button class="action-card glass-card" onclick="window.location.href='search_results.html'">
+                <button class="action-card glass-card" onclick="window.location.href='/search_results'">
                     <i data-lucide="search"></i>
                     <div class="action-card-content">
                         <h3 data-i18n="action.search">Поиск</h3>
@@ -432,11 +485,6 @@
         </div>
 
     </main>
-
-    <!-- Floating Add Button -->
-    <button class="fab" onclick="modal.open()" title="Добавить контент">
-        <i data-lucide="plus"></i>
-    </button>
 
     <!-- Footer -->
     <footer class="footer glass">
@@ -495,6 +543,9 @@
     </footer>
 
     <!-- Scripts -->
+    <script src="scripts/logger.js"></script>
+    <script src="scripts/preloader.js"></script>
+    <script src="scripts/url-cleaner.js"></script>
     <script src="scripts/pwa.js"></script>
     <script src="scripts/db.js"></script>
     <script src="scripts/dialog.js"></script>
@@ -507,6 +558,8 @@
     <script src="scripts/collections.js"></script>
     <script src="scripts/scrollbar.js"></script>
     <script src="scripts/responsive.js"></script>
+    <script src="scripts/view-modes.js"></script>
+    <script src="scripts/floating-actions.js"></script>
     <script src="scripts/main.js"></script>
     
     <script>
@@ -558,5 +611,24 @@
             updateCurrentLang();
         });
     </script>
+    
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+        
+        ym(106947056, 'init', {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true,
+            ecommerce:"dataLayer"
+        });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/106947056" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
 </body>
 </html>

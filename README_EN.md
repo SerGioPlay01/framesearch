@@ -24,7 +24,7 @@
 
 <div align="center">
 
-![Framesearch Screenshot](screenshots/screenshot.png)
+![Framesearch Preview](preview.jpg)
 
 </div>
 
@@ -79,6 +79,16 @@ http://localhost:8000
 ---
 
 ## 📚 Documentation
+
+### 🔧 Reusable Components
+
+Framesearch includes several independent components that can be used in your projects:
+
+- **[Logger](docs/logger.md)** — Beautiful logging system with colored output and history
+- **[Dialog](docs/dialog.md)** — Beautiful modal dialogs (alert, confirm, prompt) with async/await
+- **[i18n](docs/i18n.md)** — Lightweight internationalization system with dynamic language switching
+
+Each component is fully autonomous and can be used separately from the main project.
 
 ### Video Source Types
 

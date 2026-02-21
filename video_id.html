@@ -41,10 +41,67 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Prevent FOUC - Load theme immediately -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('framesearch-theme') || 'default';
+            const customColors = localStorage.getItem('framesearch-custom-colors');
+            
+            const themes = {
+                default: {
+                    '--bg-primary': '#0f172a',
+                    '--bg-secondary': '#1e293b',
+                    '--bg-tertiary': '#334155',
+                    '--text-primary': '#ffffff',
+                    '--text-secondary': '#cbd5e1',
+                    '--accent-primary': '#a5b4fc',
+                    '--accent-secondary': '#818cf8',
+                    '--glass-bg': 'rgba(30, 41, 59, 0.4)',
+                    '--glass-border': 'rgba(255, 255, 255, 0.05)',
+                    '--overlay-start': 'rgba(15, 23, 42, 0.3)',
+                    '--overlay-end': 'rgba(15, 23, 42, 0.95)',
+                    '--card-hover-scale': '1.05',
+                    '--border-radius': '12px',
+                    '--shadow-color': 'rgba(0, 0, 0, 0.3)',
+                    '--btn-primary-bg': '#a5b4fc',
+                    '--btn-primary-hover': '#818cf8',
+                    '--btn-secondary-bg': 'rgba(255, 255, 255, 0.05)',
+                    '--btn-secondary-hover': 'rgba(255, 255, 255, 0.1)',
+                    '--danger-color': '#ef4444',
+                    '--danger-hover': '#dc2626',
+                    '--success-color': '#10b981',
+                    '--success-hover': '#059669',
+                    '--overlay-dark': 'rgba(0, 0, 0, 0.8)',
+                    '--overlay-light': 'rgba(255, 255, 255, 0.1)'
+                }
+            };
+            
+            let colors;
+            if (savedTheme === 'custom' && customColors) {
+                try {
+                    colors = JSON.parse(customColors);
+                } catch (e) {
+                    colors = themes.default;
+                }
+            } else {
+                colors = themes.default;
+            }
+            
+            const root = document.documentElement;
+            Object.entries(colors).forEach(([property, value]) => {
+                root.style.setProperty(property, value);
+            });
+            
+            root.classList.add('theme-loaded');
+        })();
+    </script>
+    
     <!-- Styles -->
+    <link rel="stylesheet" href="styles/preloader.css">
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/video.css">
     <link rel="stylesheet" href="styles/modal.css">
+    <link rel="stylesheet" href="styles/floating-actions.css">
     
     <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -60,10 +117,10 @@
         <div class="navbar-container">
             <div class="navbar-content">
                 <div style="display: flex; align-items: center; gap: 1rem;">
-                    <a href="index.html" class="icon-btn">
+                    <a href="/" class="icon-btn">
                         <i data-lucide="arrow-left"></i>
                     </a>
-                    <a href="index.html" class="logo">
+                    <a href="/" class="logo">
                         Frame<span class="logo-accent">search</span>
                     </a>
                 </div>
@@ -176,7 +233,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
                         </a>
                     </div>
-                    <button class="btn btn-primary" onclick="window.location.href='index.html'; setTimeout(() => importManager.open(), 500);" style="margin-top: 1.5rem; width: 100%;">
+                    <button class="btn btn-primary" onclick="window.location.href='/'; setTimeout(() => importManager.open(), 500);" style="margin-top: 1.5rem; width: 100%;">
                         <i data-lucide="upload"></i>
                         <span data-i18n="btn.import">Импорт из файла</span>
                     </button>
@@ -197,6 +254,8 @@
     </footer>
 
     <!-- Scripts -->
+    <script src="scripts/preloader.js"></script>
+    <script src="scripts/url-cleaner.js"></script>
     <script src="scripts/pwa.js"></script>
     <script src="scripts/db.js"></script>
     <script src="scripts/dialog.js"></script>
@@ -207,6 +266,7 @@
     <script src="scripts/share.js"></script>
     <script src="scripts/import.js"></script>
     <script src="scripts/scrollbar.js"></script>
+    <script src="scripts/floating-actions.js"></script>
     <script src="scripts/video-player.js"></script>
     
     <script>

@@ -1,0 +1,406 @@
+/**
+ * Framesearch - Floating Action Buttons
+ * Современный Speed Dial в стиле Material Design
+ * 
+ * Автор: SerGioPlay
+ * © 2026 Framesearch
+ */
+
+/* ===== FLOATING ACTIONS CONTAINER ===== */
+.floating-actions {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    pointer-events: none;
+}
+
+.floating-actions > * {
+    pointer-events: all;
+}
+
+/* Prevent any scrolling in floating actions */
+.floating-actions,
+.fab-secondary {
+    overflow: visible !important;
+    -webkit-overflow-scrolling: auto !important;
+    overscroll-behavior: none !important;
+}
+
+/* ===== MAIN FAB (Add Button) ===== */
+.fab-main {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    color: var(--bg-primary);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 
+        0 4px 16px rgba(0, 0, 0, 0.2),
+        0 0 0 0 var(--accent-primary);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: visible;
+}
+
+.fab-main::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: -1;
+    filter: blur(8px);
+}
+
+.fab-main:hover::before {
+    opacity: 0.6;
+}
+
+.fab-main:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 8px 24px rgba(0, 0, 0, 0.3),
+        0 0 20px var(--accent-primary);
+}
+
+.fab-main:active {
+    transform: translateY(0);
+}
+
+.fab-main i {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fab-main.active i {
+    transform: rotate(45deg);
+}
+
+/* ===== SECONDARY ACTIONS ===== */
+.fab-secondary {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    height: 0;
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), height 0s 0.3s;
+    pointer-events: none;
+}
+
+.fab-secondary.expanded {
+    height: auto;
+    opacity: 1;
+    pointer-events: all;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), height 0s 0s;
+}
+
+/* ===== SECONDARY BUTTONS ===== */
+.fab-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.8) translateY(10px);
+    z-index: 1000;
+}
+
+.fab-secondary.expanded .fab-btn {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1) translateY(0);
+}
+
+.fab-secondary.expanded .fab-btn:nth-child(1) {
+    transition-delay: 0.05s;
+}
+
+.fab-secondary.expanded .fab-btn:nth-child(2) {
+    transition-delay: 0.1s;
+}
+
+.fab-secondary.expanded .fab-btn:nth-child(3) {
+    transition-delay: 0.15s;
+}
+
+.fab-secondary.expanded .fab-btn:nth-child(4) {
+    transition-delay: 0.2s;
+}
+
+.fab-secondary.expanded .fab-btn:nth-child(5) {
+    transition-delay: 0.25s;
+}
+
+.fab-btn:hover {
+    background: var(--accent-primary);
+    color: var(--bg-primary);
+    transform: scale(1.05);
+    box-shadow: 
+        0 4px 16px rgba(0, 0, 0, 0.25),
+        0 0 16px var(--accent-primary);
+    border-color: var(--accent-primary);
+}
+
+.fab-btn:active {
+    transform: scale(0.95);
+}
+
+.fab-btn i {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s;
+}
+
+.fab-btn:hover i {
+    transform: scale(1.1);
+}
+
+/* ===== BUTTON LABELS ===== */
+.fab-label {
+    position: absolute;
+    right: calc(100% + 0.75rem);
+    top: 50%;
+    transform: translateY(-50%) scale(0.9);
+    background: var(--bg-secondary);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    padding: 0.5rem 0.875rem;
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    max-width: 200px;
+}
+
+.fab-btn:hover .fab-label {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+}
+
+/* ===== SCROLL TO TOP BUTTON ===== */
+.fab-scroll-top {
+    position: absolute;
+    top: -64px;
+    right: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.8);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fab-scroll-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+/* ===== BACKDROP OVERLAY ===== */
+.fab-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+
+.fab-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fabPulse {
+    0%, 100% {
+        box-shadow: 
+            0 4px 16px rgba(0, 0, 0, 0.2),
+            0 0 0 0 var(--accent-primary);
+    }
+    50% {
+        box-shadow: 
+            0 4px 16px rgba(0, 0, 0, 0.2),
+            0 0 0 8px transparent;
+    }
+}
+
+.fab-main.pulse::before {
+    animation: fabPulse 2s ease-in-out infinite;
+}
+
+/* ===== BADGE (Notification) ===== */
+.fab-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    background: var(--danger-color);
+    color: white;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--bg-primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* ===== RESPONSIVE ===== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .floating-actions {
+        bottom: 1.5rem;
+        right: 1.5rem;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .floating-actions {
+        bottom: 1rem;
+        right: 1rem;
+    }
+    
+    .fab-main {
+        width: 52px;
+        height: 52px;
+    }
+    
+    .fab-main i {
+        width: 22px;
+        height: 22px;
+    }
+    
+    .fab-btn {
+        width: 44px;
+        height: 44px;
+    }
+    
+    .fab-btn i {
+        width: 18px;
+        height: 18px;
+    }
+    
+    /* Hide labels on mobile */
+    .fab-label {
+        display: none;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+    .floating-actions {
+        bottom: max(1rem, env(safe-area-inset-bottom));
+        right: max(1rem, env(safe-area-inset-right));
+    }
+    
+    .fab-main {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+    }
+    
+    .fab-main i {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .fab-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+    }
+    
+    .fab-btn i {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .fab-scroll-top {
+        top: -56px;
+    }
+}
+
+/* ===== THEME SPECIFIC STYLES ===== */
+.fab-btn.scroll-btn:hover i {
+    transform: translateY(-2px);
+}
+
+/* ===== ACCESSIBILITY ===== */
+.fab-main:focus,
+.fab-btn:focus,
+.fab-toggle:focus {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    .fab-main,
+    .fab-btn,
+    .fab-toggle,
+    .fab-secondary,
+    .fab-label {
+        transition: none;
+        animation: none;
+    }
+    
+    .fab-main:hover,
+    .fab-btn:hover {
+        transform: none;
+    }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    .floating-actions {
+        display: none;
+    }
+}

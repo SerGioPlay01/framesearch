@@ -7,6 +7,23 @@
  * Сайт: https://sergioplay-dev.vercel.app/
  */
 
+/* Override theme loading for legal pages */
+html body {
+    opacity: 1 !important;
+}
+
+/* Simple background for legal pages */
+body {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+/* Simplified glass card for legal pages */
+.glass-card {
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+}
+
 /* Language Tabs */
 .language-tabs {
     display: flex;
@@ -29,13 +46,13 @@
 }
 
 .language-tab:hover {
-    color: var(--primary);
+    color: #a5b4fc;
     background: rgba(165, 180, 252, 0.05);
 }
 
 .language-tab.active {
-    color: var(--primary);
-    border-bottom-color: var(--primary);
+    color: #a5b4fc;
+    border-bottom-color: #a5b4fc;
 }
 
 .language-tab-icon {
@@ -104,13 +121,13 @@
 }
 
 .legal-content a {
-    color: var(--primary);
+    color: #a5b4fc;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .legal-content a:hover {
-    color: var(--accent-primary);
+    color: #c7d2fe;
     text-decoration: underline;
 }
 

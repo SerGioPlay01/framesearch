@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (videoId) {
         await loadVideo(videoId);
     } else {
-        window.location.href = 'index.html';
+        window.location.href = '/';
     }
 });
 
@@ -38,7 +38,7 @@ async function loadVideo(videoId) {
         
         if (!currentVideo) {
             alert('Видео не найдено');
-            window.location.href = 'index.html';
+            window.location.href = '/';
             return;
         }
         
@@ -61,7 +61,7 @@ async function loadVideo(videoId) {
         initActionButtons();
         
     } catch (error) {
-        console.error('Error loading video:', error);
+        logger.error('Error loading video', error);
         alert('Ошибка при загрузке видео');
     }
 }
@@ -123,8 +123,18 @@ function loadVideoPlayer() {
     const videoContainer = document.querySelector('.video-placeholder');
     if (!videoContainer) return;
     
+    logger.video('Loading video player', { sourceType: currentVideo.sourceType, video: currentVideo });
+    
     if (currentVideo.sourceType === 'vibix') {
         // Vibix player
+        logger.video('Initializing Vibix player', {
+            type: currentVideo.vibixType,
+            id: currentVideo.vibixId,
+            design: currentVideo.vibixDesign,
+            voiceover: currentVideo.vibixVoiceover,
+            poster: currentVideo.vibixPoster
+        });
+        
         let insTag = `<ins data-publisher-id="675593060" data-type="${currentVideo.vibixType}" data-id="${currentVideo.vibixId}"`;
         
         // Add responsive dimensions
@@ -142,21 +152,35 @@ function loadVideoPlayer() {
         
         insTag += `></ins>`;
         
+        logger.debug('Vibix ins tag', insTag);
         videoContainer.innerHTML = insTag;
         
-        // Initialize Vibix SDK with retry
+        // Initialize Vibix SDK with retry mechanism
+        let retryCount = 0;
+        const maxRetries = 20;
+        
         const initVibix = () => {
             if (window.RendexSDK && typeof window.RendexSDK.init === 'function') {
-                window.RendexSDK.init();
-                console.log('Vibix SDK initialized');
+                try {
+                    window.RendexSDK.init();
+                    logger.success('Vibix SDK initialized successfully');
+                } catch (error) {
+                    logger.error('Error initializing Vibix SDK', error);
+                }
             } else {
-                console.warn('Vibix SDK not loaded yet, retrying...');
-                setTimeout(initVibix, 200);
+                retryCount++;
+                if (retryCount < maxRetries) {
+                    logger.warning(`Vibix SDK not loaded yet, retrying... (${retryCount}/${maxRetries})`);
+                    setTimeout(initVibix, 300);
+                } else {
+                    logger.error('Vibix SDK failed to load after maximum retries');
+                }
             }
         };
         
-        setTimeout(initVibix, 100);
-    } else if (currentVideo.sourceType === 'file' || currentVideo.sourceType === 'url') {
+        // Start initialization after a short delay
+        setTimeout(initVibix, 200);
+    } else if (currentVideo.sourceType === 'file' || currentVideo.sourceType === 'url' || currentVideo.sourceType === 'direct') {
         // Local file or direct URL
         videoContainer.innerHTML = `
             <video id="videoPlayer" class="video-player">
@@ -426,9 +450,9 @@ function initActionButtons() {
                     }
                     
                     alert('Контент удален');
-                    window.location.href = 'index.html';
+                    window.location.href = '/';
                 } catch (error) {
-                    console.error('Error deleting video:', error);
+                    logger.error('Error deleting video', error);
                     alert('Ошибка при удалении');
                 }
             }

@@ -1,253 +1,211 @@
-# 🚀 Руководство по развертыванию Framesearch
+# Руководство по развертыванию Framesearch
 
-## Варианты развертывания
+## Статические хостинги
 
-### 1. GitHub Pages (Рекомендуется)
+Framesearch - это PWA приложение, которое работает полностью на клиентской стороне. Вы можете развернуть его на любом статическом хостинге.
 
-#### Автоматическое развертывание
+## Поддерживаемые платформы
 
-1. **Форкните или загрузите репозиторий на GitHub**
+### 1. Vercel (Рекомендуется)
 
-2. **Перейдите в Settings → Pages**
+**Автоматический деплой:**
+1. Подключите репозиторий к Vercel
+2. Vercel автоматически обнаружит `vercel.json`
+3. Деплой произойдет автоматически
 
-3. **Выберите источник:**
-   - Source: Deploy from a branch
-   - Branch: `main` (или `master`)
-   - Folder: `/ (root)`
-
-4. **Сохраните настройки**
-
-Сайт будет доступен по адресу: `https://ваш-username.github.io/framesearch/`
-
-#### Настройка базового пути
-
-Если приложение находится в подпапке, обновите пути в файлах:
-
-```javascript
-// В manifest.json
-"start_url": "/framesearch/index.html",
-"scope": "/framesearch/",
-
-// В sw.js
-const CACHE_NAME = 'framesearch-v1';
-const BASE_PATH = '/framesearch';
-```
-
-### 2. Vercel
-
-1. **Установите Vercel CLI:**
+**Ручной деплой:**
 ```bash
-npm install -g vercel
-```
-
-2. **Разверните проект:**
-```bash
-cd framesearch
+npm i -g vercel
 vercel
 ```
 
-3. **Следуйте инструкциям в терминале**
+**Конфигурация:** `vercel.json` уже настроен
 
-Или используйте веб-интерфейс:
-- Перейдите на [vercel.com](https://vercel.com)
-- Импортируйте репозиторий с GitHub
-- Vercel автоматически определит настройки
+### 2. Netlify
 
-### 3. Netlify
+**Автоматический деплой:**
+1. Подключите репозиторий к Netlify
+2. Netlify автоматически обнаружит `netlify.toml` или `_redirects`
+3. Деплой произойдет автоматически
 
-#### Через веб-интерфейс:
-
-1. Перейдите на [netlify.com](https://netlify.com)
-2. Нажмите "Add new site" → "Import an existing project"
-3. Выберите репозиторий GitHub
-4. Настройки сборки оставьте пустыми (статический сайт)
-5. Нажмите "Deploy"
-
-#### Через Netlify CLI:
-
+**Ручной деплой:**
 ```bash
-npm install -g netlify-cli
-cd framesearch
-netlify deploy
+npm i -g netlify-cli
+netlify deploy --prod
 ```
+
+**Конфигурация:** 
+- `netlify.toml` - основная конфигурация
+- `_redirects` - альтернативная конфигурация
+
+### 3. GitHub Pages
+
+**Настройка:**
+1. Перейдите в Settings → Pages
+2. Выберите ветку для деплоя
+3. Сохраните
+
+**Примечание:** GitHub Pages не поддерживает rewrites из коробки. Используйте полные URL с `.html`:
+- ✅ `/video_id.html?id=1`
+- ❌ `/video_id?id=1`
 
 ### 4. Cloudflare Pages
 
-1. Перейдите на [pages.cloudflare.com](https://pages.cloudflare.com)
-2. Подключите GitHub аккаунт
-3. Выберите репозиторий
-4. Настройки сборки:
-   - Build command: (оставьте пустым)
-   - Build output directory: `/`
-5. Нажмите "Save and Deploy"
+**Автоматический деплой:**
+1. Подключите репозиторий к Cloudflare Pages
+2. Создайте файл `_redirects` (уже создан)
+3. Деплой произойдет автоматически
 
-### 5. Локальный сервер
+**Конфигурация:** `_redirects` файл
 
-#### Python:
+### 5. Firebase Hosting
+
+**Настройка:**
+1. Установите Firebase CLI: `npm i -g firebase-tools`
+2. Инициализируйте проект: `firebase init hosting`
+3. Создайте `firebase.json`:
+
+```json
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/video_id",
+        "destination": "/video_id.html"
+      },
+      {
+        "source": "/search_results",
+        "destination": "/search_results.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "/sw.js",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+4. Деплой: `firebase deploy`
+
+## Важные замечания
+
+### URL без расширений
+
+Приложение поддерживает URL без расширения `.html` на следующих платформах:
+- ✅ Vercel
+- ✅ Netlify
+- ✅ Cloudflare Pages
+- ✅ Firebase Hosting
+- ❌ GitHub Pages (требуется `.html`)
+
+### Service Worker
+
+Service Worker (`sw.js`) должен обслуживаться с заголовком `Cache-Control: no-cache`. Это уже настроено во всех конфигурационных файлах.
+
+### HTTPS
+
+PWA требует HTTPS для работы Service Worker. Все перечисленные платформы предоставляют бесплатный SSL сертификат.
+
+## Локальная разработка
+
+### Рекомендуемый способ (с поддержкой rewrites)
+
+Используйте `serve` с конфигурацией:
+
 ```bash
-cd framesearch
+# Установите serve глобально
+npm install -g serve
+
+# Запустите с конфигурацией
+serve -c serve.json
+```
+
+Теперь URL без `.html` будут работать локально!
+
+### Альтернативные способы
+
+**Live Server (VS Code):**
+```bash
+# Используйте полные URL с .html
+http://localhost:5500/video_id.html?id=1
+```
+
+**Python:**
+```bash
 python -m http.server 8000
+# Используйте полные URL с .html
 ```
 
-#### Node.js (http-server):
+**Node.js http-server:**
 ```bash
-npm install -g http-server
-cd framesearch
-http-server -p 8000
+npx http-server
+# Используйте полные URL с .html
 ```
 
-#### PHP:
-```bash
-cd framesearch
-php -S localhost:8000
-```
+**Важно:** При использовании Live Server, Python или http-server используйте полные URL с `.html`:
+- `http://localhost:5500/video_id.html?id=1`
 
-## Настройка HTTPS
+## Проверка деплоя
 
-### Для локальной разработки
-
-#### mkcert (рекомендуется):
-
-```bash
-# Установка mkcert
-brew install mkcert  # macOS
-# или
-choco install mkcert  # Windows
-
-# Создание сертификата
-mkcert -install
-mkcert localhost 127.0.0.1 ::1
-
-# Запуск с HTTPS
-http-server -S -C localhost+2.pem -K localhost+2-key.pem
-```
-
-### Для продакшена
-
-Все перечисленные хостинги (GitHub Pages, Vercel, Netlify, Cloudflare) автоматически предоставляют HTTPS.
-
-## Настройка Custom Domain
-
-### GitHub Pages:
-
-1. Settings → Pages → Custom domain
-2. Введите ваш домен (example.com)
-3. Настройте DNS записи у регистратора:
-   ```
-   A    @    185.199.108.153
-   A    @    185.199.109.153
-   A    @    185.199.110.153
-   A    @    185.199.111.153
-   ```
-
-### Vercel/Netlify/Cloudflare:
-
-1. Перейдите в настройки проекта
-2. Добавьте custom domain
-3. Следуйте инструкциям по настройке DNS
-
-## Оптимизация для продакшена
-
-### 1. Минификация (опционально)
-
-Для уменьшения размера файлов:
-
-```bash
-# Установка инструментов
-npm install -g terser clean-css-cli html-minifier
-
-# Минификация JS
-terser scripts/main.js -o scripts/main.min.js -c -m
-
-# Минификация CSS
-cleancss -o styles/main.min.css styles/main.css
-
-# Минификация HTML
-html-minifier --collapse-whitespace --remove-comments index.html -o index.min.html
-```
-
-### 2. Генерация иконок
-
-Следуйте инструкциям в `generate-icons.md`
-
-### 3. Настройка Service Worker
-
-Убедитесь, что в `sw.js` указаны правильные пути и версия кэша.
-
-### 4. Проверка PWA
-
-Используйте Lighthouse в Chrome DevTools:
-1. Откройте DevTools (F12)
-2. Вкладка "Lighthouse"
-3. Выберите "Progressive Web App"
-4. Нажмите "Generate report"
-
-## Переменные окружения
-
-Framesearch не требует переменных окружения, так как работает полностью на клиенте.
-
-## Мониторинг
-
-### Google Analytics (опционально)
-
-Если хотите добавить аналитику:
-
-```html
-<!-- В index.html перед </head> -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'GA_MEASUREMENT_ID');
-</script>
-```
-
-## Обновления
-
-### Автоматические обновления через Service Worker
-
-Service Worker автоматически обновляет кэш при изменении версии:
-
-```javascript
-// В sw.js измените версию
-const CACHE_NAME = 'framesearch-v2'; // было v1
-```
-
-### Ручное обновление
-
-Пользователи могут обновить приложение:
-1. Закрыть все вкладки с приложением
-2. Открыть заново
-3. Или: DevTools → Application → Service Workers → Update
+После деплоя проверьте:
+1. ✅ Главная страница загружается
+2. ✅ Service Worker регистрируется
+3. ✅ Приложение работает оффлайн
+4. ✅ URL без `.html` работают (кроме GitHub Pages)
+5. ✅ PWA можно установить
 
 ## Troubleshooting
 
-### Проблема: PWA не устанавливается
+### "Cannot GET /video_id"
+
+**Причина:** Хостинг не поддерживает rewrites или конфигурация не применена.
 
 **Решение:**
-- Проверьте HTTPS (обязательно для PWA)
-- Проверьте manifest.json на ошибки
-- Убедитесь, что Service Worker зарегистрирован
-- Проверьте консоль браузера на ошибки
+1. Проверьте наличие конфигурационного файла для вашего хостинга
+2. Используйте полные URL с `.html`
+3. Для GitHub Pages всегда используйте `.html`
 
-### Проблема: Иконки не отображаются
+### Service Worker не регистрируется
 
-**Решение:**
-- Сгенерируйте PNG иконки (см. generate-icons.md)
-- Проверьте пути в manifest.json
-- Убедитесь, что файлы существуют
-
-### Проблема: Старая версия кэшируется
+**Причина:** Отсутствует HTTPS или неправильные заголовки.
 
 **Решение:**
-- Измените CACHE_NAME в sw.js
-- Очистите кэш в DevTools
-- Используйте hard refresh (Ctrl+Shift+R)
+1. Убедитесь, что сайт работает по HTTPS
+2. Проверьте заголовки `sw.js` в DevTools → Network
+
+### PWA не устанавливается
+
+**Причина:** Не выполнены требования PWA.
+
+**Решение:**
+1. Проверьте `manifest.json`
+2. Убедитесь, что Service Worker зарегистрирован
+3. Проверьте в DevTools → Application → Manifest
+
+## Рекомендации
+
+1. **Используйте Vercel или Netlify** - они предоставляют лучшую поддержку для PWA
+2. **Включите аналитику** - добавьте Google Analytics или аналоги
+3. **Настройте CDN** - для ускорения загрузки статических файлов
+4. **Мониторинг** - используйте Lighthouse для проверки производительности
 
 ## Поддержка
 
-Если возникли проблемы с развертыванием:
-- 📧 VK: [vk.com/framesearch_ru](https://vk.com/framesearch_ru)
-- 💬 Telegram: [t.me/framesearch_ru](https://t.me/framesearch_ru)
-- 🐛 GitHub Issues: [github.com/SerGioPlay01/framesearch/issues](https://github.com/SerGioPlay01/framesearch/issues)
+Если у вас возникли проблемы с деплоем:
+1. Проверьте документацию вашего хостинга
+2. Убедитесь, что конфигурационный файл находится в корне проекта
+3. Проверьте логи деплоя на наличие ошибок

@@ -214,19 +214,9 @@ class ThemeManager {
     }
 
     init() {
-        this.createThemeButton();
         this.createThemeModal();
         this.applyTheme(this.currentTheme);
         this.attachEventListeners();
-    }
-
-    createThemeButton() {
-        const buttonHTML = `
-            <button id="themeToggleBtn" class="floating-btn theme-btn" title="Настройки темы">
-                <i data-lucide="palette"></i>
-            </button>
-        `;
-        document.body.insertAdjacentHTML('beforeend', buttonHTML);
     }
 
     createThemeModal() {
@@ -392,15 +382,6 @@ class ThemeManager {
     }
 
     attachEventListeners() {
-        // Open modal button
-        const themeBtn = document.getElementById('themeToggleBtn');
-        if (themeBtn) {
-            // Remove old listener if exists
-            const newBtn = themeBtn.cloneNode(true);
-            themeBtn.parentNode.replaceChild(newBtn, themeBtn);
-            newBtn.addEventListener('click', () => this.openModal());
-        }
-
         // Theme selection
         const themeOptions = document.querySelectorAll('.theme-option');
         themeOptions.forEach(option => {
@@ -679,8 +660,28 @@ class ThemeManager {
 const themeManager = new ThemeManager();
 window.themeManager = themeManager;
 
-// Apply theme immediately (before DOM load to prevent flash)
-themeManager.applyTheme(themeManager.currentTheme);
+// Apply theme IMMEDIATELY (before DOM load to prevent flash)
+(function() {
+    const savedTheme = localStorage.getItem('framesearch-theme') || 'default';
+    const customColors = localStorage.getItem('framesearch-custom-colors');
+    
+    let colors;
+    if (savedTheme === 'custom' && customColors) {
+        colors = JSON.parse(customColors);
+    } else if (themeManager.themes[savedTheme]) {
+        colors = themeManager.themes[savedTheme].colors;
+    }
+    
+    if (colors) {
+        const root = document.documentElement;
+        Object.entries(colors).forEach(([property, value]) => {
+            root.style.setProperty(property, value);
+        });
+    }
+    
+    // Mark theme as loaded to prevent FOUC
+    document.documentElement.classList.add('theme-loaded');
+})();
 
 // Initialize UI on load
 document.addEventListener('DOMContentLoaded', () => {

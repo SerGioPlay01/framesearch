@@ -1,0 +1,491 @@
+/**
+ * Framesearch - Creative Preloader
+ * Уникальный прелоадер с анимацией кинопленки
+ * 
+ * Автор: SerGioPlay
+ * © 2026 Framesearch
+ */
+
+/* ===== PRELOADER CONTAINER ===== */
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+    overflow: hidden;
+}
+
+.preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* ===== ANIMATED BACKGROUND ===== */
+.preloader-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    opacity: 0.1;
+}
+
+.preloader-bg::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        var(--accent-primary) 10px,
+        var(--accent-primary) 20px
+    );
+    animation: bgMove 20s linear infinite;
+}
+
+@keyframes bgMove {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(50px, 50px);
+    }
+}
+
+/* ===== FILM STRIP ANIMATION ===== */
+.preloader-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.film-strip {
+    position: relative;
+    width: 300px;
+    height: 200px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 3px solid var(--accent-primary);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 
+        0 0 30px var(--accent-primary),
+        inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Film holes */
+.film-strip::before,
+.film-strip::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 20px;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent 0px,
+        transparent 10px,
+        var(--bg-primary) 10px,
+        var(--bg-primary) 20px,
+        transparent 20px,
+        transparent 40px
+    );
+    z-index: 3;
+}
+
+.film-strip::before {
+    top: 0;
+    border-bottom: 2px solid var(--accent-primary);
+}
+
+.film-strip::after {
+    bottom: 0;
+    border-top: 2px solid var(--accent-primary);
+}
+
+/* Film frames */
+.film-frames {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 400%;
+    height: calc(100% - 60px);
+    display: flex;
+    animation: filmRoll 3s linear infinite;
+}
+
+@keyframes filmRoll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-25%);
+    }
+}
+
+.film-frame {
+    width: 25%;
+    height: 100%;
+    border-right: 2px solid var(--accent-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: var(--accent-primary);
+    background: linear-gradient(
+        135deg,
+        rgba(165, 180, 252, 0.1) 0%,
+        rgba(139, 92, 246, 0.1) 100%
+    );
+    position: relative;
+    overflow: hidden;
+}
+
+.film-frame::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    animation: shine 2s infinite;
+}
+
+@keyframes shine {
+    0% {
+        left: -100%;
+    }
+    50%, 100% {
+        left: 100%;
+    }
+}
+
+/* ===== LOGO ANIMATION ===== */
+.preloader-logo {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    letter-spacing: -0.05em;
+    animation: logoFloat 2s ease-in-out infinite;
+}
+
+.preloader-logo .logo-accent {
+    color: var(--accent-primary);
+    text-shadow: 0 0 20px var(--accent-primary);
+}
+
+@keyframes logoFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* ===== LOADING BAR ===== */
+.loading-bar-container {
+    width: 300px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.loading-bar {
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        var(--accent-primary) 0%,
+        var(--accent-secondary) 50%,
+        var(--accent-primary) 100%
+    );
+    background-size: 200% 100%;
+    border-radius: 10px;
+    width: 0%;
+    transition: width 0.3s ease;
+    animation: gradientMove 2s linear infinite;
+    box-shadow: 0 0 10px var(--accent-primary);
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 200% 0%;
+    }
+}
+
+/* ===== LOADING TEXT ===== */
+.loading-text {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-align: center;
+    animation: textPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes textPulse {
+    0%, 100% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+/* ===== LOADING PERCENTAGE ===== */
+.loading-percentage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 4;
+}
+
+/* ===== ORBITING PARTICLES ===== */
+.preloader-particles {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-primary);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent-primary);
+    animation: orbit 4s linear infinite;
+}
+
+.particle:nth-child(1) {
+    animation-delay: 0s;
+    animation-duration: 3s;
+}
+
+.particle:nth-child(2) {
+    animation-delay: -1s;
+    animation-duration: 4s;
+}
+
+.particle:nth-child(3) {
+    animation-delay: -2s;
+    animation-duration: 5s;
+}
+
+.particle:nth-child(4) {
+    animation-delay: -3s;
+    animation-duration: 3.5s;
+}
+
+.particle:nth-child(5) {
+    animation-delay: -1.5s;
+    animation-duration: 4.5s;
+}
+
+@keyframes orbit {
+    0% {
+        transform: rotate(0deg) translateX(200px) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(360deg) translateX(200px) rotate(-360deg);
+        opacity: 0;
+    }
+}
+
+/* ===== LOADING TIPS ===== */
+.loading-tips {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 500px;
+    text-align: center;
+    padding: 1rem 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.loading-tip {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    animation: tipFadeIn 0.5s ease-in-out;
+}
+
+.loading-tip-icon {
+    display: inline-block;
+    margin-right: 0.5rem;
+    color: var(--accent-primary);
+}
+
+@keyframes tipFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .film-strip {
+        width: 250px;
+        height: 150px;
+    }
+    
+    .preloader-logo {
+        font-size: 2rem;
+    }
+    
+    .loading-bar-container {
+        width: 250px;
+    }
+    
+    .preloader-particles {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .particle {
+        width: 6px;
+        height: 6px;
+    }
+    
+    @keyframes orbit {
+        0% {
+            transform: rotate(0deg) translateX(150px) rotate(0deg);
+            opacity: 0;
+        }
+        10% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1;
+        }
+        100% {
+            transform: rotate(360deg) translateX(150px) rotate(-360deg);
+            opacity: 0;
+        }
+    }
+    
+    .loading-tips {
+        bottom: 2rem;
+        max-width: 90%;
+        padding: 0.75rem 1rem;
+    }
+    
+    .loading-tip {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .film-strip {
+        width: 200px;
+        height: 120px;
+    }
+    
+    .film-frame {
+        font-size: 2rem;
+    }
+    
+    .preloader-logo {
+        font-size: 1.5rem;
+    }
+    
+    .loading-bar-container {
+        width: 200px;
+    }
+    
+    .loading-percentage {
+        font-size: 1.25rem;
+    }
+}
+
+/* ===== SKIP BUTTON ===== */
+.preloader-skip {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.preloader-skip:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--accent-primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.preloader-skip i {
+    width: 16px;
+    height: 16px;
+}
+
+@media (max-width: 768px) {
+    .preloader-skip {
+        top: 1rem;
+        right: 1rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+    }
+}

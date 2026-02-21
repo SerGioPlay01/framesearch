@@ -81,7 +81,7 @@ async function performSearch() {
         renderResults(videos);
         
     } catch (error) {
-        console.error('Error performing search:', error);
+        logger.error('Error performing search', error);
     }
 }
 
@@ -297,10 +297,9 @@ async function deleteVideo(videoId) {
                 await db.deleteEpisode(episode.id);
             }
             
-            console.log('Контент удален');
             performSearch();
         } catch (error) {
-            console.error('Error deleting video:', error);
+            logger.error('Error deleting video', error);
             alert('Ошибка при удалении');
         }
     }

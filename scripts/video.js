@@ -50,7 +50,6 @@ function initVideoPlayer() {
                 lucide.createIcons();
             }
         }
-        console.log('Video playing:', isPlaying);
     }
 }
 
@@ -65,7 +64,6 @@ function initProgressBar() {
         const rect = progressBar.getBoundingClientRect();
         const percent = ((e.clientX - rect.left) / rect.width) * 100;
         progressFilled.style.width = `${percent}%`;
-        console.log('Seek to:', percent + '%');
     });
 }
 
@@ -87,7 +85,6 @@ function initKeyboardShortcuts() {
             const fullscreenBtn = document.querySelector('[data-lucide="maximize"]');
             if (fullscreenBtn) {
                 fullscreenBtn.closest('button').click();
-                console.log('Toggle fullscreen');
             }
         }
         
@@ -96,18 +93,17 @@ function initKeyboardShortcuts() {
             const volumeBtn = document.querySelector('[data-lucide="volume-2"]');
             if (volumeBtn) {
                 volumeBtn.closest('button').click();
-                console.log('Toggle mute');
             }
         }
         
         // Arrow Left - Rewind 10s
         if (e.code === 'ArrowLeft') {
-            console.log('Rewind 10s');
+            // Rewind logic
         }
         
         // Arrow Right - Forward 10s
         if (e.code === 'ArrowRight') {
-            console.log('Forward 10s');
+            // Forward logic
         }
     });
 }

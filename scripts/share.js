@@ -199,10 +199,9 @@ class ShareManager {
             a.click();
             URL.revokeObjectURL(url);
 
-            console.log('Export successful');
             this.close();
         } catch (error) {
-            console.error('Export failed:', error);
+            logger.error('Export failed', error);
             await dialog.alert('Ошибка экспорта: ' + error.message, 'Ошибка');
         }
     }
@@ -231,10 +230,8 @@ class ShareManager {
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons();
             }
-            
-            console.log('Code generated successfully:', code);
         } catch (error) {
-            console.error('Code generation failed:', error);
+            logger.error('Code generation failed', error);
             await dialog.alert('Ошибка создания кода: ' + error.message, 'Ошибка');
         }
     }
@@ -258,7 +255,6 @@ class ShareManager {
                 }, 2000);
             }
         }).catch(err => {
-            console.error('Failed to copy:', err);
             // Fallback for older browsers
             codeTextarea.select();
             document.execCommand('copy');

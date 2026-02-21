@@ -41,13 +41,11 @@ class PWAManager {
         if (window.matchMedia('(display-mode: standalone)').matches || 
             window.navigator.standalone === true) {
             this.isInstalled = true;
-            console.log('[PWA] Running as installed app');
         }
     }
 
     async registerServiceWorker() {
         if (!('serviceWorker' in navigator)) {
-            console.log('[PWA] Service Worker not supported');
             return;
         }
 
@@ -56,26 +54,19 @@ class PWAManager {
                 scope: '/'
             });
 
-            console.log('[PWA] Service Worker registered:', this.swRegistration);
-
             // Check for updates every hour
             setInterval(() => {
                 this.swRegistration.update();
             }, 60 * 60 * 1000);
 
         } catch (error) {
-            console.error('[PWA] Service Worker registration failed:', error);
+            logger.error('Service Worker registration failed', error);
         }
     }
 
     setupInstallPrompt() {
         window.addEventListener('beforeinstallprompt', (e) => {
-            console.log('[PWA] Install prompt available');
-            
-            // Prevent the mini-infobar from appearing
-            e.preventDefault();
-            
-            // Save the event for later use
+            // Save the event for later use (without preventing default to avoid console warning)
             this.deferredPrompt = e;
             
             // Show install button
@@ -84,7 +75,6 @@ class PWAManager {
 
         // Handle successful installation
         window.addEventListener('appinstalled', () => {
-            console.log('[PWA] App installed successfully');
             this.isInstalled = true;
             this.deferredPrompt = null;
             this.hideInstallButton();
@@ -97,7 +87,6 @@ class PWAManager {
 
         this.swRegistration.addEventListener('updatefound', () => {
             const newWorker = this.swRegistration.installing;
-            console.log('[PWA] New service worker found');
 
             newWorker.addEventListener('statechange', () => {
                 if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
@@ -174,12 +163,9 @@ class PWAManager {
 
         // Wait for the user's response
         const { outcome } = await this.deferredPrompt.userChoice;
-        console.log('[PWA] Install prompt outcome:', outcome);
 
         if (outcome === 'accepted') {
-            console.log('[PWA] User accepted the install prompt');
-        } else {
-            console.log('[PWA] User dismissed the install prompt');
+            logger.success('PWA installed successfully');
         }
 
         // Clear the deferred prompt

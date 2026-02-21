@@ -9,7 +9,7 @@
  * © 2026 Framesearch.  
  */
 
-const CACHE_VERSION = 'framesearch-v1.0.0';
+const CACHE_VERSION = 'framesearch-v1.0.4';
 const CACHE_NAME = `${CACHE_VERSION}-static`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 
@@ -101,6 +101,11 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
+    // Skip landing page - let it handle its own routing
+    if (url.pathname.includes('landing')) {
+        return;
+    }
+
     event.respondWith(
         caches.match(request)
             .then((cachedResponse) => {
@@ -132,9 +137,16 @@ self.addEventListener('fetch', (event) => {
                     .catch((error) => {
                         console.error('[SW] Fetch failed:', error);
                         
-                        // Return offline page for navigation requests
+                        // For navigation requests, try to return cached index.html
                         if (request.mode === 'navigate') {
-                            return caches.match('/index.html');
+                            return caches.match('/index.html')
+                                .then((cachedIndex) => {
+                                    if (cachedIndex) {
+                                        return cachedIndex;
+                                    }
+                                    // If no cached index, let it fail naturally
+                                    throw error;
+                                });
                         }
                         
                         throw error;

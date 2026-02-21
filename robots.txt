@@ -1,14 +1,17 @@
 # Framesearch - Robots.txt
-# https://framesearch.vercel.app/
+# https://framesearch.netlify.app/
 
 User-agent: *
+Allow: /landing.html
 Allow: /
 Disallow: /scripts/
 Disallow: /styles/
 Disallow: /res/
+Disallow: /*.js$
+Disallow: /*.css$
 
 # Sitemap
-Sitemap: https://framesearch-lac.vercel.app/sitemap.xml
+Sitemap: https://framesearch.netlify.app/sitemap.xml
 
 # Crawl-delay (optional, adjust as needed)
 Crawl-delay: 1
@@ -16,9 +19,13 @@ Crawl-delay: 1
 # Specific rules for common bots
 User-agent: Googlebot
 Allow: /
+Allow: /*.js$
+Allow: /*.css$
+Crawl-delay: 0
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Slurp
 Allow: /
@@ -31,3 +38,4 @@ Allow: /
 
 User-agent: YandexBot
 Allow: /
+Crawl-delay: 1

@@ -228,8 +228,16 @@ async function loadVideos(filter = 'all') {
             });
         });
         
+        // Update collection count
+        if (window.viewModesManager) {
+            viewModesManager.updateCollectionCount(videos.length);
+        }
+        
+        // Dispatch event for view modes manager
+        window.dispatchEvent(new CustomEvent('videosLoaded', { detail: { count: videos.length } }));
+        
     } catch (error) {
-        console.error('Error loading videos:', error);
+        logger.error('Error loading videos', error);
     }
 }
 
@@ -294,7 +302,6 @@ function initFilters() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     
     if (filterButtons.length === 0) {
-        console.warn('No filter buttons found during initialization');
         return;
     }
     
@@ -313,8 +320,6 @@ function initFilters() {
             }
         });
     });
-    
-    console.log(`✅ Initialized ${filterButtons.length} filter buttons`);
 }
 
 // Search functionality
@@ -340,18 +345,27 @@ function initSearch() {
 // Keyboard shortcuts
 function initHotkeys() {
     document.addEventListener('keydown', (e) => {
-        // Ctrl+K - Open search
-        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-            e.preventDefault();
-            const searchInput = document.querySelector('.search-input');
-            if (searchInput) {
-                searchInput.focus();
-                searchInput.select();
+        // Only handle shortcuts on Framesearch pages, not in Google search
+        const isGoogleSearch = window.location.hostname.includes('google');
+        const isInputFocused = document.activeElement.tagName === 'INPUT' || 
+                              document.activeElement.tagName === 'TEXTAREA' ||
+                              document.activeElement.isContentEditable;
+        
+        // Ctrl+K - Open search (only if not in input field and not on Google)
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k' && !isGoogleSearch) {
+            // Don't prevent default if we're in an input field (allow browser search)
+            if (!isInputFocused) {
+                e.preventDefault();
+                const searchInput = document.querySelector('.search-input');
+                if (searchInput) {
+                    searchInput.focus();
+                    searchInput.select();
+                }
             }
         }
         
         // Ctrl+N - Add new video
-        if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'n' && !isInputFocused) {
             e.preventDefault();
             modal.open();
         }
@@ -712,10 +726,9 @@ async function deleteVideo(videoId) {
                 await db.deleteEpisode(episode.id);
             }
             
-            console.log('Контент удален');
             loadVideos();
         } catch (error) {
-            console.error('Error deleting video:', error);
+            logger.error('Error deleting video', error);
             await dialog.alert('Ошибка при удалении', 'Ошибка');
         }
     }
@@ -763,7 +776,7 @@ async function loadCollections() {
             lucide.createIcons();
         }
     } catch (error) {
-        console.error('Error loading collections:', error);
+        logger.error('Error loading collections', error);
     }
 }
 
@@ -797,7 +810,7 @@ async function openCollection(collectionId) {
     const collection = await db.getCollection(collectionId);
     
     if (!collection) {
-        console.error('Collection not found:', collectionId);
+        logger.error('Collection not found', { collectionId });
         return;
     }
     
@@ -840,7 +853,7 @@ async function openCollection(collectionId) {
             lucide.createIcons();
         }
     } else {
-        console.error('Section header not found');
+        logger.error('Section header not found');
     }
     
     // Load videos from this collection
@@ -848,7 +861,7 @@ async function openCollection(collectionId) {
     const cardsGrid = document.querySelector('.cards-grid');
     
     if (!cardsGrid) {
-        console.error('Cards grid not found');
+        logger.error('Cards grid not found');
         return;
     }
     
@@ -906,10 +919,9 @@ async function deleteCollection(collectionId) {
     if (await dialog.confirm('Вы уверены, что хотите удалить эту коллекцию? Видео останутся в библиотеке.', 'Удаление коллекции')) {
         try {
             await db.deleteCollection(collectionId);
-            console.log('Коллекция удалена');
             loadCollections();
         } catch (error) {
-            console.error('Error deleting collection:', error);
+            logger.error('Error deleting collection', error);
             await dialog.alert('Ошибка при удалении', 'Ошибка');
         }
     }
@@ -935,7 +947,7 @@ async function handleShareLink(shareData) {
                 await dialog.alert('Видео успешно импортировано!', 'Успех');
                 window.location.href = `video_id.html?id=${videoId}`;
             } catch (error) {
-                console.error('Encrypted import error:', error);
+                logger.error('Encrypted import error', error);
                 await dialog.alert('Неверный пароль или поврежденные данные', 'Ошибка');
                 window.location.href = window.location.pathname;
             }
@@ -945,13 +957,13 @@ async function handleShareLink(shareData) {
                 await dialog.alert('Видео успешно импортировано!', 'Успех');
                 window.location.href = `video_id.html?id=${videoId}`;
             } catch (error) {
-                console.error('Import error:', error);
+                logger.error('Import error', error);
                 await dialog.alert('Ошибка импорта: ' + error.message, 'Ошибка');
                 window.location.href = window.location.pathname;
             }
         }
     } catch (error) {
-        console.error('Share link error:', error);
+        logger.error('Share link error', error);
         await dialog.alert('Ошибка обработки ссылки: ' + error.message, 'Ошибка');
         window.location.href = window.location.pathname;
     }

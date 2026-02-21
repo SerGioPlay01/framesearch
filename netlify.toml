@@ -1,0 +1,77 @@
+# Redirect root to landing for SEO (only for first-time visitors)
+[[redirects]]
+  from = "/"
+  to = "/landing.html"
+  status = 200
+  force = false
+  conditions = {Cookie = ["!visited=true"]}
+
+[[redirects]]
+  from = "/landing"
+  to = "/landing.html"
+  status = 200
+
+[[redirects]]
+  from = "/video_id"
+  to = "/video_id.html"
+  status = 200
+
+[[redirects]]
+  from = "/search_results"
+  to = "/search_results.html"
+  status = 200
+
+[[redirects]]
+  from = "/terms"
+  to = "/terms.html"
+  status = 200
+
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy.html"
+  status = 200
+
+[[redirects]]
+  from = "/cookies"
+  to = "/cookies.html"
+  status = 200
+
+[[redirects]]
+  from = "/license"
+  to = "/license.html"
+  status = 200
+
+[[redirects]]
+  from = "/disclaimer"
+  to = "/disclaimer.html"
+  status = 200
+
+# Service Worker should not be cached
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+# Landing page headers for better SEO
+[[headers]]
+  for = "/landing.html"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Cache-Control = "public, max-age=3600, must-revalidate"
+    Link = '''
+      </styles/landing.css>; rel=preload; as=style,
+      </scripts/landing.js>; rel=preload; as=script,
+      </screenshots/screenshot.png>; rel=preload; as=image
+    '''
+
+# Security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"

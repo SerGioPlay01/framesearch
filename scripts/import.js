@@ -33,9 +33,12 @@ class ImportManager {
         const modalHTML = `
             <div id="importModal" class="modal">
                 <div class="modal-overlay"></div>
-                <div class="modal-content">
+                <div class="modal-content import-modal-content">
                     <div class="modal-header">
-                        <h2 data-i18n="import.content">${t('import.content')}</h2>
+                        <h2>
+                            <i data-lucide="upload"></i>
+                            <span data-i18n="import.content">${t('import.content')}</span>
+                        </h2>
                         <button class="modal-close" onclick="importManager.close()">
                             <i data-lucide="x"></i>
                         </button>
@@ -56,61 +59,77 @@ class ImportManager {
                             
                             <!-- File Import Tab -->
                             <div id="fileImportTab" class="import-tab-content active">
-                                <div class="import-icon">
-                                    <i data-lucide="file-up"></i>
+                                <div class="import-drop-zone" id="importDropZone">
+                                    <div class="import-icon">
+                                        <i data-lucide="file-up"></i>
+                                    </div>
+                                    
+                                    <h3 data-i18n="import.uploadFile">${t('import.uploadFile')}</h3>
+                                    <p class="import-description" data-i18n="import.supportedFormats">${t('import.supportedFormats')}</p>
+                                    
+                                    <input type="file" id="importFileInput" accept=".json,.framesearch" style="display: none;">
+                                    
+                                    <button class="btn btn-primary btn-large import-btn" id="importFileBtn">
+                                        <i data-lucide="upload"></i>
+                                        <span data-i18n="import.chooseFile">${t('import.chooseFile')}</span>
+                                    </button>
+                                    
+                                    <p class="import-hint">
+                                        <i data-lucide="mouse-pointer-click"></i>
+                                        <span>или перетащите файл сюда</span>
+                                    </p>
                                 </div>
-                                
-                                <h3 data-i18n="import.uploadFile">${t('import.uploadFile')}</h3>
-                                <p data-i18n="import.supportedFormats">${t('import.supportedFormats')}</p>
-                                
-                                <input type="file" id="importFileInput" accept=".json,.framesearch" style="display: none;">
-                                
-                                <button class="btn btn-primary btn-large" onclick="document.getElementById('importFileInput').click()">
-                                    <i data-lucide="upload"></i>
-                                    <span data-i18n="import.chooseFile">${t('import.chooseFile')}</span>
-                                </button>
                                 
                                 <div id="importFileInfo" class="file-info" style="display: none;">
                                     <div class="file-info-content">
-                                        <i data-lucide="file"></i>
-                                        <div>
+                                        <div class="file-icon">
+                                            <i data-lucide="file-check"></i>
+                                        </div>
+                                        <div class="file-details">
                                             <div class="file-name"></div>
                                             <div class="file-size"></div>
                                         </div>
+                                        <button class="file-remove" onclick="importManager.clearFile()">
+                                            <i data-lucide="x"></i>
+                                        </button>
                                     </div>
                                 </div>
                                 
-                                <div id="importPasswordSection" style="display: none; margin-top: 1.5rem;">
-                                    <p style="color: #fbbf24; margin-bottom: 1rem;">
+                                <div id="importPasswordSection" class="password-section" style="display: none;">
+                                    <div class="password-alert">
                                         <i data-lucide="lock"></i>
                                         <span data-i18n="import.fileProtected">${t('import.fileProtected')}</span>
-                                    </p>
-                                    <input type="password" id="importPasswordInput" placeholder="${t('import.enterPassword')}" data-i18n="import.enterPassword" class="form-input">
-                                    <button class="btn btn-primary" onclick="importManager.importWithPassword()" style="margin-top: 1rem;">
-                                        <i data-lucide="check"></i>
-                                        <span data-i18n="import.importBtn">${t('import.importBtn')}</span>
-                                    </button>
+                                    </div>
+                                    <div class="password-input-group">
+                                        <input type="password" id="importPasswordInput" placeholder="${t('import.enterPassword')}" data-i18n="import.enterPassword" class="form-input">
+                                        <button class="btn btn-primary" onclick="importManager.importWithPassword()">
+                                            <i data-lucide="unlock"></i>
+                                            <span data-i18n="import.importBtn">${t('import.importBtn')}</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             
                             <!-- Code Import Tab -->
                             <div id="linkImportTab" class="import-tab-content">
-                                <div class="import-icon">
-                                    <i data-lucide="share-2"></i>
+                                <div class="import-code-section">
+                                    <div class="import-icon">
+                                        <i data-lucide="share-2"></i>
+                                    </div>
+                                    
+                                    <h3 data-i18n="import.byCode">${t('import.byCode')}</h3>
+                                    <p class="import-description" data-i18n="import.byCode.desc">${t('import.byCode.desc')}</p>
+                                    
+                                    <textarea id="importCodeInput" placeholder="${t('import.pasteCode')}" data-i18n="import.pasteCode" class="form-input code-textarea" rows="6"></textarea>
+                                    
+                                    <button class="btn btn-primary btn-large" onclick="importManager.importFromCode()">
+                                        <i data-lucide="download"></i>
+                                        <span data-i18n="import.importBtn">${t('import.importBtn')}</span>
+                                    </button>
                                 </div>
-                                
-                                <h3 data-i18n="import.byCode">${t('import.byCode')}</h3>
-                                <p data-i18n="import.byCode.desc">${t('import.byCode.desc')}</p>
-                                
-                                <textarea id="importCodeInput" placeholder="${t('import.pasteCode')}" data-i18n="import.pasteCode" class="form-input code-textarea" rows="4" style="margin-bottom: 1rem;"></textarea>
-                                
-                                <button class="btn btn-primary btn-large" onclick="importManager.importFromCode()">
-                                    <i data-lucide="download"></i>
-                                    <span data-i18n="import.importBtn">${t('import.importBtn')}</span>
-                                </button>
                             </div>
                             
-                            <div class="import-warning">
+                            <div class="import-info">
                                 <i data-lucide="info"></i>
                                 <p data-i18n="import.warning">${t('import.warning')}</p>
                             </div>
@@ -129,14 +148,52 @@ class ImportManager {
     }
 
     attachEventListeners() {
-        // File selection
+        // Optimize file input - use direct click instead of button click
+        const importFileBtn = document.getElementById('importFileBtn');
         const importFileInput = document.getElementById('importFileInput');
+        
+        if (importFileBtn && importFileInput) {
+            // Direct click on input for faster response
+            importFileBtn.addEventListener('click', () => {
+                importFileInput.click();
+            }, { passive: true });
+        }
+
+        // File selection
         if (importFileInput) {
             importFileInput.addEventListener('change', (e) => {
                 if (e.target.files.length > 0) {
                     this.selectedFile = e.target.files[0];
                     this.showFileInfo();
                     this.tryImport();
+                }
+            }, { passive: true });
+        }
+
+        // Drag and drop
+        const dropZone = document.getElementById('importDropZone');
+        if (dropZone) {
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('drag-over');
+            });
+
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('drag-over');
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('drag-over');
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    const file = files[0];
+                    if (file.name.endsWith('.json') || file.name.endsWith('.framesearch')) {
+                        this.selectedFile = file;
+                        this.showFileInfo();
+                        this.tryImport();
+                    }
                 }
             });
         }
@@ -146,6 +203,20 @@ class ImportManager {
         if (overlay) {
             overlay.addEventListener('click', () => this.close());
         }
+    }
+
+    clearFile() {
+        this.selectedFile = null;
+        const fileInfo = document.getElementById('importFileInfo');
+        const dropZone = document.getElementById('importDropZone');
+        const passwordSection = document.getElementById('importPasswordSection');
+        
+        if (fileInfo) fileInfo.style.display = 'none';
+        if (dropZone) dropZone.style.display = 'flex';
+        if (passwordSection) passwordSection.style.display = 'none';
+        
+        const importFileInput = document.getElementById('importFileInput');
+        if (importFileInput) importFileInput.value = '';
     }
 
     open() {
@@ -216,7 +287,7 @@ class ImportManager {
                 this.close();
                 window.location.reload();
             } catch (error) {
-                console.log('Import failed, checking if password needed:', error);
+                logger.debug('Import failed, checking if password needed', error);
                 
                 // If password required, ask for it
                 if (error.message.includes('Требуется пароль') || error.message.includes('Password required')) {
@@ -234,19 +305,21 @@ class ImportManager {
                 }
             }
         } catch (error) {
-            console.error('Import from code failed:', error);
+            logger.error('Import from code failed', error);
             await dialog.alert(t('import.error.message') + ': ' + error.message, t('import.error.title'));
         }
     }
 
     showFileInfo() {
         const fileInfo = document.getElementById('importFileInfo');
+        const dropZone = document.getElementById('importDropZone');
         const fileName = fileInfo.querySelector('.file-name');
         const fileSize = fileInfo.querySelector('.file-size');
         
         fileName.textContent = this.selectedFile.name;
         fileSize.textContent = this.formatFileSize(this.selectedFile.size);
         
+        if (dropZone) dropZone.style.display = 'none';
         fileInfo.style.display = 'block';
         
         if (typeof lucide !== 'undefined') {
@@ -298,19 +371,19 @@ class ImportManager {
                     // Try import without password
                     try {
                         await db.importData(data);
-                        console.log('Import successful');
+                        logger.success('Import successful');
                         await dialog.alert(t('import.success.message'), t('import.success.title'));
                         this.close();
                         
                         // Reload page to refresh everything
                         window.location.reload();
                     } catch (error) {
-                        console.error('Import failed:', error);
+                        logger.error('Import failed', error);
                         await dialog.alert(t('import.error.message') + ': ' + error.message, t('import.error.title'));
                     }
                 }
             } catch (error) {
-                console.error('Import failed:', error);
+                logger.error('Import failed', error);
                 await dialog.alert(t('import.error.message') + ': ' + error.message, t('import.error.title'));
             }
         };
@@ -329,14 +402,14 @@ class ImportManager {
             }
 
             await db.importData(this.importData, password);
-            console.log('Import successful');
+            logger.success('Import successful');
             await dialog.alert(t('import.success.message'), t('import.success.title'));
             this.close();
             
             // Reload page to refresh everything
             window.location.reload();
         } catch (error) {
-            console.error('Import failed:', error);
+            logger.error('Import failed', error);
             
             // Show user-friendly error message
             let errorMessage = t('import.error.wrongPassword');

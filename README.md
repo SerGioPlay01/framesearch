@@ -10,7 +10,7 @@
 [![PWA](https://img.shields.io/badge/PWA-Ready-success.svg)](manifest.json)
 [![Languages](https://img.shields.io/badge/Languages-RU%20%7C%20EN-informational.svg)](scripts/i18n.js)
 
-[🇷Русский](README.md) | [🇬🇧 English](README_EN.md)
+[🇷� Русский](README.md) | [🇬🇧 English](README_EN.md)
 
 </div>
 
@@ -24,7 +24,7 @@
 
 <div align="center">
 
-![Framesearch Screenshot](screenshots/screenshot.png)
+![Framesearch Preview](preview.jpg)
 
 </div>
 
@@ -79,6 +79,16 @@ http://localhost:8000
 ---
 
 ## 📚 Документация
+
+### 🔧 Переиспользуемые компоненты
+
+Framesearch включает несколько независимых компонентов, которые можно использовать в ваших проектах:
+
+- **[Logger](docs/logger.md)** — Система красивого логирования с цветным выводом и историей
+- **[Dialog](docs/dialog.md)** — Красивые модальные диалоги (alert, confirm, prompt) с async/await
+- **[i18n](docs/i18n.md)** — Легковесная система интернационализации с динамической сменой языка
+
+Каждый компонент полностью автономен и может быть использован отдельно от основного проекта.
 
 ### Типы источников видео
 

@@ -825,8 +825,6 @@ class ModalManager {
                     episode.videoId = this.editVideoId;
                     await db.addEpisode(episode);
                 }
-                
-                console.log('Контент успешно обновлен!');
             } else {
                 // Add new video
                 const videoId = await db.addVideo(this.videoData);
@@ -836,8 +834,6 @@ class ModalManager {
                     episode.videoId = videoId;
                     await db.addEpisode(episode);
                 }
-                
-                console.log('Контент успешно добавлен!');
             }
             
             // Close modal
@@ -848,7 +844,7 @@ class ModalManager {
                 window.loadVideos();
             }
         } catch (error) {
-            console.error('Error saving video:', error);
+            logger.error('Error saving video', error);
             await dialog.alert('Ошибка при сохранении: ' + error.message, 'Ошибка');
         }
     }
@@ -1022,12 +1018,10 @@ class ModalManager {
                 if (window.RendexSDK && typeof window.RendexSDK.init === 'function') {
                     try {
                         window.RendexSDK.init();
-                        console.log('Vibix preview initialized');
                     } catch (error) {
-                        console.error('Error initializing Vibix:', error);
+                        logger.error('Error initializing Vibix', error);
                     }
                 } else {
-                    console.warn('Vibix SDK not loaded yet, retrying...');
                     setTimeout(initVibix, 200);
                 }
             };
@@ -1151,7 +1145,7 @@ class ModalManager {
                 select.appendChild(option);
             });
         } catch (error) {
-            console.error('Failed to load collections:', error);
+            logger.error('Failed to load collections', error);
         }
     }
 
@@ -1199,13 +1193,12 @@ class ModalManager {
                 this.episodes = episodes;
             }
         } catch (error) {
-            console.error('Failed to load video data:', error);
+            logger.error('Failed to load video data', error);
         }
     }
 
     showNotification(message, type = 'info') {
         // Notification removed - silent operation
-        console.log(`${type}: ${message}`);
     }
 
     // Handle source tab change

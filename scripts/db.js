@@ -22,13 +22,12 @@ class FramesearchDB {
             const request = indexedDB.open(this.dbName, this.version);
 
             request.onerror = () => {
-                console.error('Database failed to open');
+                logger.error('Database failed to open', request.error);
                 reject(request.error);
             };
 
             request.onsuccess = () => {
                 this.db = request.result;
-                console.log('Database opened successfully');
                 resolve(this.db);
             };
 
@@ -74,7 +73,7 @@ class FramesearchDB {
                     shareStore.createIndex('expiresAt', 'expiresAt', { unique: false });
                 }
 
-                console.log('Database setup complete, version:', db.version);
+                // Database setup complete
             };
         });
     }
@@ -94,8 +93,17 @@ class FramesearchDB {
                 rating: videoData.rating || 0,
                 duration: videoData.duration,
                 poster: videoData.poster, // base64 or URL
-                sourceType: videoData.sourceType, // 'file' or 'iframe'
+                sourceType: videoData.sourceType, // 'iframe', 'vibix', 'direct', etc.
                 sourceUrl: videoData.sourceUrl, // file URL or iframe URL
+                sourceCategory: videoData.sourceCategory, // 'balancer', 'direct', 'social', 'custom'
+                // Vibix specific fields
+                vibixType: videoData.vibixType,
+                vibixId: videoData.vibixId,
+                vibixDesign: videoData.vibixDesign,
+                vibixVoiceover: videoData.vibixVoiceover,
+                vibixPoster: videoData.vibixPoster,
+                // Other fields
+                videoType: videoData.videoType, // for direct videos
                 collectionId: videoData.collectionId || null,
                 dateAdded: new Date().toISOString(),
                 views: 0,
@@ -105,12 +113,11 @@ class FramesearchDB {
             const request = store.add(video);
 
             request.onsuccess = () => {
-                console.log('Video added successfully', request.result);
                 resolve(request.result);
             };
 
             request.onerror = () => {
-                console.error('Error adding video');
+                logger.error('Error adding video', request.error);
                 reject(request.error);
             };
         });
@@ -392,7 +399,7 @@ class FramesearchDB {
             
             return true;
         } catch (error) {
-            console.error('Import failed:', error);
+            logger.error('Import failed', error);
             throw error;
         }
     }
@@ -651,7 +658,7 @@ class FramesearchDB {
             
             return newVideoId;
         } catch (error) {
-            console.error('Import from code failed:', error);
+            logger.error('Import from code failed', error);
             throw error;
         }
     }
@@ -725,7 +732,6 @@ class FramesearchDB {
                     jsonString = this.base64ToUnicode(decodeURIComponent(shareData));
                 } catch (e) {
                     // If decoding fails, try to parse as is (for backward compatibility)
-                    console.warn('Base64 decode failed, trying direct parse:', e);
                     jsonString = shareData;
                 }
             }
@@ -751,7 +757,7 @@ class FramesearchDB {
             
             return newVideoId;
         } catch (error) {
-            console.error('Import from share failed:', error);
+            logger.error('Import from share failed', error);
             throw new Error(`Ошибка импорта: ${error.message}`);
         }
     }
@@ -912,6 +918,6 @@ const db = new FramesearchDB();
 
 // Initialize on load
 db.init().catch(err => {
-    console.error('Failed to initialize database:', err);
+    logger.error('Failed to initialize database', err);
 });
 

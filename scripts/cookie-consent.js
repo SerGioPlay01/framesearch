@@ -13,8 +13,19 @@ class CookieConsentManager {
     constructor() {
         this.consentKey = 'framesearch-cookie-consent';
         this.preferencesKey = 'framesearch-cookie-preferences';
+        this.historyKey = 'framesearch-consent-history';
         this.consent = this.loadConsent();
         this.preferences = this.loadPreferences();
+        this.scriptRegistry = new Map();
+        this.blockedScripts = new Set();
+        this.scriptObserver = null;
+        this.scanInterval = null;
+        this.detectedScripts = {
+            necessary: new Set(),
+            functional: new Set(),
+            analytics: new Set(),
+            external: new Set()
+        };
     }
     
     // Get translation helper
@@ -22,34 +33,87 @@ class CookieConsentManager {
         return window.i18n ? window.i18n.t(key) : key;
     }
     
-    // Get script categories with translations
+    // Get script categories with translations and auto-detection
     getScriptCategories() {
+        // Auto-detect scripts on page
+        this.autoDetectScripts();
+        
         return {
             necessary: {
                 name: this.t('cookie.category.necessary'),
                 description: this.t('cookie.category.necessary.desc'),
                 required: true,
-                scripts: []
+                scripts: Array.from(this.detectedScripts.necessary),
+                count: this.detectedScripts.necessary.size
             },
             functional: {
                 name: this.t('cookie.category.functional'),
                 description: this.t('cookie.category.functional.desc'),
                 required: false,
-                scripts: []
+                scripts: Array.from(this.detectedScripts.functional),
+                count: this.detectedScripts.functional.size
             },
             analytics: {
                 name: this.t('cookie.category.analytics'),
                 description: this.t('cookie.category.analytics.desc'),
                 required: false,
-                scripts: []
+                scripts: Array.from(this.detectedScripts.analytics),
+                count: this.detectedScripts.analytics.size
             },
             external: {
                 name: this.t('cookie.category.external'),
                 description: this.t('cookie.category.external.desc'),
                 required: false,
-                scripts: []
+                scripts: Array.from(this.detectedScripts.external),
+                count: this.detectedScripts.external.size
             }
         };
+    }
+
+    // AUTO-DETECT SCRIPTS ON PAGE
+    autoDetectScripts() {
+        // Clear previous detections
+        Object.keys(this.detectedScripts).forEach(key => this.detectedScripts[key].clear());
+        
+        // Detect necessary scripts
+        if ('indexedDB' in window) this.detectedScripts.necessary.add('IndexedDB');
+        if ('localStorage' in window) this.detectedScripts.necessary.add('localStorage');
+        if ('serviceWorker' in navigator) this.detectedScripts.necessary.add('Service Worker');
+        
+        // Detect all scripts
+        document.querySelectorAll('script[src]').forEach(script => {
+            const src = script.src.toLowerCase();
+            const filename = script.src.split('/').pop();
+            
+            // Functional
+            if (src.includes('theme') || src.includes('i18n') || src.includes('view-mode') || 
+                src.includes('responsive') || src.includes('modal')) {
+                this.detectedScripts.functional.add(filename);
+            }
+            
+            // Analytics
+            if (src.includes('metrika') || src.includes('analytics') || src.includes('gtag')) {
+                this.detectedScripts.analytics.add(filename);
+            }
+        });
+        
+        // Detect analytics globals
+        if (typeof ym !== 'undefined') this.detectedScripts.analytics.add('Yandex.Metrica');
+        if (typeof gtag !== 'undefined') this.detectedScripts.analytics.add('Google Analytics');
+        
+        // Detect external iframes
+        document.querySelectorAll('iframe[src]').forEach(iframe => {
+            const src = iframe.src.toLowerCase();
+            if (src.includes('kodik')) this.detectedScripts.external.add('Kodik Player');
+            if (src.includes('collaps')) this.detectedScripts.external.add('Collaps Player');
+            if (src.includes('alloha')) this.detectedScripts.external.add('Alloha Player');
+            if (src.includes('hdrezka')) this.detectedScripts.external.add('HDRezka Player');
+            if (src.includes('vibix')) this.detectedScripts.external.add('Vibix Player');
+            if (!src.includes('kodik') && !src.includes('collaps') && !src.includes('alloha') && 
+                !src.includes('hdrezka') && !src.includes('vibix')) {
+                this.detectedScripts.external.add('External iframe');
+            }
+        });
     }
 
     loadConsent() {
@@ -88,8 +152,127 @@ class CookieConsentManager {
             this.applyPreferences();
         }
         
+        // Start monitoring
+        this.startScriptMonitoring();
+        this.startPeriodicScan();
+        
         // Add settings button to footer
         this.addSettingsButton();
+    }
+
+    // REAL-TIME SCRIPT MONITORING
+    startScriptMonitoring() {
+        this.scriptObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                    if (node.tagName === 'SCRIPT' || node.tagName === 'IFRAME') {
+                        this.handleNewElement(node);
+                    }
+                });
+            });
+        });
+
+        this.scriptObserver.observe(document.documentElement, {
+            childList: true,
+            subtree: true
+        });
+
+        logger.info('Script monitoring active');
+    }
+
+    handleNewElement(element) {
+        const category = this.categorizeElement(element);
+        
+        if (!this.preferences[category] && category !== 'necessary') {
+            this.blockElement(element);
+            logger.warn(`Blocked ${element.tagName}: ${element.src || 'inline'} (${category})`);
+        }
+    }
+
+    categorizeElement(element) {
+        const src = (element.src || '').toLowerCase();
+        
+        if (src.includes('metrika') || src.includes('analytics')) return 'analytics';
+        if (src.includes('theme') || src.includes('i18n')) return 'functional';
+        if (src.includes('kodik') || src.includes('collaps') || src.includes('alloha') || 
+            src.includes('hdrezka') || src.includes('vibix') || element.tagName === 'IFRAME') {
+            return 'external';
+        }
+        
+        return 'necessary';
+    }
+
+    blockElement(element) {
+        if (element.tagName === 'SCRIPT') {
+            element.type = 'text/plain';
+            element.setAttribute('data-blocked-by-consent', 'true');
+        } else if (element.tagName === 'IFRAME') {
+            element.style.display = 'none';
+            element.setAttribute('data-blocked-by-consent', 'true');
+            this.addBlockedPlaceholder(element);
+        }
+        
+        this.blockedScripts.add(element);
+    }
+
+    addBlockedPlaceholder(iframe) {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'iframe-blocked-placeholder glass-card';
+        placeholder.style.cssText = 'padding: 2rem; text-align: center; margin: 1rem 0;';
+        placeholder.innerHTML = `
+            <i data-lucide="shield-off" style="width: 48px; height: 48px; margin: 0 auto 1rem; color: #ef4444;"></i>
+            <h3 style="color: white; margin-bottom: 0.5rem;">${this.t('cookie.blocked')}</h3>
+            <p style="color: #9ca3af; margin-bottom: 1rem;">${this.t('cookie.blocked.desc')}</p>
+            <button class="btn btn-primary" onclick="cookieConsent.showSettings()">
+                <i data-lucide="settings"></i>
+                ${this.t('cookie.blocked.action')}
+            </button>
+        `;
+        iframe.parentNode.insertBefore(placeholder, iframe);
+        
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    }
+
+    // PERIODIC SCANNING
+    startPeriodicScan() {
+        this.scanInterval = setInterval(() => {
+            this.scanForUnauthorizedCookies();
+            this.autoDetectScripts(); // Refresh script detection
+        }, 10000); // Scan every 10 seconds
+        
+        logger.info('Periodic scanning active');
+    }
+
+    scanForUnauthorizedCookies() {
+        const cookies = document.cookie.split(';');
+        let removed = 0;
+        
+        cookies.forEach(cookie => {
+            const name = cookie.trim().split('=')[0];
+            const category = this.categorizeCookie(name);
+            
+            if (!this.preferences[category] && category !== 'necessary') {
+                this.removeCookie(name);
+                removed++;
+            }
+        });
+        
+        if (removed > 0) {
+            logger.warn(`Removed ${removed} unauthorized cookies`);
+        }
+    }
+
+    categorizeCookie(name) {
+        const lowerName = name.toLowerCase();
+        
+        if (lowerName.includes('_ym') || lowerName.includes('metrika')) return 'analytics';
+        if (lowerName.includes('_ga') || lowerName.includes('gtag')) return 'analytics';
+        if (lowerName.includes('theme') || lowerName.includes('lang') || lowerName.includes('view')) return 'functional';
+        if (lowerName.includes('consent') || lowerName.includes('framesearch')) return 'necessary';
+        
+        return 'external';
     }
 
     showBanner() {
@@ -226,8 +409,19 @@ class CookieConsentManager {
             <div class="cookie-category ${category.required ? 'required' : ''}">
                 <div class="cookie-category-header">
                     <div class="cookie-category-info">
-                        <h4>${category.name}</h4>
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <h4>${category.name}</h4>
+                            <span class="cookie-count-badge">${category.count} ${category.count === 1 ? 'script' : 'scripts'}</span>
+                        </div>
                         <p>${category.description}</p>
+                        ${category.scripts.length > 0 ? `
+                            <details class="cookie-scripts-details">
+                                <summary><strong>${this.t('cookie.scripts')}:</strong> ${this.t('cookie.scripts.show')}</summary>
+                                <ul class="cookie-scripts-list">
+                                    ${category.scripts.map(script => `<li><code>${script}</code></li>`).join('')}
+                                </ul>
+                            </details>
+                        ` : `<p style="color: #6b7280; font-size: 0.875rem; margin-top: 0.5rem;">${this.t('cookie.scripts.none')}</p>`}
                     </div>
                     <label class="cookie-toggle">
                         <input 
@@ -306,12 +500,54 @@ class CookieConsentManager {
             localStorage.removeItem('framesearch-theme');
         }
         
+        // Apply analytics preferences
+        if (this.preferences.analytics) {
+            this.enableYandexMetrica();
+        } else {
+            this.disableYandexMetrica();
+        }
+        
         // Block external scripts if not allowed
         if (!this.preferences.external) {
             this.blockExternalScripts();
         }
+    }
+
+    enableYandexMetrica() {
+        // Yandex.Metrica is already loaded in HTML
+        // Just enable tracking if it was disabled
+        if (typeof ym !== 'undefined') {
+            try {
+                ym(106947056, 'setUserID', null);
+                logger.analytics('Yandex.Metrica enabled');
+            } catch (e) {
+                logger.error('Failed to enable Yandex.Metrica', e);
+            }
+        }
+    }
+
+    disableYandexMetrica() {
+        // Disable Yandex.Metrica tracking
+        if (typeof ym !== 'undefined') {
+            try {
+                ym(106947056, 'notBounce');
+                logger.analytics('Yandex.Metrica disabled');
+            } catch (e) {
+                logger.error('Failed to disable Yandex.Metrica', e);
+            }
+        }
         
-        console.log('Cookie preferences applied:', this.preferences);
+        // Remove Yandex.Metrica cookies
+        this.removeCookie('_ym_uid');
+        this.removeCookie('_ym_d');
+        this.removeCookie('_ym_isad');
+        this.removeCookie('_ym_visorc');
+    }
+
+    removeCookie(name) {
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname};`;
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${window.location.hostname};`;
     }
 
     blockExternalScripts() {
@@ -359,7 +595,7 @@ class CookieConsentManager {
                     window.location.reload();
                 }, 1500);
             } catch (error) {
-                console.error('Failed to clear data:', error);
+                logger.error('Failed to clear data', error);
                 await dialog.alert(this.t('msg.error') + ': ' + error.message, this.t('msg.error'));
             }
         }
@@ -378,7 +614,7 @@ class CookieConsentManager {
             
             this.showNotification(this.t('cookie.notif.exported'), 'success');
         } catch (error) {
-            console.error('Export failed:', error);
+            logger.error('Export failed', error);
             await dialog.alert(this.t('msg.error') + ': ' + error.message, this.t('msg.error'));
         }
     }

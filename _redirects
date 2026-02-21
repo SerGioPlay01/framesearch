@@ -1,0 +1,9 @@
+# Netlify redirects file (alternative to netlify.toml)
+/landing               /landing.html            200
+/video_id              /video_id.html           200
+/search_results        /search_results.html     200
+/terms                 /terms.html              200
+/privacy               /privacy.html            200
+/cookies               /cookies.html            200
+/license               /license.html            200
+/disclaimer            /disclaimer.html         200

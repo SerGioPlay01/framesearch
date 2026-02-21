@@ -343,8 +343,6 @@ function initResponsiveEnhancements() {
         addPullToRefreshIndicator();
         optimizeImagesForMobile();
         addHapticFeedback();
-
-        console.log('✅ Responsive enhancements initialized');
     }
 }
 

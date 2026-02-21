@@ -1452,9 +1452,13 @@
 
 
 /* ===== IMPORT MODAL ===== */
+.import-modal-content {
+    max-width: 750px;
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.98) 0%, rgba(15, 23, 42, 0.98) 100%);
+}
+
 .import-container {
-    text-align: center;
-    padding: 2rem;
+    padding: 0;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
@@ -1493,51 +1497,401 @@
     word-wrap: break-word;
 }
 
+/* Import Drop Zone */
+.import-drop-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3.5rem 2rem;
+    border: 3px dashed rgba(165, 180, 252, 0.25);
+    border-radius: 1.25rem;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.03) 0%, rgba(139, 92, 246, 0.03) 100%);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+    min-height: 320px;
+    position: relative;
+    overflow: hidden;
+}
+
+.import-drop-zone::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(165, 180, 252, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.import-drop-zone:hover::before {
+    opacity: 1;
+}
+
+.import-drop-zone:hover {
+    border-color: rgba(165, 180, 252, 0.6);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(165, 180, 252, 0.15);
+}
+
+.import-drop-zone.drag-over {
+    border-color: var(--accent-primary);
+    border-width: 3px;
+    border-style: solid;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+    box-shadow: 0 0 40px rgba(165, 180, 252, 0.3), inset 0 0 60px rgba(165, 180, 252, 0.1);
+    transform: scale(1.02);
+}
+
+.import-drop-zone .import-icon {
+    width: 6rem;
+    height: 6rem;
+    margin: 0 auto 1.75rem;
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+    border-radius: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 8px 32px rgba(99, 102, 241, 0.3);
+    position: relative;
+    z-index: 1;
+}
+
+.import-drop-zone .import-icon::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    border-radius: 2rem;
+    opacity: 0;
+    filter: blur(12px);
+    transition: opacity 0.4s ease;
+    z-index: -1;
+}
+
+.import-drop-zone:hover .import-icon {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 12px 48px rgba(99, 102, 241, 0.5);
+}
+
+.import-drop-zone:hover .import-icon::after {
+    opacity: 0.6;
+}
+
+.import-drop-zone.drag-over .import-icon {
+    transform: scale(1.15) rotate(-5deg);
+    animation: iconBounce 0.6s ease-in-out infinite;
+}
+
+@keyframes iconBounce {
+    0%, 100% { transform: scale(1.15) rotate(-5deg) translateY(0); }
+    50% { transform: scale(1.15) rotate(-5deg) translateY(-8px); }
+}
+
+.import-drop-zone .import-icon i {
+    width: 3.5rem;
+    height: 3.5rem;
+    color: white;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
+}
+
+.import-drop-zone h3 {
+    font-size: 1.625rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.625rem;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+.import-description {
+    color: #cbd5e1;
+    font-size: 1rem;
+    margin-bottom: 1.75rem;
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+}
+
+.import-drop-zone .import-btn,
+.import-code-section .import-btn {
+    margin-top: 1.25rem;
+    padding: 1rem 2.5rem !important;
+    font-size: 1.05rem;
+    font-weight: 600;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.import-drop-zone .import-btn:hover,
+.import-code-section .import-btn:hover {
+    box-shadow: 0 6px 24px rgba(99, 102, 241, 0.5);
+    transform: translateY(-2px);
+}
+
+.import-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    margin-top: 1.25rem;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+}
+
+.import-hint i {
+    width: 1.125rem;
+    height: 1.125rem;
+    opacity: 0.8;
+}
+
 .file-info {
     margin-top: 1.5rem;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 0.75rem;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+    border: 2px solid rgba(165, 180, 252, 0.2);
+    border-radius: 1rem;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    transition: all 0.3s ease;
+    animation: slideInUp 0.4s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.file-info:hover {
+    border-color: rgba(165, 180, 252, 0.4);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
 }
 
 .file-info-content {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.25rem;
     width: 100%;
 }
 
-.file-info-content i,
-.file-info-content svg {
-    width: 2rem;
-    height: 2rem;
-    stroke: #a5b4fc;
-    fill: none;
+.file-icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
 }
 
-.file-info-content > div {
+.file-icon i {
+    width: 2rem;
+    height: 2rem;
+    color: white;
+}
+
+.file-details {
     flex: 1;
-    text-align: left;
     min-width: 0;
-    overflow: hidden;
 }
 
 .file-name {
     font-weight: 600;
+    font-size: 1.05rem;
     color: white;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.375rem;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
 
 .file-size {
-    font-size: 0.875rem;
-    color: #9ca3af;
+    font-size: 0.9rem;
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+.file-remove {
+    background: rgba(239, 68, 68, 0.1);
+    border: 2px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+    padding: 0.625rem;
+    border-radius: 0.625rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.file-remove:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.5);
+    transform: scale(1.1) rotate(90deg);
+}
+
+.file-remove i {
+    width: 1.375rem;
+    height: 1.375rem;
+}
+
+/* Password Section */
+.password-section {
+    margin-top: 1.5rem;
+    padding: 1.75rem;
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.08) 0%, rgba(245, 158, 11, 0.08) 100%);
+    border: 2px solid rgba(251, 191, 36, 0.3);
+    border-radius: 1rem;
+    animation: slideInUp 0.4s ease-out;
+}
+
+.password-alert {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.875rem;
+    margin-bottom: 1.25rem;
+    color: #fbbf24;
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+
+.password-alert i {
+    width: 1.75rem;
+    height: 1.75rem;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+.password-input-group {
+    display: flex;
+    gap: 0.875rem;
+    align-items: stretch;
+}
+
+.password-input-group input {
+    flex: 1;
+    padding: 0.875rem 1.125rem;
+    font-size: 1rem;
+}
+
+.password-input-group .btn {
+    white-space: nowrap;
+    padding: 0.875rem 1.75rem;
+}
+
+/* Import Code Section */
+.import-code-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem 2rem;
+}
+
+.import-code-section .import-icon {
+    width: 6rem;
+    height: 6rem;
+    margin: 0 auto 1.75rem;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    border-radius: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(99, 102, 241, 0.3);
+}
+
+.import-code-section .import-icon i {
+    width: 3.5rem;
+    height: 3.5rem;
+    color: white;
+}
+
+.import-code-section h3 {
+    font-size: 1.625rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.625rem;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+.import-code-section .import-description {
+    color: #cbd5e1;
+    font-size: 1rem;
+    margin-bottom: 1.75rem;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.import-code-section textarea {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    min-height: 140px;
+    padding: 1rem 1.25rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    border: 2px solid rgba(165, 180, 252, 0.2);
+    transition: all 0.3s ease;
+}
+
+.import-code-section textarea:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 4px rgba(165, 180, 252, 0.1);
+}
+
+.import-code-section .btn {
+    width: 100%;
+    max-width: 320px;
+    padding: 1rem 2rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+/* Import Info */
+.import-info {
+    margin-top: 2rem;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(37, 99, 235, 0.08) 100%);
+    border: 2px solid rgba(59, 130, 246, 0.25);
+    border-radius: 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.import-info i {
+    width: 1.75rem;
+    height: 1.75rem;
+    color: #60a5fa;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+}
+
+.import-info p {
+    color: #bfdbfe;
+    font-size: 0.95rem;
+    margin: 0;
+    line-height: 1.6;
 }
 
 .form-input {
@@ -1605,8 +1959,171 @@
 }
 
 @media (max-width: 639px) {
+    .import-modal-content {
+        max-width: 100%;
+        border-radius: 0;
+    }
+    
     .import-container {
-        padding: 1.5rem 1rem;
+        padding: 0;
+    }
+    
+    .import-drop-zone {
+        padding: 2.5rem 1.5rem;
+        min-height: 280px;
+        border-width: 2px;
+    }
+    
+    .import-drop-zone .import-icon {
+        width: 5rem;
+        height: 5rem;
+        margin-bottom: 1.25rem;
+        border-radius: 1.5rem;
+    }
+    
+    .import-drop-zone .import-icon i {
+        width: 3rem;
+        height: 3rem;
+    }
+    
+    .import-drop-zone h3 {
+        font-size: 1.375rem;
+    }
+    
+    .import-description {
+        font-size: 0.9rem;
+        margin-bottom: 1.25rem;
+    }
+    
+    .import-drop-zone .import-btn,
+    .import-code-section .import-btn {
+        padding: 0.875rem 2rem !important;
+        font-size: 0.95rem;
+    }
+    
+    .import-hint {
+        font-size: 0.85rem;
+        gap: 0.5rem;
+    }
+    
+    .import-hint i {
+        width: 1rem;
+        height: 1rem;
+    }
+    
+    .file-info {
+        padding: 1rem;
+    }
+    
+    .file-info-content {
+        gap: 1rem;
+    }
+    
+    .file-icon {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 0.875rem;
+    }
+    
+    .file-icon i {
+        width: 1.75rem;
+        height: 1.75rem;
+    }
+    
+    .file-name {
+        font-size: 0.95rem;
+    }
+    
+    .file-size {
+        font-size: 0.85rem;
+    }
+    
+    .file-remove {
+        padding: 0.5rem;
+    }
+    
+    .file-remove i {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+    
+    .password-section {
+        padding: 1.25rem;
+    }
+    
+    .password-alert {
+        font-size: 0.95rem;
+        gap: 0.75rem;
+    }
+    
+    .password-alert i {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+    
+    .password-input-group {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .password-input-group input {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .password-input-group .btn {
+        width: 100%;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    .import-code-section {
+        padding: 2rem 1.5rem;
+    }
+    
+    .import-code-section .import-icon {
+        width: 5rem;
+        height: 5rem;
+        margin-bottom: 1.25rem;
+        border-radius: 1.5rem;
+    }
+    
+    .import-code-section .import-icon i {
+        width: 3rem;
+        height: 3rem;
+    }
+    
+    .import-code-section h3 {
+        font-size: 1.375rem;
+    }
+    
+    .import-code-section .import-description {
+        font-size: 0.9rem;
+    }
+    
+    .import-code-section textarea {
+        min-height: 120px;
+        padding: 0.875rem 1rem;
+        font-size: 0.875rem;
+    }
+    
+    .import-code-section .btn {
+        max-width: 100%;
+        padding: 0.875rem 1.75rem;
+        font-size: 0.95rem;
+    }
+    
+    .import-info {
+        padding: 1rem;
+        gap: 0.875rem;
+    }
+    
+    .import-info i {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+    
+    .import-info p {
+        font-size: 0.875rem;
     }
     
     .import-icon {
@@ -1628,28 +2145,6 @@
     .import-container > p {
         font-size: 0.875rem;
         margin-bottom: 1.5rem;
-    }
-    
-    .file-info {
-        padding: 0.875rem;
-    }
-    
-    .file-info-content {
-        gap: 0.75rem;
-    }
-    
-    .file-info-content i,
-    .file-info-content svg {
-        width: 1.75rem;
-        height: 1.75rem;
-    }
-    
-    .file-name {
-        font-size: 0.9rem;
-    }
-    
-    .file-size {
-        font-size: 0.8rem;
     }
     
     .form-input {
@@ -1792,57 +2287,104 @@
 /* Import tabs */
 .import-tabs {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.625rem;
     margin-bottom: 2rem;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 1rem;
     width: 100%;
     max-width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .import-tab {
     flex: 1;
-    min-width: 120px;
-    padding: 1rem;
+    min-width: 140px;
+    padding: 1rem 1.5rem;
     background: transparent;
-    border: none;
-    border-bottom: 2px solid transparent;
+    border: 2px solid transparent;
+    border-radius: 0.75rem;
     color: rgba(255, 255, 255, 0.6);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    font-size: 0.95rem;
-    font-weight: 500;
-    margin-bottom: -2px;
+    gap: 0.625rem;
+    font-size: 1rem;
+    font-weight: 600;
     white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+}
+
+.import-tab::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 0.75rem;
+}
+
+.import-tab > * {
+    position: relative;
+    z-index: 1;
 }
 
 .import-tab:hover {
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.95);
     background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
 }
 
 .import-tab.active {
-    color: #a5b4fc;
-    border-bottom-color: #a5b4fc;
+    color: white;
+    border-color: var(--accent-primary);
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+}
+
+.import-tab.active::before {
+    opacity: 1;
 }
 
 .import-tab i {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.import-tab:hover i {
+    transform: scale(1.1);
+}
+
+.import-tab.active i {
+    transform: scale(1.15);
 }
 
 .import-tab-content {
     display: none;
     width: 100%;
     max-width: 100%;
+    animation: tabFadeIn 0.4s ease-out;
+}
+
+@keyframes tabFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .import-tab-content.active {
@@ -1851,20 +2393,22 @@
 
 @media (max-width: 639px) {
     .import-tabs {
-        gap: 0.25rem;
+        gap: 0.375rem;
         margin-bottom: 1.5rem;
+        padding: 0.375rem;
     }
     
     .import-tab {
-        min-width: 100px;
-        padding: 0.75rem 0.5rem;
-        font-size: 0.85rem;
-        gap: 0.375rem;
+        min-width: 110px;
+        padding: 0.875rem 0.75rem;
+        font-size: 0.875rem;
+        gap: 0.5rem;
+        border-radius: 0.625rem;
     }
     
     .import-tab i {
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
     }
 }
 
