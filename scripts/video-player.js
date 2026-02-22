@@ -131,30 +131,7 @@ function renderVideoInfo() {
     }
     
     // Update favorite button
-    const favoriteBtn = document.querySelector('.action-btn-primary');
-    if (favoriteBtn) {
-        if (currentVideo.isFavorite) {
-            favoriteBtn.innerHTML = '<i data-lucide="heart"></i> В избранном';
-            favoriteBtn.style.background = '#ef4444';
-        }
-        
-        favoriteBtn.addEventListener('click', async () => {
-            await db.toggleFavorite(currentVideo.id);
-            currentVideo = await db.getVideo(currentVideo.id);
-            
-            if (currentVideo.isFavorite) {
-                favoriteBtn.innerHTML = '<i data-lucide="heart"></i> В избранном';
-                favoriteBtn.style.background = '#ef4444';
-            } else {
-                favoriteBtn.innerHTML = '<i data-lucide="heart"></i> В избранное';
-                favoriteBtn.style.background = '#6366f1';
-            }
-            
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
-        });
-    }
+    updateFavoriteButton();
     
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
@@ -403,7 +380,27 @@ function initKeyboardShortcuts() {
     
     document.addEventListener('keydown', (e) => {
         // Ignore if typing in input
-        if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+        const isInputFocused = e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT';
+        
+        // Ctrl+K - Open search (prevent browser's default)
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k' && !isInputFocused) {
+            e.preventDefault();
+            e.stopPropagation();
+            window.location.href = '/search_results.html';
+            return;
+        }
+        
+        // Ctrl+N - Add new video (prevent browser's new window)
+        if ((e.ctrlKey || e.metaKey) && e.key === 'n' && !isInputFocused) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (typeof modal !== 'undefined') {
+                modal.open();
+            }
+            return;
+        }
+        
+        if (isInputFocused) return;
         
         // Space - Play/Pause
         if (e.code === 'Space') {
@@ -456,7 +453,8 @@ function initActionButtons() {
     if (favoriteBtn) {
         favoriteBtn.addEventListener('click', async () => {
             await db.toggleFavorite(currentVideo.id);
-            currentVideo.isFavorite = !currentVideo.isFavorite;
+            // Reload video data to get updated favorite status
+            currentVideo = await db.getVideo(currentVideo.id);
             updateFavoriteButton();
         });
         updateFavoriteButton();
@@ -476,7 +474,11 @@ function initActionButtons() {
     
     if (deleteBtn) {
         deleteBtn.addEventListener('click', async () => {
-            if (confirm('Вы уверены, что хотите удалить этот контент?')) {
+            const confirmMessage = i18n.t('video.confirmDelete') || 'Вы уверены, что хотите удалить этот контент?';
+            const successMessage = i18n.t('video.deleted') || 'Контент удален';
+            const errorMessage = i18n.t('video.deleteError') || 'Ошибка при удалении';
+            
+            if (confirm(confirmMessage)) {
                 try {
                     await db.deleteVideo(currentVideo.id);
                     
@@ -486,11 +488,11 @@ function initActionButtons() {
                         await db.deleteEpisode(episode.id);
                     }
                     
-                    alert('Контент удален');
+                    alert(successMessage);
                     window.location.href = '/app';
                 } catch (error) {
                     logger.error('Error deleting video', error);
-                    alert('Ошибка при удалении');
+                    alert(errorMessage);
                 }
             }
         });
@@ -500,12 +502,19 @@ function initActionButtons() {
 function updateFavoriteButton() {
     const favoriteBtn = document.getElementById('favoriteBtn');
     if (favoriteBtn && currentVideo) {
+        const span = favoriteBtn.querySelector('span');
         if (currentVideo.isFavorite) {
             favoriteBtn.classList.add('active');
-            favoriteBtn.innerHTML = '<i data-lucide="heart"></i> В избранном';
+            if (span) {
+                span.setAttribute('data-i18n', 'video.removeFromFavorites');
+                span.textContent = i18n.t('video.removeFromFavorites');
+            }
         } else {
             favoriteBtn.classList.remove('active');
-            favoriteBtn.innerHTML = '<i data-lucide="heart"></i> В избранное';
+            if (span) {
+                span.setAttribute('data-i18n', 'video.addToFavorites');
+                span.textContent = i18n.t('video.addToFavorites');
+            }
         }
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();

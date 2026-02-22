@@ -1,0 +1,292 @@
+/**
+ * Framesearch - App Lock Styles
+ * Стили для защиты приложения паролем
+ * 
+ * Автор: SerGioPlay
+ * © 2026 Framesearch.  
+ */
+
+/* Overlay для экрана разблокировки */
+.app-lock-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Модальное окно настроек защиты */
+.modal-overlay.active {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+}
+
+.app-lock-container {
+    max-width: 400px;
+    width: 90%;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    animation: scaleIn 0.3s ease;
+    position: relative;
+    z-index: 10001;
+}
+
+.modal-container {
+    max-width: 600px;
+    width: 90%;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    animation: scaleIn 0.3s ease;
+    position: relative;
+    z-index: 10001;
+}
+
+.app-lock-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: var(--glass-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--glass-border);
+}
+
+.app-lock-icon i {
+    width: 40px;
+    height: 40px;
+    color: var(--accent-primary);
+}
+
+.app-lock-container h2 {
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.app-lock-container p {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.app-lock-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.app-lock-error {
+    display: none;
+    padding: 0.75rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid var(--danger-color);
+    border-radius: 0.5rem;
+    color: var(--danger-color);
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+/* Статус блокировки */
+.lock-status {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--glass-bg);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--glass-border);
+    margin-bottom: 1.5rem;
+}
+
+.lock-status-indicator {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(239, 68, 68, 0.1);
+    border: 2px solid var(--danger-color);
+    flex-shrink: 0;
+}
+
+.lock-status-indicator.active {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: var(--success-color);
+}
+
+.lock-status-indicator i {
+    width: 30px;
+    height: 30px;
+    color: var(--danger-color);
+}
+
+.lock-status-indicator.active i {
+    color: var(--success-color);
+}
+
+.lock-status-text {
+    text-align: left;
+    flex-grow: 1;
+}
+
+.lock-status-text h3 {
+    color: var(--text-primary);
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.lock-status-text p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+/* Форма настроек */
+.lock-form {
+    margin-top: 1.5rem;
+}
+
+.lock-form h3 {
+    color: var(--text-primary);
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.lock-error {
+    display: none;
+    padding: 0.75rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid var(--danger-color);
+    border-radius: 0.5rem;
+    color: var(--danger-color);
+    font-size: 0.875rem;
+    margin-top: 1rem;
+}
+
+/* Алерты */
+.alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+}
+
+.alert i {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.alert-info {
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    color: var(--accent-primary);
+}
+
+.alert-warning {
+    background: rgba(251, 191, 36, 0.1);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    color: #fbbf24;
+}
+
+/* Toast уведомления */
+.toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 40px var(--shadow-color);
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast-success {
+    border-left: 4px solid var(--success-color);
+}
+
+.toast i {
+    width: 20px;
+    height: 20px;
+    color: var(--success-color);
+}
+
+.toast span {
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .app-lock-container {
+        padding: 1.5rem;
+    }
+
+    .app-lock-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .app-lock-icon i {
+        width: 30px;
+        height: 30px;
+    }
+
+    .toast {
+        bottom: 1rem;
+        right: 1rem;
+        left: 1rem;
+    }
+}

@@ -9,20 +9,27 @@
  * © 2026 Framesearch.  
  */
 
-const CACHE_VERSION = 'framesearch-v1.0.4';
+const CACHE_VERSION = 'framesearch-v4.5.0';
 const CACHE_NAME = `${CACHE_VERSION}-static`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
+const EXTERNAL_CACHE = `${CACHE_VERSION}-external`;
 
 // Files to cache immediately
 const STATIC_CACHE_URLS = [
     '/',
     '/index.html',
+    '/app',
     '/search_results.html',
     '/video_id.html',
     '/styles/main.css',
     '/styles/modal.css',
     '/styles/search.css',
     '/styles/video.css',
+    '/styles/preloader.css',
+    '/styles/floating-actions.css',
+    '/styles/view-modes.css',
+    '/styles/app-lock.css',
+    '/styles/landing.css',
     '/scripts/main.js',
     '/scripts/db.js',
     '/scripts/modal.js',
@@ -35,15 +42,35 @@ const STATIC_CACHE_URLS = [
     '/scripts/dialog.js',
     '/scripts/theme.js',
     '/scripts/cookie-consent.js',
-    '/favicon.svg',
-    '/manifest.json'
+    '/scripts/i18n.js',
+    '/scripts/logger.js',
+    '/scripts/preloader.js',
+    '/scripts/floating-actions.js',
+    '/scripts/view-modes.js',
+    '/scripts/music-sources.js',
+    '/scripts/app-lock.js',
+    '/scripts/landing.js',
+    '/scripts/lucide.js',
+    '/favicon/favicon.ico',
+    '/favicon/favicon-32x32.png',
+    '/manifest.json',
+    '/fonts/Roboto/stylesheet.css',
+    '/fonts/Roboto/Roboto-Regular.woff',
+    '/fonts/Roboto/Roboto-Bold.woff',
+    '/fonts/Roboto/Roboto-Medium.woff',
+    '/fonts/Roboto/Roboto-Light.woff'
 ];
 
-// Install event - cache static assets
+// External resources to cache (пусто, так как все локально)
+const EXTERNAL_CACHE_URLS = [];
+
+
+// Install event - cache static assets and external resources
 self.addEventListener('install', (event) => {
     console.log('[SW] Installing service worker...');
     
     event.waitUntil(
+        // Кешируем только статические ресурсы при установке
         caches.open(CACHE_NAME)
             .then((cache) => {
                 console.log('[SW] Caching static assets');
@@ -55,6 +82,8 @@ self.addEventListener('install', (event) => {
             })
             .catch((error) => {
                 console.error('[SW] Cache installation failed:', error);
+                // Все равно пропускаем ожидание, чтобы SW активировался
+                return self.skipWaiting();
             })
     );
 });
@@ -71,7 +100,8 @@ self.addEventListener('activate', (event) => {
                         .filter((cacheName) => {
                             return cacheName.startsWith('framesearch-') && 
                                    cacheName !== CACHE_NAME && 
-                                   cacheName !== RUNTIME_CACHE;
+                                   cacheName !== RUNTIME_CACHE &&
+                                   cacheName !== EXTERNAL_CACHE;
                         })
                         .map((cacheName) => {
                             console.log('[SW] Deleting old cache:', cacheName);
@@ -91,11 +121,6 @@ self.addEventListener('fetch', (event) => {
     const { request } = event;
     const url = new URL(request.url);
 
-    // Skip cross-origin requests
-    if (url.origin !== location.origin) {
-        return;
-    }
-
     // Skip chrome-extension and other non-http(s) requests
     if (!request.url.startsWith('http')) {
         return;
@@ -103,6 +128,47 @@ self.addEventListener('fetch', (event) => {
 
     // Skip landing page - let it handle its own routing
     if (url.pathname.includes('landing')) {
+        return;
+    }
+
+    // Handle external resources (fonts, icons, CDN)
+    if (url.origin !== location.origin) {
+        event.respondWith(
+            caches.match(request)
+                .then((cachedResponse) => {
+                    if (cachedResponse) {
+                        return cachedResponse;
+                    }
+
+                    // Try to fetch from network
+                    return fetch(request, { mode: 'cors' })
+                        .then((response) => {
+                            if (response && response.ok) {
+                                // Cache external resource for future use
+                                const responseToCache = response.clone();
+                                caches.open(EXTERNAL_CACHE)
+                                    .then((cache) => {
+                                        cache.put(request, responseToCache);
+                                    });
+                            }
+                            return response;
+                        })
+                        .catch((error) => {
+                            console.warn('[SW] External resource fetch failed:', url.href);
+                            
+                            // For fonts and critical resources, return cached version if available
+                            if (url.hostname.includes('fonts.googleapis.com') || 
+                                url.hostname.includes('fonts.gstatic.com') ||
+                                url.hostname.includes('unpkg.com')) {
+                                return caches.match(request)
+                                    .then(cached => cached || new Response('', { status: 200 }));
+                            }
+                            
+                            // Return empty response for other failed external resources
+                            return new Response('', { status: 200 });
+                        });
+                })
+        );
         return;
     }
 

@@ -62,9 +62,7 @@
     <link rel="manifest" href="manifest.json">
     
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="fonts/Roboto/stylesheet.css">
     
     <!-- Prevent FOUC - Load theme immediately -->
     <script>
@@ -131,10 +129,11 @@
     <link rel="stylesheet" href="styles/tablet.css">
     <link rel="stylesheet" href="styles/view-modes.css">
     <link rel="stylesheet" href="styles/floating-actions.css">
+    <link rel="stylesheet" href="styles/app-lock.css">
     <link rel="stylesheet" href="styles/home.css">
     
     <!-- Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="scripts/lucide.js"></script>
     
     <!-- Structured Data / JSON-LD -->
     <script type="application/ld+json">
@@ -205,11 +204,11 @@
                         </button>
                         <div class="lang-dropdown" id="langDropdown">
                             <button class="lang-option" data-lang="ru">
-                                <span class="lang-flag">🇷🇺</span>
+                                <i data-lucide="flag" style="width: 20px; height: 20px;"></i>
                                 <span>Русский</span>
                             </button>
                             <button class="lang-option" data-lang="en">
-                                <span class="lang-flag">🇬🇧</span>
+                                <i data-lucide="flag" style="width: 20px; height: 20px;"></i>
                                 <span>English</span>
                             </button>
                         </div>
@@ -378,35 +377,35 @@
                             </div>
                         </div>
                         <div class="step-card">
-                            <div class="step-number">💡</div>
+                            <div class="step-number"><i data-lucide="lightbulb" style="width: 32px; height: 32px;"></i></div>
                             <div class="step-content">
                                 <h4 data-i18n="quickstart.pwa.title">Установка PWA</h4>
                                 <p data-i18n="quickstart.pwa.desc">Установите приложение на устройство для быстрого доступа</p>
                             </div>
                         </div>
                         <div class="step-card">
-                            <div class="step-number">🔒</div>
+                            <div class="step-number"><i data-lucide="lock" style="width: 32px; height: 32px;"></i></div>
                             <div class="step-content">
                                 <h4 data-i18n="quickstart.encryption.title">Шифрование</h4>
                                 <p data-i18n="quickstart.encryption.desc">Экспортируйте данные с паролем для безопасного обмена</p>
                             </div>
                         </div>
                         <div class="step-card">
-                            <div class="step-number">⚡</div>
+                            <div class="step-number"><i data-lucide="zap" style="width: 32px; height: 32px;"></i></div>
                             <div class="step-content">
                                 <h4 data-i18n="quickstart.search.title">Быстрый поиск</h4>
                                 <p data-i18n="quickstart.search.desc">Используйте поиск по названию, жанру или году</p>
                             </div>
                         </div>
                         <div class="step-card">
-                            <div class="step-number">⭐</div>
+                            <div class="step-number"><i data-lucide="star" style="width: 32px; height: 32px;"></i></div>
                             <div class="step-content">
                                 <h4 data-i18n="quickstart.favorites.title">Избранное</h4>
                                 <p data-i18n="quickstart.favorites.desc">Отмечайте любимое видео для быстрого доступа</p>
                             </div>
                         </div>
                         <div class="step-card">
-                            <div class="step-number">⌨️</div>
+                            <div class="step-number"><i data-lucide="keyboard" style="width: 32px; height: 32px;"></i></div>
                             <div class="step-content">
                                 <h4 data-i18n="quickstart.hotkeys.title">Горячие клавиши</h4>
                                 <p data-i18n="quickstart.hotkeys.desc">Ctrl+K для поиска, Ctrl+N для добавления, Esc для закрытия</p>
@@ -542,6 +541,7 @@
                     <a href="cookies.html" data-i18n="footer.cookies">Cookies</a>
                     <a href="license.html" data-i18n="footer.license">Лицензии</a>
                     <a href="disclaimer.html" data-i18n="footer.disclaimer">Отказ от ответственности</a>
+                    <a href="changelog.html" data-i18n="footer.changelog">История изменений</a>
                 </div>
                 <p class="copyright" data-i18n="footer.copyright"></p>
             </div>
@@ -558,6 +558,8 @@
     <script src="scripts/cookie-consent.js"></script>
     <script src="scripts/i18n.js"></script>
     <script src="scripts/theme.js"></script>
+    <script src="scripts/app-lock.js"></script>
+    <script src="scripts/music-sources.js"></script>
     <script src="scripts/modal.js"></script>
     <script src="scripts/share.js"></script>
     <script src="scripts/import.js"></script>
@@ -616,6 +618,13 @@
             // Initialize
             updateCurrentLang();
         });
+    </script>
+    
+    <script>
+        // Initialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
     </script>
     
     <!-- Yandex.Metrika counter -->

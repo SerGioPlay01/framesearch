@@ -77,6 +77,22 @@ if (mobileMenuBtn && mobileMenu && mobileMenuBackdrop && mobileMenuClose) {
         if (e.key === 'Escape' && isMenuOpen) {
             toggleMenu(false);
         }
+        
+        // Ctrl+K - Focus search (prevent browser's default)
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            const isInputFocused = document.activeElement.tagName === 'INPUT' || 
+                                  document.activeElement.tagName === 'TEXTAREA' ||
+                                  document.activeElement.isContentEditable;
+            if (!isInputFocused) {
+                e.preventDefault();
+                e.stopPropagation();
+                const searchInput = document.querySelector('.search-input');
+                if (searchInput) {
+                    searchInput.focus();
+                    searchInput.select();
+                }
+            }
+        }
     });
 }
 

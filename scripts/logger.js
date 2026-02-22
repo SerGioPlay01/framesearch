@@ -13,7 +13,7 @@
 class Logger {
     constructor() {
         this.appName = 'Framesearch';
-        this.version = '1.0.0';
+        this.version = '4.5.0';
         this.isDevelopment = window.location.hostname === 'localhost' || 
                             window.location.hostname === '127.0.0.1' ||
                             window.location.hostname.includes('192.168');
@@ -202,6 +202,11 @@ class Logger {
         this.addToHistory('warning', message, data);
     }
 
+    // Алиас для warning
+    warn(message, data = null) {
+        this.warning(message, data);
+    }
+
     // Информация
     info(message, data = null) {
         if (!this.isDevelopment) return;
@@ -319,6 +324,16 @@ class Logger {
     music(action, data = null) {
         if (!this.isDevelopment) return;
         this.info(`${this.emoji.music} Музыка: ${action}`, data);
+    }
+
+    security(action, data = null) {
+        if (!this.isDevelopment) return;
+        this.info(`🔐 Безопасность: ${action}`, data);
+    }
+
+    analytics(action, data = null) {
+        if (!this.isDevelopment) return;
+        this.info(`📊 Аналитика: ${action}`, data);
     }
 
     search(query, results = null) {

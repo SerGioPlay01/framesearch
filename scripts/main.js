@@ -352,11 +352,11 @@ function initHotkeys() {
                               document.activeElement.tagName === 'TEXTAREA' ||
                               document.activeElement.isContentEditable;
         
-        // Ctrl+K - Open search (only if not in input field and not on Google)
+        // Ctrl+K - Open search (prevent browser's default search)
         if ((e.ctrlKey || e.metaKey) && e.key === 'k' && !isGoogleSearch) {
-            // Don't prevent default if we're in an input field (allow browser search)
             if (!isInputFocused) {
                 e.preventDefault();
+                e.stopPropagation();
                 const searchInput = document.querySelector('.search-input');
                 if (searchInput) {
                     searchInput.focus();
@@ -365,9 +365,10 @@ function initHotkeys() {
             }
         }
         
-        // Ctrl+N - Add new video
+        // Ctrl+N - Add new video (prevent browser's new window)
         if ((e.ctrlKey || e.metaKey) && e.key === 'n' && !isInputFocused) {
             e.preventDefault();
+            e.stopPropagation();
             modal.open();
         }
         

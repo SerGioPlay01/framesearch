@@ -40,10 +40,16 @@ class FloatingActionsManager {
                         <i data-lucide="plus-circle"></i>
                     </button>
                     
+                    <!-- App Lock -->
+                    <button class="fab-btn lock-btn" id="appLockFabBtn" title="Защита приложения" aria-label="Настройки защиты приложения">
+                        <span class="fab-label" data-i18n="appLock.settingsTitle">Защита приложения</span>
+                        <i data-lucide="shield"></i>
+                    </button>
+                    
                     <!-- Privacy Settings -->
                     <button class="fab-btn privacy-btn" id="privacyFabBtn" title="Настройки конфиденциальности" aria-label="Настройки конфиденциальности">
                         <span class="fab-label">Конфиденциальность</span>
-                        <i data-lucide="shield"></i>
+                        <i data-lucide="cookie"></i>
                     </button>
                     
                     <!-- Import -->
@@ -131,6 +137,19 @@ class FloatingActionsManager {
                     modal.open();
                 } else {
                     logger.warn('Modal object not found');
+                }
+                this.collapseSecondaryActions();
+            });
+        }
+
+        // App Lock button
+        const appLockBtn = document.getElementById('appLockFabBtn');
+        if (appLockBtn) {
+            appLockBtn.addEventListener('click', () => {
+                if (typeof appLock !== 'undefined' && appLock.showSettingsModal) {
+                    appLock.showSettingsModal();
+                } else {
+                    logger.warn('App Lock not initialized');
                 }
                 this.collapseSecondaryActions();
             });

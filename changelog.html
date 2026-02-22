@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<!--
+  Framesearch - Персональное видеохранилище
+  
+  Автор: SerGioPlay
+  GitHub: https://github.com/SerGioPlay01
+  Проект: https://github.com/SerGioPlay01/framesearch
+  Сайт: https://sergioplay-dev.vercel.app/
+  
+  © 2026 Framesearch.  
+-->
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>История изменений - Framesearch v4.5</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="История обновлений и изменений Framesearch. Все новые функции, исправления и улучшения приложения.">
+    <meta name="keywords" content="framesearch, changelog, история изменений, обновления, новые функции">
+    <meta name="author" content="SerGioPlay">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon/favicon.ico?v=2">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png?v=2">
+    
+    <!-- Fonts -->
+    <link rel="stylesheet" href="fonts/Roboto/stylesheet.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/legal.css">
+    
+    <!-- Icons -->
+    <script src="scripts/lucide.js"></script>
+    
+    <style>
+        .changelog-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .changelog-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .changelog-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #a5b4fc, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .current-version {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.5rem;
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin-top: 1rem;
+        }
+        
+        .version-block {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .version-block:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.2);
+        }
+        
+        .version-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .version-number {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .version-number h2 {
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        
+        .version-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .badge-major {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        
+        .badge-minor {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        
+        .badge-patch {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+        }
+        
+        .version-date {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        .changes-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .changes-section h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .changes-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .changes-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 0.5rem;
+            border-left: 3px solid;
+            transition: all 0.2s ease;
+        }
+        
+        .changes-list li:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
+        }
+        
+        .feature-item {
+            border-left-color: #10b981;
+        }
+        
+        .improvement-item {
+            border-left-color: #3b82f6;
+        }
+        
+        .fix-item {
+            border-left-color: #f59e0b;
+        }
+        
+        .security-item {
+            border-left-color: #ef4444;
+        }
+        
+        .change-icon {
+            flex-shrink: 0;
+            margin-top: 0.125rem;
+        }
+        
+        .feature-item .change-icon {
+            color: #10b981;
+        }
+        
+        .improvement-item .change-icon {
+            color: #3b82f6;
+        }
+        
+        .fix-item .change-icon {
+            color: #f59e0b;
+        }
+        
+        .security-item .change-icon {
+            color: #ef4444;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .changelog-header h1 {
+                font-size: 2rem;
+            }
+            
+            .version-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="bg-cinematic"></div>
+    <div class="bg-overlay"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar glass">
+        <div class="navbar-container">
+            <div class="navbar-content">
+                <a href="/app" class="logo">
+                    <img src="favicon/favicon-32x32.png" alt="Framesearch" width="32" height="32" style="margin-right: 8px;">
+                    Frame<span class="logo-accent">search</span>
+                </a>
+                <a href="/app" class="btn btn-secondary">
+                    <i data-lucide="arrow-left"></i>
+                    <span>На главную</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" style="padding-top: 120px;">
+        <div class="changelog-container">
+            <!-- Header -->
+            <div class="changelog-header">
+                <h1><i data-lucide="file-text" style="width: 48px; height: 48px; vertical-align: middle; margin-right: 12px;"></i>История изменений</h1>
+                <p style="color: var(--text-secondary); font-size: 1.125rem;">Все обновления и новые функции Framesearch</p>
+                <div class="current-version">
+                    <i data-lucide="zap" style="width: 20px; height: 20px;"></i>
+                    Текущая версия: 4.5.0
+                </div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">4.5</div>
+                    <div class="stat-label">Версия</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Функций</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Локально</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Серверов</div>
+                </div>
+            </div>
+            <br><br>
+            <!-- Version 4.5.0 -->
+            <div class="version-block">
+                <div class="version-header">
+                    <div class="version-number">
+                        <h2>v4.5.0</h2>
+                        <span class="version-badge badge-minor">MINOR</span>
+                    </div>
+                    <div class="version-date">22 февраля 2026</div>
+                </div>
+
+                <div class="changes-section">
+                    <h3>
+                        <i data-lucide="sparkles" style="width: 24px; height: 24px; color: #10b981;"></i>
+                        Новые функции
+                    </h3>
+                    <ul class="changes-list">
+                        <li class="feature-item">
+                            <i data-lucide="shield-check" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span><strong>Защита паролем:</strong> Добавлена возможность установить пароль на приложение с PBKDF2 хешированием (100,000 итераций)</span>
+                        </li>
+                        <li class="feature-item">
+                            <i data-lucide="music" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span><strong>Поддержка музыки:</strong> Интеграция с 6 музыкальными сервисами (Spotify, Яндекс.Музыка, SoundCloud, VK Музыка, Apple Music, Deezer)</span>
+                        </li>
+                        <li class="feature-item">
+                            <i data-lucide="layout-grid" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span><strong>Режимы просмотра:</strong> Три режима отображения контента (список, плитка, постеры)</span>
+                        </li>
+                        <li class="feature-item">
+                            <i data-lucide="zap" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span><strong>Плавающее меню:</strong> Единый блок быстрых действий в стиле Material Design Speed Dial</span>
+                        </li>
+                        <li class="feature-item">
+                            <i data-lucide="film" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span><strong>Креативный прелоадер:</strong> Анимированная кинопленка при загрузке страниц</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="changes-section">
+                    <h3>
+                        <i data-lucide="trending-up" style="width: 24px; height: 24px; color: #3b82f6;"></i>
+                        Улучшения
+                    </h3>
+                    <ul class="changes-list">
+                        <li class="improvement-item">
+                            <i data-lucide="download" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span><strong>Локальные ресурсы:</strong> Lucide Icons и шрифты Roboto теперь загружаются локально (без CDN)</span>
+                        </li>
+                        <li class="improvement-item">
+                            <i data-lucide="wifi-off" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span><strong>Офлайн режим:</strong> Полная работа приложения без интернета после первой загрузки</span>
+                        </li>
+                        <li class="improvement-item">
+                            <i data-lucide="palette" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span><strong>Темы:</strong> Исправлено мерцание элементов при смене темы и перезагрузке</span>
+                        </li>
+                        <li class="improvement-item">
+                            <i data-lucide="languages" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span><strong>Локализация:</strong> Полная поддержка русского и английского языков</span>
+                        </li>
+                        <li class="improvement-item">
+                            <i data-lucide="terminal" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span><strong>Система логирования:</strong> Красивый вывод в консоль с категориями и эмодзи</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="changes-section">
+                    <h3>
+                        <i data-lucide="wrench" style="width: 24px; height: 24px; color: #f59e0b;"></i>
+                        Исправления
+                    </h3>
+                    <ul class="changes-list">
+                        <li class="fix-item">
+                            <i data-lucide="bug" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span>Исправлена проблема с отображением иконок после перезагрузки</span>
+                        </li>
+                        <li class="fix-item">
+                            <i data-lucide="heart" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span>Исправлена работа кнопки "В избранное" на странице видео</span>
+                        </li>
+                        <li class="fix-item">
+                            <i data-lucide="tag" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span>Исправлено присвоение типа контента для всех источников</span>
+                        </li>
+                        <li class="fix-item">
+                            <i data-lucide="link" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span>Исправлена маршрутизация URL без расширения .html</span>
+                        </li>
+                        <li class="fix-item">
+                            <i data-lucide="refresh-cw" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span>Исправлено сохранение защиты паролем после обновления PWA</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="changes-section">
+                    <h3>
+                        <i data-lucide="shield" style="width: 24px; height: 24px; color: #ef4444;"></i>
+                        Безопасность
+                    </h3>
+                    <ul class="changes-list">
+                        <li class="security-item">
+                            <i data-lucide="lock" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span>Реализовано криптографически стойкое хеширование паролей (PBKDF2 + SHA-256)</span>
+                        </li>
+                        <li class="security-item">
+                            <i data-lucide="clock" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span>Добавлен таймаут сессии (30 минут неактивности)</span>
+                        </li>
+                        <li class="security-item">
+                            <i data-lucide="key" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span>Генерация случайной соли для каждого пароля</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Version 4.0.0 -->
+            <div class="version-block">
+                <div class="version-header">
+                    <div class="version-number">
+                        <h2>v4.0.0</h2>
+                        <span class="version-badge badge-major">MAJOR</span>
+                    </div>
+                    <div class="version-date">15 февраля 2026</div>
+                </div>
+
+                <div class="changes-section">
+                    <h3>
+                        <i data-lucide="sparkles" style="width: 24px; height: 24px; color: #10b981;"></i>
+                        Новые функции
+                    </h3>
+                    <ul class="changes-list">
+                        <li class="feature-item">
+                            <i data-lucide="folder" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span><strong>Коллекции:</strong> Организация видео в пользовательские коллекции</span>
+                        </li>
+                        <li class="feature-item">
+                            <i data-lucide="share-2" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span><strong>Обмен данными:</strong> Экспорт и импорт коллекций с шифрованием</span>
+                        </li>
+                        <li class="feature-item">
+                            <i data-lucide="search" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span><strong>Умный поиск:</strong> Поиск по названию, описанию и тегам</span>
+                        </li>
+                        <li class="feature-item">
+                            <i data-lucide="filter" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span><strong>Фильтры:</strong> Фильтрация по типу контента и источнику</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="changes-section">
+                    <h3>
+                        <i data-lucide="trending-up" style="width: 24px; height: 24px; color: #3b82f6;"></i>
+                        Улучшения
+                    </h3>
+                    <ul class="changes-list">
+                        <li class="improvement-item">
+                            <i data-lucide="smartphone" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span>Полная адаптация под мобильные устройства</span>
+                        </li>
+                        <li class="improvement-item">
+                            <i data-lucide="zap" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span>Оптимизация производительности IndexedDB</span>
+                        </li>
+                        <li class="improvement-item">
+                            <i data-lucide="eye" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span>Улучшенный UI/UX с анимациями</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Version 3.0.0 -->
+            <div class="version-block">
+                <div class="version-header">
+                    <div class="version-number">
+                        <h2>v3.0.0</h2>
+                        <span class="version-badge badge-major">MAJOR</span>
+                    </div>
+                    <div class="version-date">1 февраля 2026</div>
+                </div>
+
+                <div class="changes-section">
+                    <h3>
+                        <i data-lucide="sparkles" style="width: 24px; height: 24px; color: #10b981;"></i>
+                        Новые функции
+                    </h3>
+                    <ul class="changes-list">
+                        <li class="feature-item">
+                            <i data-lucide="smartphone" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span><strong>PWA:</strong> Установка приложения на устройство</span>
+                        </li>
+                        <li class="feature-item">
+                            <i data-lucide="palette" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span><strong>Темы:</strong> Настраиваемые цветовые схемы</span>
+                        </li>
+                        <li class="feature-item">
+                            <i data-lucide="cookie" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span><strong>Cookie Consent:</strong> Управление согласием на cookies</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Version 2.0.0 -->
+            <div class="version-block">
+                <div class="version-header">
+                    <div class="version-number">
+                        <h2>v2.0.0</h2>
+                        <span class="version-badge badge-major">MAJOR</span>
+                    </div>
+                    <div class="version-date">15 января 2026</div>
+                </div>
+
+                <div class="changes-section">
+                    <h3>
+                        <i data-lucide="sparkles" style="width: 24px; height: 24px; color: #10b981;"></i>
+                        Новые функции
+                    </h3>
+                    <ul class="changes-list">
+                        <li class="feature-item">
+                            <i data-lucide="database" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span><strong>IndexedDB:</strong> Локальное хранение данных</span>
+                        </li>
+                        <li class="feature-item">
+                            <i data-lucide="play" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span><strong>Видеоплеер:</strong> Встроенный плеер для просмотра</span>
+                        </li>
+                        <li class="feature-item">
+                            <i data-lucide="link" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span><strong>Балансеры:</strong> Поддержка видеобалансеров</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Version 1.0.0 -->
+            <div class="version-block">
+                <div class="version-header">
+                    <div class="version-number">
+                        <h2>v1.0.0</h2>
+                        <span class="version-badge badge-major">MAJOR</span>
+                    </div>
+                    <div class="version-date">1 января 2026</div>
+                </div>
+
+                <div class="changes-section">
+                    <h3>
+                        <i data-lucide="rocket" style="width: 24px; height: 24px; color: #10b981;"></i>
+                        Первый релиз
+                    </h3>
+                    <ul class="changes-list">
+                        <li class="feature-item">
+                            <i data-lucide="star" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span>Базовый функционал добавления и просмотра видео</span>
+                        </li>
+                        <li class="feature-item">
+                            <i data-lucide="layout" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span>Современный дизайн интерфейса</span>
+                        </li>
+                        <li class="feature-item">
+                            <i data-lucide="shield" class="change-icon" style="width: 20px; height: 20px;"></i>
+                            <span>100% локальное хранение без серверов</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer glass">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 0.5rem;">
+                        <img src="favicon/favicon-32x32.png" alt="Framesearch" width="32" height="32">
+                        <h3 style="margin: 0;">Framesearch</h3>
+                    </div>
+                    <p>Локальное хранилище для вашей видеоколлекции</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-links">
+                    <a href="terms.html">Условия использования</a>
+                    <a href="privacy.html">Политика конфиденциальности</a>
+                    <a href="cookies.html">Cookies</a>
+                    <a href="license.html">Лицензии</a>
+                    <a href="disclaimer.html">Отказ от ответственности</a>
+                    <a href="changelog.html">История изменений</a>
+                </div>
+                <p class="copyright">© 2026 Framesearch. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="scripts/logger.js"></script>
+    <script src="scripts/legal.js"></script>
+    <script>
+        // Initialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>

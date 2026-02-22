@@ -266,10 +266,36 @@ function initKeyboardShortcuts() {
     if (!searchInput) return;
     
     document.addEventListener('keydown', (e) => {
+        const isInputFocused = document.activeElement.tagName === 'INPUT' || 
+                              document.activeElement.tagName === 'TEXTAREA' ||
+                              document.activeElement.isContentEditable;
+        
+        // Ctrl+K - Focus search (prevent browser's default)
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k' && !isInputFocused) {
+            e.preventDefault();
+            e.stopPropagation();
+            searchInput.focus();
+            searchInput.select();
+            return;
+        }
+        
+        // Ctrl+N - Add new video (prevent browser's new window)
+        if ((e.ctrlKey || e.metaKey) && e.key === 'n' && !isInputFocused) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (typeof modal !== 'undefined') {
+                modal.open();
+            }
+            return;
+        }
+        
+        // / - Focus search
         if (e.key === '/' && document.activeElement !== searchInput) {
             e.preventDefault();
             searchInput.focus();
         }
+        
+        // Esc - Blur search
         if (e.key === 'Escape') {
             searchInput.blur();
         }

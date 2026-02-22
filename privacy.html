@@ -28,8 +28,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png?v=2">
     
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Styles -->
@@ -37,7 +37,7 @@
     <link rel="stylesheet" href="styles/legal.css">
     
     <!-- Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="scripts/lucide.js"></script>
 </head>
 <body>
 
@@ -64,11 +64,11 @@
                 <!-- Language Tabs -->
                 <div class="language-tabs">
                     <button class="language-tab active" data-lang="ru">
-                        <span class="language-tab-icon">🇷🇺</span>
+                        <i data-lucide="flag" style="width: 20px; height: 20px; margin-right: 8px;"></i>
                         Русский
                     </button>
                     <button class="language-tab" data-lang="en">
-                        <span class="language-tab-icon">🇬🇧</span>
+                        <i data-lucide="flag" style="width: 20px; height: 20px; margin-right: 8px;"></i>
                         English
                     </button>
                 </div>
@@ -76,7 +76,7 @@
                 <!-- Russian Content -->
                 <div class="language-content active" data-lang="ru">
                     <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: white;">Политика конфиденциальности</h1>
-                    <p style="color: #9ca3af; margin-bottom: 2rem;">Последнее обновление: 20 февраля 2026</p>
+                    <p style="color: #9ca3af; margin-bottom: 2rem;">Последнее обновление: 22 февраля 2026</p>
 
                     <div class="legal-content">
                     <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">1. Общие положения</h2>
@@ -108,30 +108,51 @@
                         <li>Коды для обмена контентом (временно)</li>
                     </ul>
 
-                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">4. Сбор аналитики</h2>
+                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">4. Аналитика и статистика</h2>
+                    <p style="margin-bottom: 1rem;">
+                        Для улучшения качества приложения мы используем Яндекс.Метрику - сервис веб-аналитики. 
+                        Яндекс.Метрика собирает анонимную статистику о посещениях:
+                    </p>
+                    <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                        <li>Количество посетителей и просмотров страниц</li>
+                        <li>Источники трафика</li>
+                        <li>Технические характеристики устройств (разрешение экрана, браузер, ОС)</li>
+                        <li>Поведение пользователей на сайте (клики, прокрутка)</li>
+                    </ul>
+                    <p style="margin-bottom: 1rem;">
+                        <strong>Важно:</strong> Яндекс.Метрика НЕ имеет доступа к вашим личным данным, хранящимся в приложении. 
+                        Аналитика собирает только общую статистику использования сайта.
+                    </p>
+                    <p style="margin-bottom: 1rem;">
+                        Вы можете отключить аналитику в настройках cookies. При отключении аналитики функциональность приложения не изменится.
+                    </p>
+
+                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">5. Что мы НЕ используем</h2>
                     <p style="margin-bottom: 1rem;">
                         Framesearch НЕ использует:
                     </p>
                     <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                        <li>Google Analytics или другие системы аналитики</li>
-                        <li>Счетчики посещений</li>
-                        <li>Системы отслеживания поведения пользователей</li>
-                        <li>Рекламные сети</li>
+                        <li>Google Analytics или другие системы аналитики (кроме Яндекс.Метрики)</li>
+                        <li>Рекламные сети и трекеры</li>
+                        <li>Системы отслеживания для маркетинговых целей</li>
+                        <li>Сторонние сервисы сбора персональных данных</li>
                     </ul>
 
-                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">5. Cookies и локальное хранилище</h2>
+                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">6. Cookies и локальное хранилище</h2>
                     <p style="margin-bottom: 1rem;">
-                        Приложение использует только технические cookies и localStorage для:
+                        Приложение использует технические cookies и localStorage для:
                     </p>
                     <ul style="margin-left: 2rem; margin-bottom: 1rem;">
-                        <li>Сохранения выбранной темы оформления</li>
+                        <li>Сохранения выбранной темы оформления и настроек</li>
                         <li>Работы IndexedDB для хранения данных</li>
+                        <li>Управления сессией и защиты паролем (если включена)</li>
+                        <li>Работы Яндекс.Метрики (если аналитика включена)</li>
                     </ul>
                     <p style="margin-bottom: 1rem;">
                         Подробнее о cookies читайте в разделе <a href="cookies.html" style="color: #a5b4fc;">Cookies</a>.
                     </p>
 
-                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">6. Обмен данными</h2>
+                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">7. Обмен данными</h2>
                     <p style="margin-bottom: 1rem;">
                         Функция "Поделиться" создает зашифрованный код, который вы можете передать другим пользователям. 
                         Этот код:
@@ -143,13 +164,13 @@
                         <li>Передается напрямую между пользователями</li>
                     </ul>
 
-                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">7. Сторонние сервисы</h2>
+                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">8. Сторонние сервисы</h2>
                     <p style="margin-bottom: 1rem;">
                         Приложение может загружать контент со сторонних видеобалансеров (Kodik, Collaps, Alloha, HDRezka). 
                         Эти сервисы имеют собственные политики конфиденциальности, с которыми следует ознакомиться отдельно.
                     </p>
 
-                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">8. Безопасность данных</h2>
+                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">9. Безопасность данных</h2>
                     <p style="margin-bottom: 1rem;">
                         Поскольку все данные хранятся локально:
                     </p>
@@ -160,7 +181,7 @@
                         <li>Регулярно создавайте резервные копии</li>
                     </ul>
 
-                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">9. Права пользователей (в соответствии с законодательством РФ)</h2>
+                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">10. Права пользователей (в соответствии с законодательством РФ)</h2>
                     <p style="margin-bottom: 1rem;">
                         Вы имеете право:
                     </p>
@@ -170,13 +191,13 @@
                         <li>Использовать приложение анонимно</li>
                     </ul>
 
-                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">10. Изменения в политике</h2>
+                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">11. Изменения в политике</h2>
                     <p style="margin-bottom: 1rem;">
                         Мы можем обновлять эту политику конфиденциальности. О существенных изменениях будет сообщено 
                         через социальные сети проекта.
                     </p>
 
-                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">11. Контакты</h2>
+                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">12. Контакты</h2>
                     <p style="margin-bottom: 1rem;">
                         По вопросам конфиденциальности обращайтесь:
                     </p>
@@ -190,7 +211,7 @@
                 <!-- English Content -->
                 <div class="language-content" data-lang="en">
                     <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: white;">Privacy Policy</h1>
-                    <p style="color: #9ca3af; margin-bottom: 2rem;">Last updated: February 20, 2026</p>
+                    <p style="color: #9ca3af; margin-bottom: 2rem;">Last updated: February 22, 2026</p>
 
                     <div class="legal-content">
                         <h2>1. General Provisions</h2>
@@ -214,18 +235,48 @@
                             <li>User preferences</li>
                         </ul>
 
-                        <h2>4. Cookies</h2>
-                        <p>The application uses only technical cookies necessary for operation:</p>
+                        <h2>4. Analytics and Statistics</h2>
+                        <p>To improve the quality of the application, we use Yandex.Metrica - a web analytics service. Yandex.Metrica collects anonymous statistics about visits:</p>
                         <ul>
-                            <li>Saving settings and preferences</li>
-                            <li>Session management</li>
-                            <li>No tracking or analytics cookies</li>
+                            <li>Number of visitors and page views</li>
+                            <li>Traffic sources</li>
+                            <li>Device technical characteristics (screen resolution, browser, OS)</li>
+                            <li>User behavior on the site (clicks, scrolling)</li>
+                        </ul>
+                        <p><strong>Important:</strong> Yandex.Metrica does NOT have access to your personal data stored in the application. Analytics only collects general site usage statistics.</p>
+                        <p>You can disable analytics in cookie settings. Disabling analytics will not affect the application's functionality.</p>
+
+                        <h2>5. What We DON'T Use</h2>
+                        <p>Framesearch does NOT use:</p>
+                        <ul>
+                            <li>Google Analytics or other analytics systems (except Yandex.Metrica)</li>
+                            <li>Advertising networks and trackers</li>
+                            <li>Tracking systems for marketing purposes</li>
+                            <li>Third-party personal data collection services</li>
                         </ul>
 
-                        <h2>5. Third-Party Services</h2>
+                        <h2>6. Cookies and Local Storage</h2>
+                        <p>The application uses technical cookies and localStorage for:</p>
+                        <ul>
+                            <li>Saving theme and settings</li>
+                            <li>IndexedDB operation for data storage</li>
+                            <li>Session management and password protection (if enabled)</li>
+                            <li>Yandex.Metrica operation (if analytics is enabled)</li>
+                        </ul>
+                        <p>Learn more about cookies in the <a href="cookies.html" style="color: #a5b4fc;">Cookies</a> section.</p>
+
+                        <h2>7. Data Sharing</h2>
+                        <p>The "Share" function creates an encrypted code that you can pass to other users. This code:</p>
+                        <ul>
+                            <li>Does not contain personal information</li>
+                            <li>Is not stored on our servers</li>
+                            <li>Can only be used by the person you share it with</li>
+                        </ul>
+
+                        <h2>8. Third-Party Services</h2>
                         <p>The application may load content from third-party services (video balancers, social networks) that you add. We are not responsible for the privacy policies of these services.</p>
 
-                        <h2>6. Data Security</h2>
+                        <h2>9. Data Security</h2>
                         <p>Since all data is stored locally on your device, you are responsible for its security. We recommend:</p>
                         <ul>
                             <li>Regular data backups using the export function</li>
@@ -233,7 +284,7 @@
                             <li>Keeping your browser updated</li>
                         </ul>
 
-                        <h2>7. Your Rights</h2>
+                        <h2>10. Your Rights</h2>
                         <p>You have full control over your data:</p>
                         <ul>
                             <li>View all stored data</li>
@@ -242,10 +293,10 @@
                             <li>Manage cookie permissions</li>
                         </ul>
 
-                        <h2>8. Changes to Privacy Policy</h2>
+                        <h2>11. Changes to Privacy Policy</h2>
                         <p>We may update this policy. Continued use of the application after changes constitutes acceptance of the new policy.</p>
 
-                        <h2>9. Contact</h2>
+                        <h2>12. Contact</h2>
                         <p>For privacy questions, contact:</p>
                         <ul>
                             <li>GitHub: <a href="https://github.com/SerGioPlay01" target="_blank">@SerGioPlay01</a></li>
@@ -277,6 +328,7 @@
                     <a href="cookies.html" data-i18n="footer.cookies">Cookies</a>
                     <a href="license.html" data-i18n="footer.license">Лицензии</a>
                     <a href="disclaimer.html" data-i18n="footer.disclaimer">Отказ от ответственности</a>
+                    <a href="changelog.html" data-i18n="footer.changelog">История изменений</a>
                 </div>
                 <p class="copyright" data-i18n="footer.copyright"></p>
             </div>

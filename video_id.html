@@ -39,9 +39,7 @@
     <link rel="manifest" href="manifest.json">
     
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="fonts/Roboto/stylesheet.css">
     
     <!-- Prevent FOUC - Load theme immediately -->
     <script>
@@ -103,10 +101,11 @@
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/video.css">
     <link rel="stylesheet" href="styles/modal.css">
+    <link rel="stylesheet" href="styles/app-lock.css">
     <link rel="stylesheet" href="styles/floating-actions.css">
     
     <!-- Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="scripts/lucide.js"></script>
 </head>
 <body>
 
@@ -137,11 +136,11 @@
                         </button>
                         <div class="lang-dropdown" id="langDropdown">
                             <button class="lang-option" data-lang="ru">
-                                <span class="lang-flag">🇷🇺</span>
+                                <i data-lucide="flag" style="width: 20px; height: 20px;"></i>
                                 <span>Русский</span>
                             </button>
                             <button class="lang-option" data-lang="en">
-                                <span class="lang-flag">🇬🇧</span>
+                                <i data-lucide="flag" style="width: 20px; height: 20px;"></i>
                                 <span>English</span>
                             </button>
                         </div>
@@ -192,23 +191,23 @@
                     
                     <div class="video-actions">
                         <button class="action-btn action-btn-primary" id="favoriteBtn">
-                            <i data-lucide="heart"></i> В избранное
+                            <i data-lucide="heart"></i> <span data-i18n="video.addToFavorites">В избранное</span>
                         </button>
                         <button class="action-btn action-btn-secondary" id="shareBtn">
-                            <i data-lucide="share-2"></i> Поделиться
+                            <i data-lucide="share-2"></i> <span data-i18n="video.share">Поделиться</span>
                         </button>
                         <button class="action-btn action-btn-secondary" id="editBtn">
-                            <i data-lucide="edit-2"></i> Редактировать
+                            <i data-lucide="edit-2"></i> <span data-i18n="video.edit">Редактировать</span>
                         </button>
                         <button class="action-btn action-btn-danger" id="deleteBtn">
-                            <i data-lucide="trash-2"></i> Удалить
+                            <i data-lucide="trash-2"></i> <span data-i18n="video.delete">Удалить</span>
                         </button>
                     </div>
                 </div>
 
                 <!-- Description -->
                 <div class="description-card glass-card animate-fade-in delay-200">
-                    <h3>О видео</h3>
+                    <h3 data-i18n="video.about">О видео</h3>
                     <p>
                         В далеком будущем одинокий странник обнаруживает сигнал, который меняет представление человечества о вселенной. 
                         Визуальный шедевр о поиске смысла в пустоте космоса. Путешествуя через галактики, он сталкивается с древними 
@@ -253,6 +252,7 @@
                     <a href="cookies.html" data-i18n="footer.cookies">Cookies</a>
                     <a href="license.html" data-i18n="footer.license">Лицензии</a>
                     <a href="disclaimer.html" data-i18n="footer.disclaimer">Отказ от ответственности</a>
+                    <a href="changelog.html" data-i18n="footer.changelog">История изменений</a>
                 </div>
                 <p class="copyright" data-i18n="footer.copyright"></p>
             </div>
@@ -269,6 +269,7 @@
     <script src="scripts/cookie-consent.js"></script>
     <script src="scripts/i18n.js"></script>
     <script src="scripts/theme.js"></script>
+    <script src="scripts/app-lock.js"></script>
     <script src="scripts/music-sources.js"></script>
     <script src="scripts/modal.js"></script>
     <script src="scripts/share.js"></script>
@@ -278,6 +279,11 @@
     <script src="scripts/video-player.js"></script>
     
     <script>
+        // Initialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+        
         // Language switcher functionality
         document.addEventListener('DOMContentLoaded', () => {
             const langBtn = document.getElementById('langBtn');

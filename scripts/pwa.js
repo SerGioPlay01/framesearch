@@ -104,6 +104,13 @@ class PWAManager {
         );
 
         if (update) {
+            // Сохраняем состояние разблокировки перед обновлением
+            const isUnlocked = sessionStorage.getItem('framesearch-session-unlocked');
+            if (isUnlocked === 'true') {
+                // Временно сохраняем в localStorage с меткой времени
+                localStorage.setItem('framesearch-temp-unlock', Date.now().toString());
+            }
+            
             // Tell the service worker to skip waiting
             if (this.swRegistration && this.swRegistration.waiting) {
                 this.swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });

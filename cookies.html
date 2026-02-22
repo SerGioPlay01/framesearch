@@ -28,8 +28,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png?v=2">
     
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Styles -->
@@ -37,7 +37,7 @@
     <link rel="stylesheet" href="styles/legal.css">
     
     <!-- Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="scripts/lucide.js"></script>
 </head>
 <body>
 
@@ -64,11 +64,11 @@
                 <!-- Language Tabs -->
                 <div class="language-tabs">
                     <button class="language-tab active" data-lang="ru">
-                        <span class="language-tab-icon">🇷🇺</span>
+                        <i data-lucide="flag" style="width: 20px; height: 20px; margin-right: 8px;"></i>
                         Русский
                     </button>
                     <button class="language-tab" data-lang="en">
-                        <span class="language-tab-icon">🇬🇧</span>
+                        <i data-lucide="flag" style="width: 20px; height: 20px; margin-right: 8px;"></i>
                         English
                     </button>
                 </div>
@@ -76,7 +76,7 @@
                 <!-- Russian Content -->
                 <div class="language-content active" data-lang="ru">
                     <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: white;">Политика использования Cookies</h1>
-                    <p style="color: #9ca3af; margin-bottom: 2rem;">Последнее обновление: 20 февраля 2026</p>
+                    <p style="color: #9ca3af; margin-bottom: 2rem;">Последнее обновление: 22 февраля 2026</p>
 
                     <div class="legal-content">
                     <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">1. Что такое cookies</h2>
@@ -163,18 +163,25 @@
                         </a>
                     </p>
 
-                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">4. Что мы НЕ используем</h2>
+                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">4. Управление аналитикой</h2>
+                    <p style="margin-bottom: 1rem;">
+                        Вы можете управлять использованием Яндекс.Метрики через настройки браузера или установив расширение для блокировки счетчиков. 
+                        При первом посещении сайта вы можете принять или отклонить использование аналитических cookies.
+                    </p>
+
+                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">5. Что мы НЕ используем</h2>
                     <p style="margin-bottom: 1rem;">
                         Framesearch НЕ использует:
                     </p>
                     <ul style="margin-left: 2rem; margin-bottom: 1rem;">
+                        <li>Google Analytics или другие системы аналитики (кроме Яндекс.Метрики)</li>
                         <li>Рекламные cookies</li>
                         <li>Cookies для отслеживания поведения в маркетинговых целях</li>
                         <li>Cookies социальных сетей</li>
                         <li>Сторонние cookies для таргетированной рекламы</li>
                     </ul>
 
-                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">5. Cookies от сторонних сервисов</h2>
+                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">6. Cookies от сторонних сервисов</h2>
                     <p style="margin-bottom: 1rem;">
                         При воспроизведении видео через iframe могут использоваться cookies от видеобалансеров:
                     </p>
@@ -188,7 +195,7 @@
                         Эти сервисы имеют собственные политики использования cookies, с которыми следует ознакомиться на их сайтах.
                     </p>
 
-                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">6. Управление cookies</h2>
+                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">7. Управление cookies</h2>
                     <p style="margin-bottom: 1rem;">
                         Вы можете управлять cookies через настройки вашего браузера:
                     </p>
@@ -213,7 +220,7 @@
                         Настройки → Файлы cookie и разрешения сайтов → Управление и удаление файлов cookie
                     </p>
 
-                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">7. Удаление данных Framesearch</h2>
+                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">8. Удаление данных Framesearch</h2>
                     <p style="margin-bottom: 1rem;">
                         Чтобы полностью удалить все данные Framesearch:
                     </p>
@@ -225,7 +232,7 @@
                         <li style="margin-bottom: 0.5rem;">Очистите localStorage для сайта</li>
                     </ol>
 
-                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">8. Согласие на использование cookies</h2>
+                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">9. Согласие на использование cookies</h2>
                     <p style="margin-bottom: 1rem;">
                         Используя Framesearch, вы соглашаетесь с использованием технических cookies, необходимых для работы приложения, 
                         а также аналитических cookies Яндекс.Метрики для улучшения качества сервиса.
@@ -234,7 +241,7 @@
                         Вы можете отключить cookies Яндекс.Метрики, используя настройки браузера или установив расширение для блокировки счетчиков.
                     </p>
 
-                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">9. Контакты</h2>
+                    <h2 style="color: white; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">10. Контакты</h2>
                     <p style="margin-bottom: 1rem;">
                         По вопросам использования cookies обращайтесь:
                     </p>
@@ -248,7 +255,7 @@
                 <!-- English Content -->
                 <div class="language-content" data-lang="en">
                     <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: white;">Cookie Policy</h1>
-                    <p style="color: #9ca3af; margin-bottom: 2rem;">Last updated: February 20, 2026</p>
+                    <p style="color: #9ca3af; margin-bottom: 2rem;">Last updated: February 22, 2026</p>
 
                     <div class="legal-content">
                         <h2>1. What are Cookies</h2>
@@ -333,16 +340,23 @@
                             </a>
                         </p>
 
-                        <h2>4. What We DON'T Use</h2>
+                        <h2>4. Analytics Management</h2>
+                        <p>
+                            You can manage Yandex.Metrica usage through your browser settings or by installing a counter blocking extension. 
+                            On your first visit to the site, you can accept or decline the use of analytics cookies.
+                        </p>
+
+                        <h2>5. What We DON'T Use</h2>
                         <p>Framesearch does NOT use:</p>
                         <ul>
+                            <li>Google Analytics or other analytics systems (except Yandex.Metrica)</li>
                             <li>Advertising cookies</li>
                             <li>Behavior tracking cookies for marketing purposes</li>
                             <li>Social media cookies</li>
                             <li>Third-party cookies for targeted advertising</li>
                         </ul>
 
-                        <h2>5. Third-Party Service Cookies</h2>
+                        <h2>6. Third-Party Service Cookies</h2>
                         <p>
                             When playing videos through iframe, cookies from video balancers may be used:
                         </p>
@@ -356,7 +370,7 @@
                             These services have their own cookie policies, which should be reviewed on their websites.
                         </p>
 
-                        <h2>6. Managing Cookies</h2>
+                        <h2>7. Managing Cookies</h2>
                         <p>You can manage cookies through your browser settings:</p>
 
                         <h3>Google Chrome</h3>
@@ -371,7 +385,7 @@
                         <h3>Microsoft Edge</h3>
                         <p>Settings → Cookies and site permissions → Manage and delete cookies</p>
 
-                        <h2>7. Deleting Framesearch Data</h2>
+                        <h2>8. Deleting Framesearch Data</h2>
                         <p>To completely delete all Framesearch data:</p>
                         <ol>
                             <li>Open developer tools (F12)</li>
@@ -381,7 +395,7 @@
                             <li>Clear localStorage for the site</li>
                         </ol>
 
-                        <h2>8. Cookie Consent</h2>
+                        <h2>9. Cookie Consent</h2>
                         <p>
                             By using Framesearch, you agree to the use of technical cookies necessary for the application to function, 
                             as well as Yandex.Metrica analytics cookies to improve service quality.
@@ -390,7 +404,7 @@
                             You can disable Yandex.Metrica cookies using your browser settings or by installing a counter blocking extension.
                         </p>
 
-                        <h2>9. Contact</h2>
+                        <h2>10. Contact</h2>
                         <p>For questions about cookie usage, contact:</p>
                         <ul>
                             <li>GitHub: <a href="https://github.com/SerGioPlay01" target="_blank">@SerGioPlay01</a></li>
@@ -422,6 +436,7 @@
                     <a href="cookies.html" data-i18n="footer.cookies">Cookies</a>
                     <a href="license.html" data-i18n="footer.license">Лицензии</a>
                     <a href="disclaimer.html" data-i18n="footer.disclaimer">Отказ от ответственности</a>
+                    <a href="changelog.html" data-i18n="footer.changelog">История изменений</a>
                 </div>
                 <p class="copyright" data-i18n="footer.copyright"></p>
             </div>

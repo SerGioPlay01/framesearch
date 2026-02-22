@@ -32,7 +32,7 @@ html.theme-loaded body {
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Roboto', sans-serif;
     background-color: var(--bg-primary);
     color: var(--text-primary);
     overflow-x: hidden;
