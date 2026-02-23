@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     initSearchInput();
     initTags();
     initKeyboardShortcuts();
-    initFilters();
     
     // Check for tag parameter in URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -149,32 +148,9 @@ async function performSearchByTag(tag) {
     }
 }
 
-// Apply filters
+// Apply filters (simplified - no filters now, just return all videos)
 function applyFilters(videos) {
-    const genreSelect = document.querySelector('.filter-select:nth-of-type(1)');
-    const yearSelect = document.querySelector('.filter-select:nth-of-type(2)');
-    const ratingSelect = document.querySelector('.filter-select:nth-of-type(3)');
-    
-    let filtered = [...videos];
-    
-    // Genre filter
-    if (genreSelect && genreSelect.value && genreSelect.value !== 'Все жанры') {
-        filtered = filtered.filter(v => v.genre === genreSelect.value);
-    }
-    
-    // Year filter
-    if (yearSelect && yearSelect.value && yearSelect.value !== 'Любой год') {
-        const year = parseInt(yearSelect.value);
-        filtered = filtered.filter(v => v.year === year);
-    }
-    
-    // Rating filter
-    if (ratingSelect && ratingSelect.value && ratingSelect.value !== 'Любой рейтинг') {
-        const minRating = parseInt(ratingSelect.value);
-        filtered = filtered.filter(v => v.rating >= minRating);
-    }
-    
-    return filtered;
+    return videos;
 }
 
 // Update search stats
@@ -280,16 +256,6 @@ function initFilterButtons() {
     });
 }
 
-// Filters
-function initFilters() {
-    const filterSelects = document.querySelectorAll('.filter-select');
-    
-    filterSelects.forEach(select => {
-        select.addEventListener('change', () => {
-            performSearch();
-        });
-    });
-}
 
 // Tag Interactions
 function initTags() {
