@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initVideoPlayer();
     initProgressBar();
     initKeyboardShortcuts();
+    initVideoActions();
     
     // Listen for notes updates
     window.addEventListener('notesUpdated', async (e) => {
@@ -228,6 +229,150 @@ window.loadVideoTags = loadVideoTags;
 function seekToTimecode(timecode) {
     // TODO: Implement actual video seeking based on your player
 }
+
+// Initialize video action buttons
+function initVideoActions() {
+    // Delete button
+    const deleteBtn = document.getElementById('deleteBtn');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', async () => {
+            await deleteVideo();
+        });
+    }
+    
+    // Edit button
+    const editBtn = document.getElementById('editBtn');
+    if (editBtn) {
+        editBtn.addEventListener('click', () => {
+            // TODO: Implement edit functionality
+            showNotification('Функция редактирования в разработке', 'info');
+        });
+    }
+    
+    // Share button
+    const shareBtn = document.getElementById('shareBtn');
+    if (shareBtn) {
+        shareBtn.addEventListener('click', () => {
+            if (typeof shareManager !== 'undefined' && window.currentVideoId) {
+                shareManager.open(window.currentVideoId);
+            }
+        });
+    }
+    
+    // Favorite button
+    const favoriteBtn = document.getElementById('favoriteBtn');
+    if (favoriteBtn) {
+        favoriteBtn.addEventListener('click', async () => {
+            if (window.currentVideoId) {
+                await toggleFavorite();
+            }
+        });
+    }
+}
+
+// Delete video with confirmation
+async function deleteVideo() {
+    const t = (key) => {
+        if (typeof i18n !== 'undefined' && typeof i18n.t === 'function') {
+            return i18n.t(key);
+        }
+        return key;
+    };
+    
+    if (typeof dialog !== 'undefined' && dialog.confirm) {
+        const confirmed = await dialog.confirm(
+            t('video.deleteConfirm') || 'Вы уверены, что хотите удалить этот контент?',
+            t('video.delete') || 'Удаление видео'
+        );
+        
+        if (confirmed) {
+            try {
+                const dbInstance = typeof db !== 'undefined' ? db : (typeof window.db !== 'undefined' ? window.db : null);
+                if (!dbInstance) {
+                    showNotification('База данных недоступна', 'error');
+                    return;
+                }
+                
+                await dbInstance.deleteVideo(window.currentVideoId);
+                
+                // Delete associated episodes
+                const episodes = await dbInstance.getEpisodes(window.currentVideoId);
+                for (const episode of episodes) {
+                    await dbInstance.deleteEpisode(episode.id);
+                }
+                
+                showNotification('Видео удалено', 'success');
+                
+                // Redirect to main page after 1 second
+                setTimeout(() => {
+                    window.location.href = 'landing.html';
+                }, 1000);
+                
+            } catch (error) {
+                console.error('Error deleting video:', error);
+                showNotification('Ошибка при удалении', 'error');
+            }
+        }
+    } else {
+        // Fallback to native confirm if dialog is not available
+        if (confirm('Вы уверены, что хотите удалить этот контент?')) {
+            try {
+                const dbInstance = typeof db !== 'undefined' ? db : (typeof window.db !== 'undefined' ? window.db : null);
+                if (!dbInstance) {
+                    showNotification('База данных недоступна', 'error');
+                    return;
+                }
+                
+                await dbInstance.deleteVideo(window.currentVideoId);
+                
+                const episodes = await dbInstance.getEpisodes(window.currentVideoId);
+                for (const episode of episodes) {
+                    await dbInstance.deleteEpisode(episode.id);
+                }
+                
+                showNotification('Видео удалено', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'landing.html';
+                }, 1000);
+                
+            } catch (error) {
+                console.error('Error deleting video:', error);
+                showNotification('Ошибка при удалении', 'error');
+            }
+        }
+    }
+}
+
+// Toggle favorite
+async function toggleFavorite() {
+    try {
+        const dbInstance = typeof db !== 'undefined' ? db : (typeof window.db !== 'undefined' ? window.db : null);
+        if (!dbInstance) {
+            return;
+        }
+        
+        await dbInstance.toggleFavorite(window.currentVideoId);
+        
+        const video = await dbInstance.getVideo(window.currentVideoId);
+        const favoriteBtn = document.getElementById('favoriteBtn');
+        
+        if (favoriteBtn) {
+            if (video.isFavorite) {
+                favoriteBtn.classList.add('active');
+                showNotification('Добавлено в избранное', 'success');
+            } else {
+                favoriteBtn.classList.remove('active');
+                showNotification('Удалено из избранного', 'info');
+            }
+        }
+        
+    } catch (error) {
+        console.error('Error toggling favorite:', error);
+        showNotification('Ошибка', 'error');
+    }
+}
+
 
 
 // Video Player Interactions
