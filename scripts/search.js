@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     await db.init();
     
     initSearchInput();
-    initFilterButtons();
     initTags();
     initKeyboardShortcuts();
     initFilters();
@@ -152,23 +151,11 @@ async function performSearchByTag(tag) {
 
 // Apply filters
 function applyFilters(videos) {
-    const typeFilter = document.querySelector('.quick-filters .filter-btn.active')?.textContent.trim().toLowerCase();
     const genreSelect = document.querySelector('.filter-select:nth-of-type(1)');
     const yearSelect = document.querySelector('.filter-select:nth-of-type(2)');
     const ratingSelect = document.querySelector('.filter-select:nth-of-type(3)');
     
     let filtered = [...videos];
-    
-    // Type filter
-    if (typeFilter && typeFilter !== 'все') {
-        if (typeFilter.includes('видео')) {
-            filtered = filtered.filter(v => v.type === 'movie');
-        } else if (typeFilter.includes('сериал')) {
-            filtered = filtered.filter(v => v.type === 'series');
-        } else if (typeFilter.includes('мультфильм')) {
-            filtered = filtered.filter(v => v.type === 'anime');
-        }
-    }
     
     // Genre filter
     if (genreSelect && genreSelect.value && genreSelect.value !== 'Все жанры') {
