@@ -259,7 +259,10 @@ function createVideoCard(video) {
     return `
         <div class="card glass-card animate-fade-in" data-id="${video.id}">
             <div class="card-image">
-                <img src="${posterUrl}" alt="${video.title}">
+                <img src="${posterUrl}" 
+                     alt="${video.title}"
+                     loading="lazy"
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/300x450?text=No+Poster';">
                 <div class="card-rating">${video.rating.toFixed(1)}</div>
                 <button class="card-favorite ${favoriteClass}" data-id="${video.id}">
                     <i data-lucide="heart"></i>

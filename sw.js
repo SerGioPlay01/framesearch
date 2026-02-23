@@ -131,43 +131,62 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    // Handle external resources (fonts, icons, CDN)
+    // Handle external resources (fonts, icons, CDN, images)
     if (url.origin !== location.origin) {
         event.respondWith(
-            caches.match(request)
-                .then((cachedResponse) => {
-                    if (cachedResponse) {
-                        return cachedResponse;
-                    }
+            // For images, try network first for fresh content
+            (request.destination === 'image' 
+                ? fetch(request, { mode: 'cors', credentials: 'omit' })
+                    .then((response) => {
+                        if (response && response.ok) {
+                            // Cache image for future use
+                            const responseToCache = response.clone();
+                            caches.open(EXTERNAL_CACHE)
+                                .then((cache) => {
+                                    cache.put(request, responseToCache);
+                                });
+                        }
+                        return response;
+                    })
+                    .catch(() => {
+                        // Fallback to cache if network fails
+                        return caches.match(request);
+                    })
+                : caches.match(request)
+                    .then((cachedResponse) => {
+                        if (cachedResponse) {
+                            return cachedResponse;
+                        }
 
-                    // Try to fetch from network
-                    return fetch(request, { mode: 'cors' })
-                        .then((response) => {
-                            if (response && response.ok) {
-                                // Cache external resource for future use
-                                const responseToCache = response.clone();
-                                caches.open(EXTERNAL_CACHE)
-                                    .then((cache) => {
-                                        cache.put(request, responseToCache);
-                                    });
-                            }
-                            return response;
-                        })
-                        .catch((error) => {
-                            console.warn('[SW] External resource fetch failed:', url.href);
-                            
-                            // For fonts and critical resources, return cached version if available
-                            if (url.hostname.includes('fonts.googleapis.com') || 
-                                url.hostname.includes('fonts.gstatic.com') ||
-                                url.hostname.includes('unpkg.com')) {
-                                return caches.match(request)
-                                    .then(cached => cached || new Response('', { status: 200 }));
-                            }
-                            
-                            // Return empty response for other failed external resources
-                            return new Response('', { status: 200 });
-                        });
-                })
+                        // Try to fetch from network
+                        return fetch(request, { mode: 'cors' })
+                            .then((response) => {
+                                if (response && response.ok) {
+                                    // Cache external resource for future use
+                                    const responseToCache = response.clone();
+                                    caches.open(EXTERNAL_CACHE)
+                                        .then((cache) => {
+                                            cache.put(request, responseToCache);
+                                        });
+                                }
+                                return response;
+                            })
+                            .catch((error) => {
+                                console.warn('[SW] External resource fetch failed:', url.href);
+                                
+                                // For fonts and critical resources, return cached version if available
+                                if (url.hostname.includes('fonts.googleapis.com') || 
+                                    url.hostname.includes('fonts.gstatic.com') ||
+                                    url.hostname.includes('unpkg.com')) {
+                                    return caches.match(request)
+                                        .then(cached => cached || new Response('', { status: 200 }));
+                                }
+                                
+                                // Return empty response for other failed external resources
+                                return new Response('', { status: 200 });
+                            });
+                    })
+            )
         );
         return;
     }
