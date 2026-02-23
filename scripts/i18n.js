@@ -73,6 +73,16 @@ class I18n {
                 'filter.custom': 'Custom',
                 'filter.favorites': 'Избранное',
                 
+                // Content types
+                'type.balancer': 'Балансер',
+                'type.direct': 'Прямая ссылка',
+                'type.social': 'Соцсети',
+                'type.music': 'Музыка',
+                'type.custom': 'Custom',
+                'type.movie': 'Видео',
+                'type.series': 'Сериал',
+                'type.anime': 'Аниме',
+                
                 // View modes
                 'view.list': 'Список',
                 'view.grid': 'Плитка',
@@ -396,6 +406,77 @@ class I18n {
                 'shortcuts.close': 'Закрыть',
                 'shortcuts.help': 'Показать справку',
                 
+                // Preloader tips
+                'preloader.skip': 'Пропустить',
+                'preloader.loading': 'Загрузка...',
+                'preloader.initialTip': 'Загружаем ваше персональное видеохранилище...',
+                'preloader.loading.styles': 'Стили',
+                'preloader.loading.scripts': 'Скрипты',
+                'preloader.loading.database': 'База данных',
+                'preloader.loading.interface': 'Интерфейс',
+                'preloader.loading.ready': 'Готово',
+                'preloader.tip1': 'Framesearch хранит все данные локально в вашем браузере',
+                'preloader.tip2': 'Используйте Ctrl+K для быстрого поиска по коллекции',
+                'preloader.tip3': 'Добавляйте видео одним кликом с помощью Ctrl+N',
+                'preloader.tip4': 'Выберите одну из 7 готовых тем или создайте свою',
+                'preloader.tip5': 'Установите PWA приложение для работы оффлайн',
+                'preloader.tip6': 'Экспортируйте данные с паролем для безопасного обмена',
+                'preloader.tip7': 'Организуйте видео в коллекции для удобной навигации',
+                'preloader.tip8': 'Отмечайте избранное для быстрого доступа',
+                'preloader.tip9': 'Поддержка 4 типов источников: балансеры, прямые ссылки, соцсети, iframe',
+                'preloader.tip10': 'Переключайтесь между режимами просмотра: список, плитка, постеры',
+                
+                // Statistics
+                'stats.title': 'Статистика просмотров',
+                'stats.totalViews': 'Всего просмотров',
+                'stats.uniqueVideos': 'Уникальных видео',
+                'stats.watchTime': 'Время просмотра',
+                'stats.thisWeek': 'За неделю',
+                'stats.topVideos': 'Топ-5 просматриваемых',
+                'stats.activity': 'Активность за 14 дней',
+                'stats.views': 'просмотров',
+                'stats.clear': 'Очистить статистику',
+                'stats.noData': 'У вас пока нет статистики просмотров. Начните смотреть видео!',
+                
+                // Tags
+                'tags.title': 'Редактор тегов',
+                'tags.current': 'Текущие теги:',
+                'tags.noTags': 'Нет тегов',
+                'tags.add': 'Добавить тег:',
+                'tags.placeholder': 'Введите тег...',
+                'tags.suggestions': 'Предложения:',
+                'tags.allTags': 'Все теги:',
+                'tags.cloud': 'Облако тегов',
+                'tags.noTagsYet': 'У вас пока нет тегов. Добавьте теги к видео!',
+                
+                // Notes
+                'notes.title': 'Заметки и таймкоды',
+                'notes.new': 'Новая заметка:',
+                'notes.placeholder': 'Введите текст заметки...',
+                'notes.timecode': 'Таймкод (мм:сс)',
+                'notes.add': 'Добавить',
+                'notes.noNotes': 'Заметок пока нет',
+                'notes.export': 'Экспорт',
+                'notes.edited': 'Изменено:',
+                'notes.enterText': 'Введите текст заметки',
+                'notes.delete': 'Удалить эту заметку?',
+                
+                // Slideshow
+                'slideshow.title': 'Слайдшоу',
+                'slideshow.settings': 'Настройки слайдшоу',
+                'slideshow.duration': 'Длительность слайда:',
+                'slideshow.shuffle': 'Случайный порядок',
+                'slideshow.showInfo': 'Показывать информацию',
+                'slideshow.apply': 'Применить',
+                'slideshow.cancel': 'Отмена',
+                'slideshow.noVideos': 'Нет видео для показа',
+                'slideshow.dbUnavailable': 'База данных недоступна. Добавьте видео в коллекцию!',
+                'slideshow.3sec': '3 секунды',
+                'slideshow.5sec': '5 секунд',
+                'slideshow.10sec': '10 секунд',
+                'slideshow.15sec': '15 секунд',
+                'slideshow.30sec': '30 секунд',
+                
                 // Use cases
                 'usecase.title': 'Примеры использования',
                 'usecase.intro': 'Framesearch идеально подходит для различных сценариев организации видеоконтента',
@@ -553,6 +634,16 @@ class I18n {
                 'filter.music': 'Music',
                 'filter.custom': 'Custom',
                 'filter.favorites': 'Favorites',
+                
+                // Content types
+                'type.balancer': 'Balancer',
+                'type.direct': 'Direct Link',
+                'type.social': 'Social Media',
+                'type.music': 'Music',
+                'type.custom': 'Custom',
+                'type.movie': 'Movie',
+                'type.series': 'Series',
+                'type.anime': 'Anime',
                 
                 // View modes
                 'view.list': 'List',
@@ -881,6 +972,77 @@ class I18n {
                 'shortcuts.close': 'Close',
                 'shortcuts.help': 'Show help',
                 
+                // Preloader tips
+                'preloader.skip': 'Skip',
+                'preloader.loading': 'Loading...',
+                'preloader.initialTip': 'Loading your personal video storage...',
+                'preloader.loading.styles': 'Styles',
+                'preloader.loading.scripts': 'Scripts',
+                'preloader.loading.database': 'Database',
+                'preloader.loading.interface': 'Interface',
+                'preloader.loading.ready': 'Ready',
+                'preloader.tip1': 'Framesearch stores all data locally in your browser',
+                'preloader.tip2': 'Use Ctrl+K for quick search in your collection',
+                'preloader.tip3': 'Add videos with one click using Ctrl+N',
+                'preloader.tip4': 'Choose one of 7 ready themes or create your own',
+                'preloader.tip5': 'Install PWA app for offline work',
+                'preloader.tip6': 'Export data with password for secure sharing',
+                'preloader.tip7': 'Organize videos in collections for easy navigation',
+                'preloader.tip8': 'Mark favorites for quick access',
+                'preloader.tip9': 'Support for 4 source types: balancers, direct links, social media, iframe',
+                'preloader.tip10': 'Switch between view modes: list, grid, posters',
+                
+                // Statistics
+                'stats.title': 'View Statistics',
+                'stats.totalViews': 'Total Views',
+                'stats.uniqueVideos': 'Unique Videos',
+                'stats.watchTime': 'Watch Time',
+                'stats.thisWeek': 'This Week',
+                'stats.topVideos': 'Top 5 Most Watched',
+                'stats.activity': 'Activity for 14 Days',
+                'stats.views': 'views',
+                'stats.clear': 'Clear Statistics',
+                'stats.noData': 'You don\'t have any viewing statistics yet. Start watching videos!',
+                
+                // Tags
+                'tags.title': 'Tag Editor',
+                'tags.current': 'Current tags:',
+                'tags.noTags': 'No tags',
+                'tags.add': 'Add tag:',
+                'tags.placeholder': 'Enter tag...',
+                'tags.suggestions': 'Suggestions:',
+                'tags.allTags': 'All tags:',
+                'tags.cloud': 'Tag Cloud',
+                'tags.noTagsYet': 'You don\'t have any tags yet. Add tags to videos!',
+                
+                // Notes
+                'notes.title': 'Notes and Timecodes',
+                'notes.new': 'New note:',
+                'notes.placeholder': 'Enter note text...',
+                'notes.timecode': 'Timecode (mm:ss)',
+                'notes.add': 'Add',
+                'notes.noNotes': 'No notes yet',
+                'notes.export': 'Export',
+                'notes.edited': 'Edited:',
+                'notes.enterText': 'Enter note text',
+                'notes.delete': 'Delete this note?',
+                
+                // Slideshow
+                'slideshow.title': 'Slideshow',
+                'slideshow.settings': 'Slideshow Settings',
+                'slideshow.duration': 'Slide duration:',
+                'slideshow.shuffle': 'Random order',
+                'slideshow.showInfo': 'Show information',
+                'slideshow.apply': 'Apply',
+                'slideshow.cancel': 'Cancel',
+                'slideshow.noVideos': 'No videos to show',
+                'slideshow.dbUnavailable': 'Database unavailable. Add videos to your collection!',
+                'slideshow.3sec': '3 seconds',
+                'slideshow.5sec': '5 seconds',
+                'slideshow.10sec': '10 seconds',
+                'slideshow.15sec': '15 seconds',
+                'slideshow.30sec': '30 seconds',
+                
                 // Use cases
                 'usecase.title': 'Use Cases',
                 'usecase.intro': 'Framesearch is perfect for various video content organization scenarios',
@@ -1017,6 +1179,12 @@ class I18n {
             element.innerHTML = this.t(key);
         });
 
+        // Update all elements with data-i18n-title attribute (for title/tooltip)
+        document.querySelectorAll('[data-i18n-title]').forEach(element => {
+            const key = element.getAttribute('data-i18n-title');
+            element.title = this.t(key);
+        });
+
         // Trigger custom event for components that need to update
         window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: this.currentLang } }));
     }
@@ -1035,6 +1203,15 @@ class I18n {
                 element.textContent = translation;
             }
         });
+        
+        // Update title attributes
+        document.querySelectorAll('[data-i18n-title]').forEach(element => {
+            const key = element.getAttribute('data-i18n-title');
+            element.title = this.t(key);
+        });
+        
+        // Dispatch event to notify that i18n is ready
+        window.dispatchEvent(new CustomEvent('i18nReady', { detail: { lang: this.currentLang } }));
     }
 }
 

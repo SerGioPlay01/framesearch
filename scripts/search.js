@@ -23,8 +23,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     initKeyboardShortcuts();
     initFilters();
     
-    // Load all videos initially
-    await performSearch();
+    // Check for tag parameter in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const tagParam = urlParams.get('tag');
+    
+    if (tagParam) {
+        // Decode and set search input
+        const decodedTag = decodeURIComponent(tagParam);
+        const searchInput = document.getElementById('searchInput');
+        const clearButton = document.getElementById('clearSearch');
+        
+        if (searchInput) {
+            searchInput.value = decodedTag;
+            if (clearButton) {
+                clearButton.style.opacity = '1';
+            }
+        }
+        
+        // Perform search by tag
+        await performSearchByTag(decodedTag);
+    } else {
+        // Load all videos initially
+        await performSearch();
+    }
 });
 
 // Search Input Interactions
@@ -45,7 +66,17 @@ function initSearchInput() {
         // Debounce search
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
-            performSearch();
+            // Check if we're searching by tag from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const tagParam = urlParams.get('tag');
+            
+            if (tagParam && searchInput.value.trim().toLowerCase() === tagParam.toLowerCase()) {
+                // Still searching by the same tag
+                performSearchByTag(tagParam);
+            } else {
+                // Regular search
+                performSearch();
+            }
         }, 300);
     });
 
@@ -53,6 +84,12 @@ function initSearchInput() {
         searchInput.value = '';
         clearButton.style.opacity = '0';
         searchInput.focus();
+        
+        // Clear URL parameter
+        const url = new URL(window.location);
+        url.searchParams.delete('tag');
+        window.history.replaceState({}, '', url);
+        
         performSearch();
     });
 }
@@ -82,6 +119,34 @@ async function performSearch() {
         
     } catch (error) {
         logger.error('Error performing search', error);
+    }
+}
+
+// Perform search by tag
+async function performSearchByTag(tag) {
+    try {
+        const allVideos = await db.getAllVideos();
+        
+        // Filter videos that have this tag
+        const videos = allVideos.filter(video => {
+            if (!video.tags || !Array.isArray(video.tags)) return false;
+            return video.tags.some(t => t.toLowerCase() === tag.toLowerCase());
+        });
+        
+        // Apply additional filters
+        const filtered = applyFilters(videos);
+        
+        // Update stats
+        const statsElement = document.querySelector('.search-stats');
+        if (statsElement) {
+            statsElement.innerHTML = `Найдено <span class="highlight">${filtered.length}</span> видео с тегом "<span class="query">${tag}</span>"`;
+        }
+        
+        // Render results
+        renderResults(filtered);
+        
+    } catch (error) {
+        logger.error('Error performing tag search', error);
     }
 }
 

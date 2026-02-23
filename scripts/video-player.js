@@ -143,6 +143,34 @@ function loadVideoPlayer() {
     const videoContainer = document.querySelector('.video-placeholder');
     if (!videoContainer) return;
     
+    // Record view in statistics
+    if (typeof statisticsManager !== 'undefined' && currentVideo) {
+        // Record view with estimated duration (will be updated when video ends)
+        const estimatedDuration = 0; // Will track actual watch time
+        statisticsManager.recordView(currentVideo.id, estimatedDuration);
+        
+        // Track watch time
+        let watchStartTime = Date.now();
+        
+        // Update watch time when user leaves or closes
+        const updateWatchTime = () => {
+            const watchDuration = Math.floor((Date.now() - watchStartTime) / 1000);
+            if (watchDuration > 5) { // Only record if watched more than 5 seconds
+                statisticsManager.recordView(currentVideo.id, watchDuration);
+            }
+        };
+        
+        window.addEventListener('beforeunload', updateWatchTime);
+        window.addEventListener('pagehide', updateWatchTime);
+        
+        // Also track when navigating away
+        const originalPushState = history.pushState;
+        history.pushState = function() {
+            updateWatchTime();
+            return originalPushState.apply(history, arguments);
+        };
+    }
+    
     // Determine content type for logging
     const isMusic = currentVideo.sourceType === 'music' || currentVideo.sourceCategory === 'music';
     const logMethod = isMusic ? 'music' : 'video';

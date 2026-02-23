@@ -75,6 +75,24 @@ class FloatingActionsManager {
                         <span class="fab-label" data-i18n="theme.settings">Настройки темы</span>
                         <i data-lucide="palette"></i>
                     </button>
+                    
+                    <!-- Statistics -->
+                    <button class="fab-btn stats-btn" id="statsFabBtn" data-i18n-title="stats.title" aria-label="Открыть статистику просмотров">
+                        <span class="fab-label" data-i18n="stats.title">Статистика</span>
+                        <i data-lucide="bar-chart-2"></i>
+                    </button>
+                    
+                    <!-- Tags Cloud -->
+                    <button class="fab-btn tags-btn" id="tagsFabBtn" data-i18n-title="tags.cloud" aria-label="Открыть облако тегов">
+                        <span class="fab-label" data-i18n="tags.cloud">Облако тегов</span>
+                        <i data-lucide="tag"></i>
+                    </button>
+                    
+                    <!-- Slideshow -->
+                    <button class="fab-btn slideshow-btn" id="slideshowFabBtn" data-i18n-title="slideshow.title" aria-label="Запустить слайдшоу">
+                        <span class="fab-label" data-i18n="slideshow.title">Слайдшоу</span>
+                        <i data-lucide="presentation"></i>
+                    </button>
                 </div>
                 
                 <!-- Main Menu Button -->
@@ -213,6 +231,60 @@ class FloatingActionsManager {
             });
         }
 
+        // Statistics button
+        const statsBtn = document.getElementById('statsFabBtn');
+        if (statsBtn) {
+            statsBtn.addEventListener('click', () => {
+                console.log('Statistics button clicked');
+                if (typeof statisticsManager !== 'undefined' && statisticsManager.openModal) {
+                    console.log('Opening statistics modal');
+                    statisticsManager.openModal();
+                } else {
+                    console.error('statisticsManager not found or openModal method missing');
+                    alert('Статистика недоступна. Проверьте консоль для деталей.');
+                }
+                this.collapseSecondaryActions();
+            });
+        } else {
+            console.error('Statistics button not found');
+        }
+
+        // Tags button
+        const tagsBtn = document.getElementById('tagsFabBtn');
+        if (tagsBtn) {
+            tagsBtn.addEventListener('click', () => {
+                console.log('Tags button clicked');
+                if (typeof tagsManager !== 'undefined' && tagsManager.openTagCloud) {
+                    console.log('Opening tag cloud');
+                    tagsManager.openTagCloud();
+                } else {
+                    console.error('tagsManager not found or openTagCloud method missing');
+                    alert('Облако тегов недоступно. Проверьте консоль для деталей.');
+                }
+                this.collapseSecondaryActions();
+            });
+        } else {
+            console.error('Tags button not found');
+        }
+
+        // Slideshow button
+        const slideshowBtn = document.getElementById('slideshowFabBtn');
+        if (slideshowBtn) {
+            slideshowBtn.addEventListener('click', async () => {
+                console.log('Slideshow button clicked');
+                if (typeof slideshowManager !== 'undefined' && slideshowManager.start) {
+                    console.log('Starting slideshow');
+                    await slideshowManager.start();
+                } else {
+                    console.error('slideshowManager not found or start method missing');
+                    alert('Слайдшоу недоступно. Проверьте консоль для деталей.');
+                }
+                this.collapseSecondaryActions();
+            });
+        } else {
+            console.error('Slideshow button not found');
+        }
+
         // Scroll to top button
         if (this.scrollTopButton) {
             this.scrollTopButton.addEventListener('click', () => {
@@ -333,6 +405,17 @@ if (document.readyState === 'loading') {
 window.addEventListener('languageChanged', () => {
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
+    }
+    
+    // Update title attributes for new feature buttons
+    if (typeof i18n !== 'undefined') {
+        const statsBtn = document.getElementById('statsFabBtn');
+        const tagsBtn = document.getElementById('tagsFabBtn');
+        const slideshowBtn = document.getElementById('slideshowFabBtn');
+        
+        if (statsBtn) statsBtn.title = i18n.t('stats.title');
+        if (tagsBtn) tagsBtn.title = i18n.t('tags.cloud');
+        if (slideshowBtn) slideshowBtn.title = i18n.t('slideshow.title');
     }
 });
 

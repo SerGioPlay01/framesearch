@@ -19,23 +19,52 @@ class PreloaderManager {
         this.startTime = Date.now();
         this.minDisplayTime = 1500; // Minimum display time in ms
         
-        this.tips = [
-            { icon: '🎬', text: 'Framesearch хранит все данные локально в вашем браузере' },
-            { icon: '🔍', text: 'Используйте Ctrl+K для быстрого поиска по коллекции' },
-            { icon: '⚡', text: 'Добавляйте видео одним кликом с помощью Ctrl+N' },
-            { icon: '🎨', text: 'Выберите одну из 6 готовых тем или создайте свою' },
-            { icon: '📱', text: 'Установите PWA приложение для работы оффлайн' },
-            { icon: '🔒', text: 'Экспортируйте данные с паролем для безопасного обмена' },
-            { icon: '🎯', text: 'Организуйте видео в коллекции для удобной навигации' },
-            { icon: '⭐', text: 'Отмечайте избранное для быстрого доступа' },
-            { icon: '🌐', text: 'Поддержка 4 типов источников: балансеры, прямые ссылки, соцсети, iframe' },
-            { icon: '🎭', text: 'Переключайтесь между режимами просмотра: список, плитка, постеры' }
-        ];
-        
+        // Tips will be loaded from i18n
+        this.tips = [];
         this.currentTipIndex = 0;
+    }
+    
+    getTranslation(key, fallback) {
+        if (typeof i18n !== 'undefined' && typeof i18n.t === 'function') {
+            return i18n.t(key);
+        }
+        return fallback;
+    }
+    
+    loadTips() {
+        // Load tips from i18n if available
+        if (typeof i18n !== 'undefined' && typeof i18n.t === 'function') {
+            this.tips = [
+                { icon: '🎬', text: i18n.t('preloader.tip1') },
+                { icon: '🔍', text: i18n.t('preloader.tip2') },
+                { icon: '⚡', text: i18n.t('preloader.tip3') },
+                { icon: '🎨', text: i18n.t('preloader.tip4') },
+                { icon: '📱', text: i18n.t('preloader.tip5') },
+                { icon: '🔒', text: i18n.t('preloader.tip6') },
+                { icon: '🎯', text: i18n.t('preloader.tip7') },
+                { icon: '⭐', text: i18n.t('preloader.tip8') },
+                { icon: '🌐', text: i18n.t('preloader.tip9') },
+                { icon: '🎭', text: i18n.t('preloader.tip10') }
+            ];
+        } else {
+            // Fallback to Russian
+            this.tips = [
+                { icon: '🎬', text: 'Framesearch хранит все данные локально в вашем браузере' },
+                { icon: '🔍', text: 'Используйте Ctrl+K для быстрого поиска по коллекции' },
+                { icon: '⚡', text: 'Добавляйте видео одним кликом с помощью Ctrl+N' },
+                { icon: '🎨', text: 'Выберите одну из 7 готовых тем или создайте свою' },
+                { icon: '📱', text: 'Установите PWA приложение для работы оффлайн' },
+                { icon: '🔒', text: 'Экспортируйте данные с паролем для безопасного обмена' },
+                { icon: '🎯', text: 'Организуйте видео в коллекции для удобной навигации' },
+                { icon: '⭐', text: 'Отмечайте избранное для быстрого доступа' },
+                { icon: '🌐', text: 'Поддержка 4 типов источников: балансеры, прямые ссылки, соцсети, iframe' },
+                { icon: '🎭', text: 'Переключайтесь между режимами просмотра: список, плитка, постеры' }
+            ];
+        }
     }
 
     init() {
+        this.loadTips();
         this.createPreloader();
         this.attachEventListeners();
         this.startLoading();
@@ -82,19 +111,19 @@ class PreloaderManager {
                         <div class="loading-bar" id="loadingBar"></div>
                     </div>
                     
-                    <div class="loading-text" id="loadingText">Загрузка...</div>
+                    <div class="loading-text" id="loadingText">${this.getTranslation('preloader.loading', 'Загрузка...')}</div>
                 </div>
                 
                 <div class="loading-tips">
                     <div class="loading-tip" id="loadingTip">
                         <span class="loading-tip-icon">💡</span>
-                        <span>Загружаем ваше персональное видеохранилище...</span>
+                        <span>${this.getTranslation('preloader.initialTip', 'Загружаем ваше персональное видеохранилище...')}</span>
                     </div>
                 </div>
                 
                 <button class="preloader-skip" id="preloaderSkip">
                     <i data-lucide="skip-forward"></i>
-                    <span>Пропустить</span>
+                    <span data-i18n="preloader.skip">${this.getTranslation('preloader.skip', 'Пропустить')}</span>
                 </button>
             </div>
         `;
@@ -120,6 +149,18 @@ class PreloaderManager {
             skipBtn.addEventListener('click', () => this.hide());
         }
 
+        // Listen for i18n initialization to update texts
+        window.addEventListener('i18nReady', () => {
+            this.updateTextsWithTranslations();
+        });
+
+        // Listen for language changes
+        window.addEventListener('languageChanged', () => {
+            this.loadTips();
+            this.showRandomTip();
+            this.updateTextsWithTranslations();
+        });
+
         // Track actual page load progress
         if (document.readyState === 'complete') {
             // Page already loaded
@@ -142,20 +183,49 @@ class PreloaderManager {
         this.trackResourceLoading();
     }
 
+    updateTextsWithTranslations() {
+        // Helper function for translation
+        const t = (key, fallback) => {
+            if (typeof i18n !== 'undefined' && typeof i18n.t === 'function') {
+                return i18n.t(key);
+            }
+            return fallback;
+        };
+
+        // Update loading text if still visible
+        if (this.loadingText && !this.isComplete) {
+            const currentText = this.loadingText.textContent;
+            // Only update if it's still showing the default loading text
+            if (currentText === 'Загрузка...' || currentText === 'Loading...') {
+                this.loadingText.textContent = t('preloader.loading', 'Загрузка...');
+            }
+        }
+
+        // Update skip button text
+        const skipBtn = document.querySelector('#preloaderSkip span[data-i18n="preloader.skip"]');
+        if (skipBtn && typeof i18n !== 'undefined' && typeof i18n.t === 'function') {
+            skipBtn.textContent = i18n.t('preloader.skip');
+        }
+    }
+
     trackResourceLoading() {
-        // Simulate progressive loading with actual progress updates
-        const resources = [
-            { name: 'Стили', delay: 200, progress: 20 },
-            { name: 'Скрипты', delay: 400, progress: 40 },
-            { name: 'База данных', delay: 600, progress: 60 },
-            { name: 'Интерфейс', delay: 800, progress: 80 },
-            { name: 'Готово', delay: 1000, progress: 100 }
+        // Store resource definitions for later updates
+        this.resourceStages = [
+            { key: 'preloader.loading.styles', fallback: 'Стили', delay: 200, progress: 20 },
+            { key: 'preloader.loading.scripts', fallback: 'Скрипты', delay: 400, progress: 40 },
+            { key: 'preloader.loading.database', fallback: 'База данных', delay: 600, progress: 60 },
+            { key: 'preloader.loading.interface', fallback: 'Интерфейс', delay: 800, progress: 80 },
+            { key: 'preloader.loading.ready', fallback: 'Готово', delay: 1000, progress: 100 }
         ];
 
-        resources.forEach((resource) => {
+        this.resourceStages.forEach((resource) => {
             setTimeout(() => {
-                this.setProgress(resource.progress);
-                this.setLoadingText(resource.name);
+                if (!this.isComplete) {
+                    this.setProgress(resource.progress);
+                    // Try to get translation, fallback to default
+                    const text = this.getTranslation(resource.key, resource.fallback);
+                    this.setLoadingText(text);
+                }
             }, resource.delay);
         });
     }

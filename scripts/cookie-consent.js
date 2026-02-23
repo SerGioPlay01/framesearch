@@ -168,9 +168,18 @@ class CookieConsentManager {
     }
 
     init() {
+        console.log('CookieConsent: Initializing...', {
+            needsConsent: this.needsConsent(),
+            consent: this.consent,
+            preferences: this.preferences,
+            i18nAvailable: typeof i18n !== 'undefined'
+        });
+        
         if (this.needsConsent()) {
+            console.log('CookieConsent: Showing banner');
             this.showBanner();
         } else {
+            console.log('CookieConsent: Consent already given, applying preferences');
             this.applyPreferences();
         }
         
@@ -180,6 +189,8 @@ class CookieConsentManager {
         
         // Add settings button to footer
         this.addSettingsButton();
+        
+        console.log('CookieConsent: Initialization complete');
     }
 
     // REAL-TIME SCRIPT MONITORING
@@ -683,12 +694,34 @@ const cookieConsent = new CookieConsentManager();
 window.cookieConsent = cookieConsent;
 
 // Initialize on load - wait for i18n to be ready
-document.addEventListener('DOMContentLoaded', () => {
-    // Wait a bit for i18n to initialize
-    setTimeout(() => {
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCookieConsent);
+} else {
+    // DOM already loaded
+    initCookieConsent();
+}
+
+function initCookieConsent() {
+    // Check if i18n is ready
+    if (typeof i18n !== 'undefined') {
         cookieConsent.init();
-    }, 100);
-});
+    } else {
+        // Wait for i18n with multiple attempts
+        let attempts = 0;
+        const maxAttempts = 20; // 2 seconds max
+        const checkInterval = setInterval(() => {
+            attempts++;
+            if (typeof i18n !== 'undefined') {
+                clearInterval(checkInterval);
+                cookieConsent.init();
+            } else if (attempts >= maxAttempts) {
+                clearInterval(checkInterval);
+                console.warn('i18n not loaded, initializing cookie consent anyway');
+                cookieConsent.init();
+            }
+        }, 100);
+    }
+}
 
 
 // Listen for language changes

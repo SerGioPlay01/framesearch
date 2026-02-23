@@ -246,19 +246,15 @@ function createVideoCard(video) {
     const posterUrl = video.poster || 'https://via.placeholder.com/300x450?text=No+Poster';
     const favoriteClass = video.isFavorite ? 'active' : '';
     
-    // Map type to display name
-    const typeNames = {
-        'balancer': 'Балансер',
-        'direct': 'Прямая ссылка',
-        'social': 'Соцсети',
-        'music': 'Музыка',
-        'custom': 'Custom',
-        'movie': 'Видео',
-        'series': 'Сериал',
-        'anime': 'Аниме'
+    // Get translated type name
+    const getTypeName = (type) => {
+        if (typeof i18n !== 'undefined' && typeof i18n.t === 'function') {
+            return i18n.t(`type.${type}`) || type;
+        }
+        return type;
     };
     
-    const typeName = typeNames[video.type] || video.type || 'Видео';
+    const typeName = getTypeName(video.type) || getTypeName('movie');
     
     return `
         <div class="card glass-card animate-fade-in" data-id="${video.id}">
@@ -269,13 +265,19 @@ function createVideoCard(video) {
                     <i data-lucide="heart"></i>
                 </button>
                 <div class="card-actions">
-                    <button class="card-action-btn" onclick="editVideo(${video.id})" title="Редактировать">
+                    <button class="card-action-btn" onclick="event.stopPropagation(); editVideo(${video.id})" title="Редактировать">
                         <i data-lucide="edit-2"></i>
                     </button>
-                    <button class="card-action-btn" onclick="shareVideo(${video.id})" title="Поделиться">
+                    <button class="card-action-btn" onclick="event.stopPropagation(); if(typeof tagsManager !== 'undefined') tagsManager.openTagEditor(${video.id})" title="Теги">
+                        <i data-lucide="tag"></i>
+                    </button>
+                    <button class="card-action-btn" onclick="event.stopPropagation(); if(typeof notesManager !== 'undefined') notesManager.openNotesPanel(${video.id})" title="Заметки">
+                        <i data-lucide="file-text"></i>
+                    </button>
+                    <button class="card-action-btn" onclick="event.stopPropagation(); shareVideo(${video.id})" title="Поделиться">
                         <i data-lucide="share-2"></i>
                     </button>
-                    <button class="card-action-btn card-delete-btn" onclick="deleteVideo(${video.id})" title="Удалить">
+                    <button class="card-action-btn card-delete-btn" onclick="event.stopPropagation(); deleteVideo(${video.id})" title="Удалить">
                         <i data-lucide="trash-2"></i>
                     </button>
                 </div>
@@ -289,9 +291,16 @@ function createVideoCard(video) {
             <div class="card-info">
                 <h3 class="card-title">${video.title}</h3>
                 <p class="card-meta">${video.genre} • ${video.year}</p>
+                ${video.tags && video.tags.length > 0 ? `
+                    <div class="card-tags">
+                        ${video.tags.slice(0, 3).map(tag => `<span class="card-tag">${tag}</span>`).join('')}
+                        ${video.tags.length > 3 ? `<span class="card-tag-more">+${video.tags.length - 3}</span>` : ''}
+                    </div>
+                ` : ''}
                 <div class="card-details">
                     <span>${video.duration || 'N/A'}</span>
                     <span class="card-badge">${typeName}</span>
+                    ${video.notes && video.notes.length > 0 ? `<span class="card-notes-badge" title="${video.notes.length} заметок"><i data-lucide="file-text" style="width: 14px; height: 14px;"></i> ${video.notes.length}</span>` : ''}
                 </div>
             </div>
         </div>
@@ -984,4 +993,51 @@ window.addEventListener('languageChanged', (e) => {
     if (instructionsModal) {
         closeInstructions();
     }
+});
+
+
+// Haptic feedback for mobile devices
+function triggerHapticFeedback(type = 'light') {
+    if ('vibrate' in navigator) {
+        switch(type) {
+            case 'light':
+                navigator.vibrate(10);
+                break;
+            case 'medium':
+                navigator.vibrate(20);
+                break;
+            case 'heavy':
+                navigator.vibrate(30);
+                break;
+            case 'success':
+                navigator.vibrate([10, 50, 10]);
+                break;
+            case 'error':
+                navigator.vibrate([20, 100, 20]);
+                break;
+        }
+    }
+}
+
+// Add haptic feedback to card action buttons
+document.addEventListener('DOMContentLoaded', () => {
+    // Add haptic feedback on touch
+    document.addEventListener('touchstart', (e) => {
+        if (e.target.closest('.card-action-btn')) {
+            triggerHapticFeedback('light');
+        }
+        if (e.target.closest('.card-favorite')) {
+            triggerHapticFeedback('light');
+        }
+        if (e.target.closest('.card-delete-btn')) {
+            triggerHapticFeedback('medium');
+        }
+    });
+    
+    // Success feedback on favorite toggle
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.card-favorite')) {
+            setTimeout(() => triggerHapticFeedback('success'), 100);
+        }
+    });
 });

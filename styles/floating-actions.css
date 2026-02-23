@@ -159,6 +159,22 @@
     transition-delay: 0s;
 }
 
+.fab-secondary.expanded .fab-btn:nth-child(7) {
+    transition-delay: 0s;
+}
+
+.fab-secondary.expanded .fab-btn:nth-child(8) {
+    transition-delay: 0s;
+}
+
+.fab-secondary.expanded .fab-btn:nth-child(9) {
+    transition-delay: 0s;
+}
+
+.fab-secondary.expanded .fab-btn:nth-child(10) {
+    transition-delay: 0s;
+}
+
 .fab-btn:hover {
     background: var(--accent-primary);
     color: var(--bg-primary);

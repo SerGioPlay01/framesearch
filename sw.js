@@ -9,7 +9,7 @@
  * © 2026 Framesearch.  
  */
 
-const CACHE_VERSION = 'framesearch-v4.5.0';
+const CACHE_VERSION = 'framesearch-v5.0.0';
 const CACHE_NAME = `${CACHE_VERSION}-static`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 const EXTERNAL_CACHE = `${CACHE_VERSION}-external`;

@@ -104,6 +104,7 @@
     <link rel="stylesheet" href="styles/modal.css">
     <link rel="stylesheet" href="styles/app-lock.css">
     <link rel="stylesheet" href="styles/floating-actions.css">
+    <link rel="stylesheet" href="styles/features.css">
     
     <!-- Icons -->
     <script src="scripts/lucide.js"></script>
@@ -163,7 +164,7 @@
         <section class="video-section animate-fade-in">
             <div class="video-container glass">
                 <div class="video-placeholder">
-                    <img src="https://image.qwenlm.ai/public_source/596b865b-2353-481a-a287-e440e8795d2f/110136d0c-e9bd-460c-81e5-2e2996ce6041.png" alt="Video Thumbnail">
+                    <img src="https://via.placeholder.com/1920x1080?text=Video+Placeholder" alt="Video Thumbnail">
                     <button class="video-play-btn" id="playBtn">
                         <i data-lucide="play"></i>
                     </button>
@@ -214,6 +215,21 @@
                         Визуальный шедевр о поиске смысла в пустоте космоса. Путешествуя через галактики, он сталкивается с древними 
                         цивилизациями и загадками, которые бросают вызов самому понятию реальности.
                     </p>
+                </div>
+
+                <!-- Notes Section -->
+                <div class="notes-section glass-card animate-fade-in delay-300" id="videoNotesSection" style="display: none;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                        <h3 style="display: flex; align-items: center; gap: 0.5rem; margin: 0;">
+                            <i data-lucide="sticky-note"></i>
+                            <span data-i18n="notes.title">Заметки</span>
+                        </h3>
+                        <button class="btn btn-primary btn-sm" onclick="notesManager.openNotesPanel(window.currentVideoId)" style="padding: 0.5rem 1rem;">
+                            <i data-lucide="plus"></i>
+                            <span data-i18n="notes.add">Добавить</span>
+                        </button>
+                    </div>
+                    <div id="videoNotesList" class="notes-list"></div>
                 </div>
 
             </div>
@@ -267,8 +283,8 @@
     <script src="scripts/pwa.js"></script>
     <script src="scripts/db.js"></script>
     <script src="scripts/dialog.js"></script>
-    <script src="scripts/cookie-consent.js"></script>
     <script src="scripts/i18n.js"></script>
+    <script src="scripts/cookie-consent.js"></script>
     <script src="scripts/theme.js"></script>
     <script src="scripts/app-lock.js"></script>
     <script src="scripts/music-sources.js"></script>
@@ -276,8 +292,13 @@
     <script src="scripts/share.js"></script>
     <script src="scripts/import.js"></script>
     <script src="scripts/scrollbar.js"></script>
+    <script src="scripts/statistics.js"></script>
+    <script src="scripts/tags.js"></script>
+    <script src="scripts/notes.js"></script>
+    <script src="scripts/slideshow.js"></script>
     <script src="scripts/floating-actions.js"></script>
     <script src="scripts/video-player.js"></script>
+    <script src="scripts/video.js"></script>
     
     <script>
         // Initialize Lucide icons

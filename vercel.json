@@ -2,11 +2,7 @@
   "rewrites": [
     {
       "source": "/app",
-      "destination": "/landing.html"
-    },
-    {
-      "source": "/app.html",
-      "destination": "/landing.html"
+      "destination": "/app.html"
     },
     {
       "source": "/video_id",

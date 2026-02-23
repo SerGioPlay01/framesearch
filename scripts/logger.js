@@ -13,7 +13,7 @@
 class Logger {
     constructor() {
         this.appName = 'Framesearch';
-        this.version = '4.5.0';
+        this.version = '5.0.0';
         this.isDevelopment = window.location.hostname === 'localhost' || 
                             window.location.hostname === '127.0.0.1' ||
                             window.location.hostname.includes('192.168');

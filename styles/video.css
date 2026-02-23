@@ -675,3 +675,103 @@
         height: 2rem;
     }
 }
+
+/* ============================================
+   NOTES SECTION ON VIDEO PAGE
+   ============================================ */
+
+.notes-section {
+    margin-top: 2rem;
+    padding: 1.5rem;
+}
+
+.notes-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.notes-section h3 i,
+.notes-section h3 svg {
+    width: 20px;
+    height: 20px;
+}
+
+.notes-section .btn-sm {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+}
+
+.notes-section .notes-list {
+    margin-top: 1rem;
+}
+
+.notes-section .note-item {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    transition: all 0.2s ease;
+}
+
+.notes-section .note-item:last-child {
+    margin-bottom: 0;
+}
+
+.notes-section .note-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--accent-primary);
+}
+
+.notes-section .note-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.notes-section .note-timecode {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(165, 180, 252, 0.1);
+    border-radius: 4px;
+    color: var(--accent-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.notes-section .note-timecode:hover {
+    background: rgba(165, 180, 252, 0.2);
+}
+
+.notes-section .note-timecode i,
+.notes-section .note-timecode svg {
+    width: 14px;
+    height: 14px;
+}
+
+.notes-section .note-date {
+    margin-left: auto;
+}
+
+.notes-section .note-text {
+    color: var(--text-primary);
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.notes-section .note-edited {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-style: italic;
+}
