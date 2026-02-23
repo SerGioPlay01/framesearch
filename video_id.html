@@ -207,6 +207,44 @@
                     </div>
                 </div>
 
+                <!-- Quick Actions Panel -->
+                <div class="quick-actions-panel glass-card animate-fade-in delay-100">
+                    <div class="quick-actions-header">
+                        <h3>
+                            <i data-lucide="zap"></i>
+                            <span data-i18n="video.quickActions">Быстрые действия</span>
+                        </h3>
+                    </div>
+                    
+                    <div class="quick-actions-grid">
+                        <!-- Add Note -->
+                        <div class="quick-action-card">
+                            <div class="quick-action-icon">
+                                <i data-lucide="sticky-note"></i>
+                            </div>
+                            <h4 data-i18n="video.addNote">Добавить заметку</h4>
+                            <p data-i18n="video.addNote.desc">Создайте заметку с таймкодом</p>
+                            <button class="btn btn-primary btn-sm" id="quickAddNoteBtn">
+                                <i data-lucide="plus"></i>
+                                <span data-i18n="notes.add">Добавить</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Add Tag -->
+                        <div class="quick-action-card">
+                            <div class="quick-action-icon">
+                                <i data-lucide="tag"></i>
+                            </div>
+                            <h4 data-i18n="video.addTag">Добавить тег</h4>
+                            <p data-i18n="video.addTag.desc">Организуйте видео по категориям</p>
+                            <button class="btn btn-primary btn-sm" id="quickAddTagBtn">
+                                <i data-lucide="plus"></i>
+                                <span data-i18n="tags.add">Добавить</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Description -->
                 <div class="description-card glass-card animate-fade-in delay-200">
                     <h3 data-i18n="video.about">О видео</h3>

@@ -264,3 +264,189 @@ function initKeyboardShortcuts() {
         }
     });
 }
+
+
+// ===== QUICK ACTIONS FUNCTIONALITY =====
+
+// Initialize quick actions
+document.addEventListener('DOMContentLoaded', () => {
+    initQuickActions();
+});
+
+function initQuickActions() {
+    // Quick Add Note button
+    const quickAddNoteBtn = document.getElementById('quickAddNoteBtn');
+    if (quickAddNoteBtn) {
+        quickAddNoteBtn.addEventListener('click', () => {
+            if (typeof notesManager !== 'undefined' && window.currentVideoId) {
+                // Open notes panel without timecode - user will specify it
+                notesManager.openNotesPanel(window.currentVideoId);
+            }
+        });
+    }
+    
+    // Quick Add Tag button
+    const quickAddTagBtn = document.getElementById('quickAddTagBtn');
+    if (quickAddTagBtn) {
+        quickAddTagBtn.addEventListener('click', async () => {
+            if (typeof tagsManager !== 'undefined' && window.currentVideoId) {
+                await showQuickTagDialog();
+            }
+        });
+    }
+}
+
+// Show quick tag dialog
+async function showQuickTagDialog() {
+    const t = (key, fallback) => {
+        if (typeof i18n !== 'undefined' && typeof i18n.t === 'function') {
+            return i18n.t(key);
+        }
+        return fallback || key;
+    };
+    
+    // Create dialog HTML
+    const dialogHTML = `
+        <div class="modal active" id="quickTagModal">
+            <div class="modal-overlay"></div>
+            <div class="modal-content" style="max-width: 500px;">
+                <div class="modal-header">
+                    <h2>
+                        <i data-lucide="tag"></i>
+                        ${t('tags.add', 'Добавить тег')}
+                    </h2>
+                    <button class="modal-close" onclick="closeQuickTagDialog()">
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="quickTagInput">${t('tags.name', 'Название тега')}</label>
+                        <input 
+                            type="text" 
+                            id="quickTagInput" 
+                            class="form-input" 
+                            placeholder="${t('tags.placeholder', 'Введите название тега')}"
+                            maxlength="50"
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>${t('tags.suggestions', 'Популярные теги')}</label>
+                        <div class="tag-suggestions" id="tagSuggestions">
+                            <button class="tag-suggestion" data-tag="балансер">балансер</button>
+                            <button class="tag-suggestion" data-tag="прямая ссылка">прямая ссылка</button>
+                            <button class="tag-suggestion" data-tag="соцсети">соцсети</button>
+                            <button class="tag-suggestion" data-tag="музыка">музыка</button>
+                            <button class="tag-suggestion" data-tag="избранное">избранное</button>
+                            <button class="tag-suggestion" data-tag="посмотреть позже">посмотреть позже</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="closeQuickTagDialog()">
+                        ${t('btn.cancel', 'Отмена')}
+                    </button>
+                    <button class="btn btn-primary" onclick="saveQuickTag()">
+                        <i data-lucide="check"></i>
+                        ${t('btn.add', 'Добавить')}
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', dialogHTML);
+    document.body.style.overflow = 'hidden';
+    
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+    
+    // Focus input
+    setTimeout(() => {
+        const input = document.getElementById('quickTagInput');
+        if (input) input.focus();
+    }, 100);
+    
+    // Add suggestion click handlers
+    const suggestions = document.querySelectorAll('.tag-suggestion');
+    suggestions.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const input = document.getElementById('quickTagInput');
+            if (input) {
+                input.value = btn.dataset.tag;
+                input.focus();
+            }
+        });
+    });
+    
+    // Enter key to save
+    const input = document.getElementById('quickTagInput');
+    if (input) {
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                saveQuickTag();
+            }
+        });
+    }
+}
+
+// Close quick tag dialog
+window.closeQuickTagDialog = function() {
+    const modal = document.getElementById('quickTagModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        setTimeout(() => modal.remove(), 300);
+    }
+};
+
+// Save quick tag
+window.saveQuickTag = async function() {
+    const input = document.getElementById('quickTagInput');
+    if (!input || !input.value.trim()) {
+        return;
+    }
+    
+    const tagName = input.value.trim();
+    
+    try {
+        if (typeof tagsManager !== 'undefined' && window.currentVideoId) {
+            await tagsManager.addTag(window.currentVideoId, tagName);
+            showNotification('Тег добавлен', 'success');
+            closeQuickTagDialog();
+        }
+    } catch (error) {
+        console.error('Error adding tag:', error);
+        showNotification('Ошибка при добавлении тега', 'error');
+    }
+};
+
+// Show notification
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.style.cssText = `
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        padding: 1rem 1.5rem;
+        background: ${type === 'success' ? 'var(--success-color)' : type === 'error' ? 'var(--danger-color)' : 'var(--accent-primary)'};
+        color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        z-index: 10000;
+        animation: slideInUp 0.3s ease;
+    `;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOutDown 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}

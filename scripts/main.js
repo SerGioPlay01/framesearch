@@ -134,14 +134,28 @@ function initNavbar() {
     const navbar = document.getElementById('navbar');
     if (!navbar) return;
     
+    let lastScroll = 0;
+    
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 20) {
-            navbar.style.background = 'rgba(15, 23, 42, 0.8)';
-            navbar.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+        const currentScroll = window.scrollY;
+        
+        // Add scrolled class for styling
+        if (currentScroll > 20) {
+            navbar.classList.add('scrolled');
         } else {
-            navbar.style.background = 'rgba(255, 255, 255, 0.03)';
-            navbar.style.borderColor = 'rgba(255, 255, 255, 0.05)';
+            navbar.classList.remove('scrolled');
         }
+        
+        // Hide/show navbar on scroll
+        if (currentScroll > lastScroll && currentScroll > 100) {
+            // Scrolling down
+            navbar.style.transform = 'translateY(-100%)';
+        } else {
+            // Scrolling up
+            navbar.style.transform = 'translateY(0)';
+        }
+        
+        lastScroll = currentScroll;
     });
 }
 

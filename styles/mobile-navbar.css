@@ -49,32 +49,9 @@
         background: rgba(255, 255, 255, 0.05);
     }
     
-    /* Search box improvements */
+    /* Search box - hidden on mobile */
     .search-box {
-        position: relative;
-    }
-    
-    .search-input {
-        background: rgba(255, 255, 255, 0.06) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) inset;
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    .search-input:focus {
-        background: rgba(255, 255, 255, 0.09) !important;
-        border-color: var(--accent-primary) !important;
-        box-shadow: 0 0 0 3px rgba(165, 180, 252, 0.12),
-                    0 2px 8px rgba(0, 0, 0, 0.1) inset;
-        transform: translateY(-1px);
-    }
-    
-    .search-input::placeholder {
-        transition: opacity 0.2s ease;
-    }
-    
-    .search-input:focus::placeholder {
-        opacity: 0.6;
+        display: none !important;
     }
     
     /* Icon buttons with modern design */
@@ -218,10 +195,6 @@
                     0 1px 0 rgba(255, 255, 255, 0.05) inset;
     }
     
-    .search-input {
-        font-size: 0.8125rem !important;
-    }
-    
     .icon-btn,
     .lang-btn,
     .mobile-menu-btn {
@@ -250,10 +223,6 @@
         background: rgba(10, 15, 30, 0.98) !important;
     }
     
-    .search-input {
-        background: rgba(255, 255, 255, 0.04) !important;
-    }
-    
     .icon-btn,
     .lang-btn {
         background: rgba(255, 255, 255, 0.04) !important;
@@ -264,7 +233,6 @@
 @media (prefers-reduced-motion: reduce) {
     .navbar,
     .navbar-content,
-    .search-input,
     .icon-btn,
     .lang-btn,
     .logo,
