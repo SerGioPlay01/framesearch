@@ -279,67 +279,42 @@ async function deleteVideo() {
         return key;
     };
     
-    if (typeof dialog !== 'undefined' && dialog.confirm) {
-        const confirmed = await dialog.confirm(
-            t('video.deleteConfirm') || 'Вы уверены, что хотите удалить этот контент?',
-            t('video.delete') || 'Удаление видео'
-        );
-        
-        if (confirmed) {
-            try {
-                const dbInstance = typeof db !== 'undefined' ? db : (typeof window.db !== 'undefined' ? window.db : null);
-                if (!dbInstance) {
-                    showNotification('База данных недоступна', 'error');
-                    return;
-                }
-                
-                await dbInstance.deleteVideo(window.currentVideoId);
-                
-                // Delete associated episodes
-                const episodes = await dbInstance.getEpisodes(window.currentVideoId);
-                for (const episode of episodes) {
-                    await dbInstance.deleteEpisode(episode.id);
-                }
-                
-                showNotification('Видео удалено', 'success');
-                
-                // Redirect to main page after 1 second
-                setTimeout(() => {
-                    window.location.href = 'landing.html';
-                }, 1000);
-                
-            } catch (error) {
-                console.error('Error deleting video:', error);
-                showNotification('Ошибка при удалении', 'error');
+    if (typeof dialog === 'undefined' || !dialog.confirm) {
+        showNotification('Система диалогов недоступна', 'error');
+        return;
+    }
+    
+    const confirmed = await dialog.confirm(
+        t('video.deleteConfirm') || 'Вы уверены, что хотите удалить этот контент?',
+        t('video.delete') || 'Удаление видео'
+    );
+    
+    if (confirmed) {
+        try {
+            const dbInstance = typeof db !== 'undefined' ? db : (typeof window.db !== 'undefined' ? window.db : null);
+            if (!dbInstance) {
+                showNotification('База данных недоступна', 'error');
+                return;
             }
-        }
-    } else {
-        // Fallback to native confirm if dialog is not available
-        if (confirm('Вы уверены, что хотите удалить этот контент?')) {
-            try {
-                const dbInstance = typeof db !== 'undefined' ? db : (typeof window.db !== 'undefined' ? window.db : null);
-                if (!dbInstance) {
-                    showNotification('База данных недоступна', 'error');
-                    return;
-                }
-                
-                await dbInstance.deleteVideo(window.currentVideoId);
-                
-                const episodes = await dbInstance.getEpisodes(window.currentVideoId);
-                for (const episode of episodes) {
-                    await dbInstance.deleteEpisode(episode.id);
-                }
-                
-                showNotification('Видео удалено', 'success');
-                
-                setTimeout(() => {
-                    window.location.href = 'landing.html';
-                }, 1000);
-                
-            } catch (error) {
-                console.error('Error deleting video:', error);
-                showNotification('Ошибка при удалении', 'error');
+            
+            await dbInstance.deleteVideo(window.currentVideoId);
+            
+            // Delete associated episodes
+            const episodes = await dbInstance.getEpisodes(window.currentVideoId);
+            for (const episode of episodes) {
+                await dbInstance.deleteEpisode(episode.id);
             }
+            
+            showNotification('Видео удалено', 'success');
+            
+            // Redirect to main page after 1 second
+            setTimeout(() => {
+                window.location.href = 'landing.html';
+            }, 1000);
+            
+        } catch (error) {
+            console.error('Error deleting video:', error);
+            showNotification('Ошибка при удалении', 'error');
         }
     }
 }
