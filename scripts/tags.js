@@ -40,40 +40,29 @@ class TagsManager {
 
     // Добавить тег
     async addTag(videoId, tag) {
-        console.log('addTag called', { videoId, tag });
         const dbInstance = typeof db !== 'undefined' ? db : (typeof window.db !== 'undefined' ? window.db : null);
-        console.log('dbInstance:', dbInstance);
         
         if (!dbInstance) {
-            console.error('Database not available');
             return false;
         }
 
         const video = await dbInstance.getVideo(videoId);
-        console.log('Video from DB:', video);
         
         if (!video) {
-            console.error('Video not found:', videoId);
             return false;
         }
 
         if (!video.tags) video.tags = [];
         
         const normalizedTag = tag.toLowerCase().trim();
-        console.log('Normalized tag:', normalizedTag);
-        console.log('Current tags:', video.tags);
         
         if (!video.tags.includes(normalizedTag)) {
             video.tags.push(normalizedTag);
-            console.log('Updated tags:', video.tags);
             await dbInstance.updateVideo(video.id, { tags: video.tags });
             if (typeof logger !== 'undefined') {
                 logger.info('🏷️ Теги', `Добавлен тег "${tag}"`);
             }
-            console.log('Tag added successfully');
             return true;
-        } else {
-            console.warn('Tag already exists:', normalizedTag);
         }
 
         return false;
@@ -214,11 +203,11 @@ class TagsManager {
                             <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">
                                 ${t('tags.current')}
                             </label>
-                            <div id="currentTagsContainer" class="tags-container">
+                            <div id="currentTagsContainer" class="card-tags" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
                                 ${currentTags.map(tag => `
-                                    <span class="tag-chip">
+                                    <span class="card-tag" style="display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.25rem 0.75rem; background: rgba(165, 180, 252, 0.15); border: 1px solid rgba(165, 180, 252, 0.3); border-radius: 20px; color: var(--accent-primary); font-size: 0.875rem;">
                                         ${tag}
-                                        <button onclick="tagsManager.removeTagFromEditor(${videoId}, '${tag}')" class="tag-remove">
+                                        <button onclick="tagsManager.removeTagFromEditor(${videoId}, '${tag}')" class="tag-remove" style="background: none; border: none; color: var(--danger-color); cursor: pointer; padding: 0; margin-left: 0.25rem; display: inline-flex; align-items: center; transition: all 0.2s ease;">
                                             <i data-lucide="x" style="width: 14px; height: 14px;"></i>
                                         </button>
                                     </span>
@@ -246,39 +235,19 @@ class TagsManager {
                             </div>
                         </div>
 
-                        <!-- Предложения -->
-                        ${suggestions.length > 0 ? `
-                            <div style="margin-bottom: 1.5rem;">
-                                <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">
-                                    <i data-lucide="lightbulb" style="width: 16px; height: 16px; vertical-align: middle;"></i>
-                                    ${t('tags.suggestions')}
-                                </label>
-                                <div class="tags-container">
-                                    ${suggestions.filter(tag => !currentTags.includes(tag)).map(tag => `
-                                        <span class="tag-chip tag-suggestion" onclick="tagsManager.addSuggestedTag(${videoId}, '${tag}')">
-                                            ${tag}
-                                            <i data-lucide="plus" style="width: 14px; height: 14px;"></i>
-                                        </span>
-                                    `).join('')}
-                                </div>
+                        <!-- Шаблонные теги -->
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">
+                                ${t('tags.suggestions')}
+                            </label>
+                            <div class="tag-suggestions" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                                ${['балансер', 'прямая ссылка', 'соцсети', 'музыка', 'избранное', 'посмотреть позже'].filter(tag => !currentTags.includes(tag)).map(tag => `
+                                    <button class="tag-suggestion" onclick="tagsManager.addSuggestedTag(${videoId}, '${tag}')" style="padding: 0.5rem 1rem; background: rgba(165, 180, 252, 0.1); border: 1px solid rgba(165, 180, 252, 0.3); border-radius: 20px; color: var(--accent-primary); font-size: 0.875rem; cursor: pointer; transition: all 0.2s ease;">
+                                        ${tag}
+                                    </button>
+                                `).join('')}
                             </div>
-                        ` : ''}
-
-                        <!-- Популярные теги -->
-                        ${allTags.length > 0 ? `
-                            <div>
-                                <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">
-                                    ${t('tags.allTags')}
-                                </label>
-                                <div class="tags-container" style="max-height: 150px; overflow-y: auto;">
-                                    ${allTags.filter(tag => !currentTags.includes(tag)).map(tag => `
-                                        <span class="tag-chip tag-clickable" onclick="tagsManager.addSuggestedTag(${videoId}, '${tag}')">
-                                            ${tag}
-                                        </span>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        ` : ''}
+                        </div>
                     </div>
 
                     <div class="modal-footer">
@@ -307,16 +276,19 @@ class TagsManager {
 
         // Ensure videoId is a number
         videoId = parseInt(videoId, 10);
-        console.log('addTagFromEditor called', { videoId, tag, input });
 
         if (tag) {
-            console.log('Adding tag:', tag);
             const result = await this.addTag(videoId, tag);
-            console.log('Add tag result:', result);
             input.value = '';
-            this.openTagEditor(videoId); // Обновить модальное окно
-        } else {
-            console.warn('Tag is empty');
+            
+            // Wait a bit for DB to update, then reload the tag editor
+            await new Promise(resolve => setTimeout(resolve, 100));
+            await this.openTagEditor(videoId);
+            
+            // Also update video page tags if we're on video page
+            if (typeof window.loadVideoTags === 'function' && window.currentVideoId === videoId) {
+                await window.loadVideoTags(videoId);
+            }
         }
     }
 
@@ -324,14 +296,30 @@ class TagsManager {
         // Ensure videoId is a number
         videoId = parseInt(videoId, 10);
         await this.addTag(videoId, tag);
-        this.openTagEditor(videoId); // Обновить модальное окно
+        
+        // Wait a bit for DB to update, then reload the tag editor
+        await new Promise(resolve => setTimeout(resolve, 100));
+        await this.openTagEditor(videoId);
+        
+        // Also update video page tags if we're on video page
+        if (typeof window.loadVideoTags === 'function' && window.currentVideoId === videoId) {
+            await window.loadVideoTags(videoId);
+        }
     }
 
     async removeTagFromEditor(videoId, tag) {
         // Ensure videoId is a number
         videoId = parseInt(videoId, 10);
         await this.removeTag(videoId, tag);
-        this.openTagEditor(videoId); // Обновить модальное окно
+        
+        // Wait a bit for DB to update, then reload the tag editor
+        await new Promise(resolve => setTimeout(resolve, 100));
+        await this.openTagEditor(videoId);
+        
+        // Also update video page tags if we're on video page
+        if (typeof window.loadVideoTags === 'function' && window.currentVideoId === videoId) {
+            await window.loadVideoTags(videoId);
+        }
     }
 
     closeTagEditor() {

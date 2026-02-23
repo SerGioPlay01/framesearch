@@ -47,8 +47,7 @@ class I18n {
                 'video.quickActions': 'Быстрые действия',
                 'video.addNote': 'Добавить заметку',
                 'video.addNote.desc': 'Создайте заметку с таймкодом',
-                'video.addTag': 'Добавить тег',
-                'video.addTag.desc': 'Организуйте видео по категориям',
+                'video.manageTags.desc': 'Добавляйте и удаляйте теги',
                 'btn.close': 'Закрыть',
                 'btn.next': 'Далее',
                 'btn.back': 'Назад',
@@ -454,6 +453,7 @@ class I18n {
                 'tags.allTags': 'Все теги:',
                 'tags.cloud': 'Облако тегов',
                 'tags.noTagsYet': 'У вас пока нет тегов. Добавьте теги к видео!',
+                'tags.manage': 'Управление тегами',
                 
                 // Notes
                 'notes.title': 'Заметки и таймкоды',
@@ -615,8 +615,7 @@ class I18n {
                 'video.quickActions': 'Quick Actions',
                 'video.addNote': 'Add Note',
                 'video.addNote.desc': 'Create a note with timecode',
-                'video.addTag': 'Add Tag',
-                'video.addTag.desc': 'Organize videos by categories',
+                'video.manageTags.desc': 'Add and remove tags',
                 'btn.close': 'Close',
                 'btn.next': 'Next',
                 'btn.back': 'Back',
@@ -1026,6 +1025,7 @@ class I18n {
                 'tags.allTags': 'All tags:',
                 'tags.cloud': 'Tag Cloud',
                 'tags.noTagsYet': 'You don\'t have any tags yet. Add tags to videos!',
+                'tags.manage': 'Manage Tags',
                 
                 // Notes
                 'notes.title': 'Notes and Timecodes',

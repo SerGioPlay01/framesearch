@@ -927,3 +927,28 @@
         transform: translateY(20px);
     }
 }
+
+/* ===== VIDEO TAGS ===== */
+.video-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    background: rgba(165, 180, 252, 0.15);
+    border: 1px solid rgba(165, 180, 252, 0.3);
+    border-radius: 20px;
+    color: var(--accent-primary);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-right: 0.5rem;
+}
+
+.video-tag:hover {
+    background: rgba(165, 180, 252, 0.25);
+    border-color: var(--accent-primary);
+    transform: translateY(-2px);
+}
+
+.video-tag:active {
+    transform: translateY(0);
+}

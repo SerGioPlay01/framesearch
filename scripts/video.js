@@ -39,10 +39,7 @@ async function loadVideoData() {
     const urlParams = new URLSearchParams(window.location.search);
     const videoId = parseInt(urlParams.get('id'), 10);
     
-    console.log('Loading video data for ID:', videoId);
-    
     if (!videoId || isNaN(videoId)) {
-        console.error('Invalid video ID');
         return;
     }
     
@@ -52,21 +49,19 @@ async function loadVideoData() {
     try {
         const dbInstance = typeof db !== 'undefined' ? db : (typeof window.db !== 'undefined' ? window.db : null);
         if (!dbInstance) {
-            console.error('Database not available');
             return;
         }
         
         const video = await dbInstance.getVideo(videoId);
         if (!video) {
-            console.error('Video not found');
             return;
         }
         
-        console.log('Video loaded:', video);
-        console.log('Video notes:', video.notes);
-        
         // Load and display notes
         await loadVideoNotes(videoId);
+        
+        // Load and display tags
+        await loadVideoTags(videoId);
         
     } catch (error) {
         console.error('Error loading video data:', error);
@@ -75,20 +70,15 @@ async function loadVideoData() {
 
 // Load and display notes for video
 async function loadVideoNotes(videoId) {
-    console.log('loadVideoNotes called for videoId:', videoId);
-    
     try {
         const dbInstance = typeof db !== 'undefined' ? db : (typeof window.db !== 'undefined' ? window.db : null);
         if (!dbInstance) {
-            console.error('Database not available in loadVideoNotes');
             return;
         }
         
         const video = await dbInstance.getVideo(videoId);
-        console.log('Video in loadVideoNotes:', video);
         
         if (!video || !video.notes || video.notes.length === 0) {
-            console.log('No notes found, hiding section');
             // Hide notes section if no notes
             const notesSection = document.getElementById('videoNotesSection');
             if (notesSection) {
@@ -97,21 +87,15 @@ async function loadVideoNotes(videoId) {
             return;
         }
         
-        console.log('Notes found:', video.notes.length);
-        
         // Show notes section
         const notesSection = document.getElementById('videoNotesSection');
         if (notesSection) {
             notesSection.style.display = 'block';
-            console.log('Notes section shown');
-        } else {
-            console.error('Notes section element not found!');
         }
         
         // Render notes
         const notesList = document.getElementById('videoNotesList');
         if (!notesList) {
-            console.error('Notes list element not found!');
             return;
         }
         
@@ -155,8 +139,6 @@ async function loadVideoNotes(videoId) {
             `;
         }).join('');
         
-        console.log('Notes rendered');
-        
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         }
@@ -169,9 +151,81 @@ async function loadVideoNotes(videoId) {
 // Make loadVideoNotes globally accessible
 window.loadVideoNotes = loadVideoNotes;
 
+// Load and display tags for video
+async function loadVideoTags(videoId) {
+    try {
+        const dbInstance = typeof db !== 'undefined' ? db : (typeof window.db !== 'undefined' ? window.db : null);
+        if (!dbInstance) {
+            return;
+        }
+        
+        const video = await dbInstance.getVideo(videoId);
+        if (!video) {
+            return;
+        }
+        
+        // Update tags in video meta section (top of page)
+        const videoMeta = document.querySelector('.video-meta');
+        if (videoMeta && video.tags && video.tags.length > 0) {
+            // Remove old tags
+            const oldTags = videoMeta.querySelectorAll('.video-tag');
+            oldTags.forEach(tag => tag.remove());
+            
+            // Add new tags
+            video.tags.forEach(tag => {
+                const tagElement = document.createElement('span');
+                tagElement.className = 'video-tag';
+                tagElement.textContent = tag;
+                tagElement.style.cssText = `
+                    display: inline-flex;
+                    align-items: center;
+                    padding: 0.25rem 0.75rem;
+                    background: rgba(165, 180, 252, 0.15);
+                    border: 1px solid rgba(165, 180, 252, 0.3);
+                    border-radius: 20px;
+                    color: var(--accent-primary);
+                    font-size: 0.875rem;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                `;
+                tagElement.onclick = () => {
+                    window.location.href = `search_results.html?tag=${encodeURIComponent(tag)}`;
+                };
+                videoMeta.appendChild(tagElement);
+            });
+        }
+        
+        // Update tags section (below description)
+        const tagsSection = document.getElementById('videoTagsSection');
+        const tagsDisplay = document.getElementById('videoTagsDisplay');
+        
+        if (tagsSection && tagsDisplay) {
+            if (video.tags && video.tags.length > 0) {
+                // Show tags section
+                tagsSection.style.display = 'block';
+                
+                // Render tags
+                tagsDisplay.innerHTML = video.tags.map(tag => `
+                    <span class="card-tag" style="display: inline-flex; align-items: center; padding: 0.25rem 0.75rem; background: rgba(165, 180, 252, 0.15); border: 1px solid rgba(165, 180, 252, 0.3); border-radius: 20px; color: var(--accent-primary); font-size: 0.875rem; cursor: pointer; transition: all 0.2s ease;" onclick="window.location.href='search_results.html?tag=${encodeURIComponent(tag)}'">
+                        ${tag}
+                    </span>
+                `).join('');
+            } else {
+                // Hide tags section if no tags
+                tagsSection.style.display = 'none';
+            }
+        }
+        
+    } catch (error) {
+        console.error('Error loading tags:', error);
+    }
+}
+
+// Make loadVideoTags globally accessible
+window.loadVideoTags = loadVideoTags;
+
 // Seek to timecode (placeholder - implement based on your player)
 function seekToTimecode(timecode) {
-    console.log('Seeking to:', timecode);
     // TODO: Implement actual video seeking based on your player
 }
 
@@ -284,146 +338,7 @@ function initQuickActions() {
             }
         });
     }
-    
-    // Quick Add Tag button
-    const quickAddTagBtn = document.getElementById('quickAddTagBtn');
-    if (quickAddTagBtn) {
-        quickAddTagBtn.addEventListener('click', async () => {
-            if (typeof tagsManager !== 'undefined' && window.currentVideoId) {
-                await showQuickTagDialog();
-            }
-        });
-    }
 }
-
-// Show quick tag dialog
-async function showQuickTagDialog() {
-    const t = (key, fallback) => {
-        if (typeof i18n !== 'undefined' && typeof i18n.t === 'function') {
-            return i18n.t(key);
-        }
-        return fallback || key;
-    };
-    
-    // Create dialog HTML
-    const dialogHTML = `
-        <div class="modal active" id="quickTagModal">
-            <div class="modal-overlay"></div>
-            <div class="modal-content" style="max-width: 500px;">
-                <div class="modal-header">
-                    <h2>
-                        <i data-lucide="tag"></i>
-                        ${t('tags.add', 'Добавить тег')}
-                    </h2>
-                    <button class="modal-close" onclick="closeQuickTagDialog()">
-                        <i data-lucide="x"></i>
-                    </button>
-                </div>
-                
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="quickTagInput">${t('tags.name', 'Название тега')}</label>
-                        <input 
-                            type="text" 
-                            id="quickTagInput" 
-                            class="form-input" 
-                            placeholder="${t('tags.placeholder', 'Введите название тега')}"
-                            maxlength="50"
-                        >
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>${t('tags.suggestions', 'Популярные теги')}</label>
-                        <div class="tag-suggestions" id="tagSuggestions">
-                            <button class="tag-suggestion" data-tag="балансер">балансер</button>
-                            <button class="tag-suggestion" data-tag="прямая ссылка">прямая ссылка</button>
-                            <button class="tag-suggestion" data-tag="соцсети">соцсети</button>
-                            <button class="tag-suggestion" data-tag="музыка">музыка</button>
-                            <button class="tag-suggestion" data-tag="избранное">избранное</button>
-                            <button class="tag-suggestion" data-tag="посмотреть позже">посмотреть позже</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" onclick="closeQuickTagDialog()">
-                        ${t('btn.cancel', 'Отмена')}
-                    </button>
-                    <button class="btn btn-primary" onclick="saveQuickTag()">
-                        <i data-lucide="check"></i>
-                        ${t('btn.add', 'Добавить')}
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    document.body.insertAdjacentHTML('beforeend', dialogHTML);
-    document.body.style.overflow = 'hidden';
-    
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-    }
-    
-    // Focus input
-    setTimeout(() => {
-        const input = document.getElementById('quickTagInput');
-        if (input) input.focus();
-    }, 100);
-    
-    // Add suggestion click handlers
-    const suggestions = document.querySelectorAll('.tag-suggestion');
-    suggestions.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const input = document.getElementById('quickTagInput');
-            if (input) {
-                input.value = btn.dataset.tag;
-                input.focus();
-            }
-        });
-    });
-    
-    // Enter key to save
-    const input = document.getElementById('quickTagInput');
-    if (input) {
-        input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                saveQuickTag();
-            }
-        });
-    }
-}
-
-// Close quick tag dialog
-window.closeQuickTagDialog = function() {
-    const modal = document.getElementById('quickTagModal');
-    if (modal) {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-        setTimeout(() => modal.remove(), 300);
-    }
-};
-
-// Save quick tag
-window.saveQuickTag = async function() {
-    const input = document.getElementById('quickTagInput');
-    if (!input || !input.value.trim()) {
-        return;
-    }
-    
-    const tagName = input.value.trim();
-    
-    try {
-        if (typeof tagsManager !== 'undefined' && window.currentVideoId) {
-            await tagsManager.addTag(window.currentVideoId, tagName);
-            showNotification('Тег добавлен', 'success');
-            closeQuickTagDialog();
-        }
-    } catch (error) {
-        console.error('Error adding tag:', error);
-        showNotification('Ошибка при добавлении тега', 'error');
-    }
-};
 
 // Show notification
 function showNotification(message, type = 'info') {

@@ -230,16 +230,16 @@
                             </button>
                         </div>
                         
-                        <!-- Add Tag -->
+                        <!-- Manage Tags -->
                         <div class="quick-action-card">
                             <div class="quick-action-icon">
                                 <i data-lucide="tag"></i>
                             </div>
-                            <h4 data-i18n="video.addTag">Добавить тег</h4>
-                            <p data-i18n="video.addTag.desc">Организуйте видео по категориям</p>
-                            <button class="btn btn-primary btn-sm" id="quickAddTagBtn">
-                                <i data-lucide="plus"></i>
-                                <span data-i18n="tags.add">Добавить</span>
+                            <h4 data-i18n="tags.manage">Управление тегами</h4>
+                            <p data-i18n="video.manageTags.desc">Добавляйте и удаляйте теги</p>
+                            <button class="btn btn-primary btn-sm" onclick="tagsManager.openTagEditor(window.currentVideoId)">
+                                <i data-lucide="edit-2"></i>
+                                <span data-i18n="tags.manage">Управление</span>
                             </button>
                         </div>
                     </div>
@@ -268,6 +268,21 @@
                         </button>
                     </div>
                     <div id="videoNotesList" class="notes-list"></div>
+                </div>
+
+                <!-- Tags Section -->
+                <div class="notes-section glass-card animate-fade-in delay-400" id="videoTagsSection" style="display: none;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                        <h3 style="display: flex; align-items: center; gap: 0.5rem; margin: 0;">
+                            <i data-lucide="tag"></i>
+                            <span data-i18n="tags.title">Теги</span>
+                        </h3>
+                        <button class="btn btn-primary btn-sm" onclick="tagsManager.openTagEditor(window.currentVideoId)" style="padding: 0.5rem 1rem;">
+                            <i data-lucide="edit-2"></i>
+                            <span data-i18n="tags.manage">Управление тегами</span>
+                        </button>
+                    </div>
+                    <div id="videoTagsDisplay" class="card-tags" style="display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
                 </div>
 
             </div>
