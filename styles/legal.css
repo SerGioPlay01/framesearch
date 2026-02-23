@@ -145,4 +145,29 @@ body {
     .language-tab-icon {
         font-size: 1rem;
     }
+    
+    /* Smaller back button on mobile */
+    .btn-secondary {
+        padding: 0.625rem 1rem !important;
+        font-size: 0.875rem !important;
+        min-width: auto !important;
+    }
+    
+    .btn-secondary i {
+        width: 16px !important;
+        height: 16px !important;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+    .btn-secondary {
+        padding: 0.5rem 0.875rem !important;
+        font-size: 0.8125rem !important;
+    }
+    
+    .btn-secondary i {
+        width: 14px !important;
+        height: 14px !important;
+    }
 }
