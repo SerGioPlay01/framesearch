@@ -168,29 +168,19 @@ class CookieConsentManager {
     }
 
     init() {
-        console.log('CookieConsent: Initializing...', {
-            needsConsent: this.needsConsent(),
-            consent: this.consent,
-            preferences: this.preferences,
-            i18nAvailable: typeof i18n !== 'undefined'
-        });
-        
         if (this.needsConsent()) {
-            console.log('CookieConsent: Showing banner');
-            this.showBanner();
+            setTimeout(() => {
+                this.showBanner();
+            }, 1600);
         } else {
-            console.log('CookieConsent: Consent already given, applying preferences');
-            this.applyPreferences();
+            setTimeout(() => {
+                this.applyPreferences();
+            }, 1600);
         }
         
         // Start monitoring
         this.startScriptMonitoring();
         this.startPeriodicScan();
-        
-        // Add settings button to footer
-        this.addSettingsButton();
-        
-        console.log('CookieConsent: Initialization complete');
     }
 
     // REAL-TIME SCRIPT MONITORING
@@ -309,6 +299,11 @@ class CookieConsentManager {
     }
 
     showBanner() {
+        // Check if banner already exists
+        if (document.getElementById('cookieConsentBanner')) {
+            return;
+        }
+        
         const bannerHTML = `
             <div id="cookieConsentBanner" class="cookie-banner glass-card">
                 <div class="cookie-banner-content">
@@ -341,8 +336,24 @@ class CookieConsentManager {
         
         // Animate in
         setTimeout(() => {
-            document.getElementById('cookieConsentBanner')?.classList.add('show');
+            const banner = document.getElementById('cookieConsentBanner');
+            if (banner) {
+                banner.classList.add('show');
+            }
         }, 100);
+        
+        // Monitor banner
+        this.monitorBanner();
+    }
+    
+    monitorBanner() {
+        // Check if banner still exists after 1 second
+        setTimeout(() => {
+            const banner = document.getElementById('cookieConsentBanner');
+            if (!banner && this.needsConsent()) {
+                this.showBanner();
+            }
+        }, 1000);
     }
 
     hideBanner() {
@@ -652,20 +663,7 @@ class CookieConsentManager {
         }
     }
 
-    addSettingsButton() {
-        // Add floating settings button
-        const buttonHTML = `
-            <button id="cookieSettingsBtn" class="cookie-settings-btn" title="${this.t('cookie.settings.title')}" onclick="cookieConsent.showSettings()">
-                <i data-lucide="shield-check"></i>
-            </button>
-        `;
-        
-        document.body.insertAdjacentHTML('beforeend', buttonHTML);
-        
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
-    }
+    
 
     showNotification(message, type = 'info') {
         const notification = document.createElement('div');
@@ -716,7 +714,6 @@ function initCookieConsent() {
                 cookieConsent.init();
             } else if (attempts >= maxAttempts) {
                 clearInterval(checkInterval);
-                console.warn('i18n not loaded, initializing cookie consent anyway');
                 cookieConsent.init();
             }
         }, 100);

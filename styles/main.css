@@ -2830,21 +2830,23 @@ body {
 
 /* Cookie Banner */
 .cookie-banner {
-    position: fixed;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%) translateY(150px);
-    max-width: 600px;
-    width: calc(100% - 2rem);
-    padding: 2rem;
-    z-index: 10000;
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: fixed !important;
+    bottom: 2rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) translateY(150px) !important;
+    max-width: 600px !important;
+    width: calc(100% - 2rem) !important;
+    padding: 2rem !important;
+    z-index: 10000 !important;
+    opacity: 0 !important;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    display: block !important;
+    visibility: visible !important;
 }
 
 .cookie-banner.show {
-    transform: translateX(-50%) translateY(0);
-    opacity: 1;
+    transform: translateX(-50%) translateY(0) !important;
+    opacity: 1 !important;
 }
 
 .cookie-banner-content {
@@ -3199,12 +3201,6 @@ body {
     min-width: 180px;
 }
 
-/* Cookie Settings Button (Floating) - HIDDEN, moved to floating actions */
-/* Cookie Settings Button (Floating) - HIDDEN, moved to floating actions */
-.cookie-settings-btn {
-    display: none !important;
-}
-
 /* Cookie Notification */
 .cookie-notification {
     position: fixed;
@@ -3308,13 +3304,6 @@ body {
 
     .cookie-actions-advanced .btn {
         width: 100%;
-    }
-
-    .cookie-settings-btn {
-        bottom: 150px;
-        right: 1rem;
-        width: 44px;
-        height: 44px;
     }
 
     .cookie-notification {

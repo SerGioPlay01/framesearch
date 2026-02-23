@@ -177,14 +177,8 @@ class FloatingActionsManager {
         const privacyBtn = document.getElementById('privacyFabBtn');
         if (privacyBtn) {
             privacyBtn.addEventListener('click', () => {
-                if (typeof openCookieSettings === 'function') {
-                    openCookieSettings();
-                } else {
-                    // Fallback: trigger click on cookie settings button if it exists
-                    const cookieBtn = document.querySelector('.cookie-settings-btn');
-                    if (cookieBtn) {
-                        cookieBtn.click();
-                    }
+                if (typeof cookieConsent !== 'undefined' && cookieConsent.showSettings) {
+                    cookieConsent.showSettings();
                 }
                 this.collapseSecondaryActions();
             });
