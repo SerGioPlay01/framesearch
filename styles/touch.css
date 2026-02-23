@@ -173,13 +173,60 @@ body {
 
 /* ===== MOBILE NAVIGATION IMPROVEMENTS ===== */
 @media (max-width: 768px) {
-    /* Sticky navbar with smooth hide/show */
+    /* ===== IMPROVED MOBILE NAVIGATION WITH BETTER TOUCH FEEDBACK ===== */
     .navbar {
-        transition: transform 0.3s ease;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                    background 0.3s ease,
+                    box-shadow 0.3s ease;
     }
     
     .navbar.hidden {
         transform: translateY(-100%);
+    }
+    
+    /* Enhanced touch feedback for navbar buttons */
+    .navbar .icon-btn,
+    .navbar .lang-btn,
+    .navbar .mobile-menu-btn {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .navbar .icon-btn::before,
+    .navbar .lang-btn::before,
+    .navbar .mobile-menu-btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: translate(-50%, -50%);
+        transition: width 0.3s ease, height 0.3s ease;
+    }
+    
+    .navbar .icon-btn:active::before,
+    .navbar .lang-btn:active::before,
+    .navbar .mobile-menu-btn:active::before {
+        width: 100%;
+        height: 100%;
+    }
+    
+    /* Smooth logo interaction */
+    .navbar .logo {
+        transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    
+    .navbar .logo:active {
+        transform: scale(0.96);
+        opacity: 0.8;
+    }
+    
+    /* Search input focus improvements */
+    .navbar .search-input:focus {
+        transform: scale(1.01);
     }
     
     /* Bottom navigation bar for mobile */

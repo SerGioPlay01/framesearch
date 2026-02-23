@@ -1,0 +1,275 @@
+/**
+ * Framesearch - Mobile Navbar Enhancements
+ * Улучшенные стили для мобильного хедера
+ * 
+ * Автор: SerGioPlay
+ * © 2026 Framesearch
+ */
+
+/* ===== MOBILE NAVBAR IMPROVEMENTS ===== */
+@media (max-width: 768px) {
+    /* Glass morphism effect */
+    .navbar {
+        background: rgba(15, 23, 42, 0.98) !important;
+        backdrop-filter: blur(16px) saturate(180%);
+        -webkit-backdrop-filter: blur(16px) saturate(180%);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.25),
+                    0 1px 0 rgba(255, 255, 255, 0.05) inset;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .navbar.scrolled {
+        background: rgba(15, 23, 42, 0.99) !important;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35),
+                    0 1px 0 rgba(255, 255, 255, 0.05) inset;
+    }
+    
+    /* Smooth transitions */
+    .navbar-content {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Logo enhancements */
+    .logo {
+        position: relative;
+        z-index: 1;
+    }
+    
+    .logo::after {
+        content: '';
+        position: absolute;
+        inset: -4px;
+        border-radius: 12px;
+        background: transparent;
+        transition: background 0.2s ease;
+        z-index: -1;
+    }
+    
+    .logo:active::after {
+        background: rgba(255, 255, 255, 0.05);
+    }
+    
+    /* Search box improvements */
+    .search-box {
+        position: relative;
+    }
+    
+    .search-input {
+        background: rgba(255, 255, 255, 0.06) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) inset;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .search-input:focus {
+        background: rgba(255, 255, 255, 0.09) !important;
+        border-color: var(--accent-primary) !important;
+        box-shadow: 0 0 0 3px rgba(165, 180, 252, 0.12),
+                    0 2px 8px rgba(0, 0, 0, 0.1) inset;
+        transform: translateY(-1px);
+    }
+    
+    .search-input::placeholder {
+        transition: opacity 0.2s ease;
+    }
+    
+    .search-input:focus::placeholder {
+        opacity: 0.6;
+    }
+    
+    /* Icon buttons with modern design */
+    .icon-btn,
+    .lang-btn {
+        background: rgba(255, 255, 255, 0.06) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .icon-btn::before,
+    .lang-btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+        transform: translate(-50%, -50%);
+        transition: width 0.4s ease, height 0.4s ease;
+        pointer-events: none;
+    }
+    
+    .icon-btn:active::before,
+    .lang-btn:active::before {
+        width: 120%;
+        height: 120%;
+    }
+    
+    .icon-btn:active,
+    .lang-btn:active {
+        background: rgba(255, 255, 255, 0.12) !important;
+        transform: scale(0.94);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    }
+    
+    .icon-btn i,
+    .lang-btn i {
+        transition: transform 0.2s ease;
+    }
+    
+    .icon-btn:active i,
+    .lang-btn:active i {
+        transform: scale(0.9);
+    }
+    
+    /* Language dropdown improvements */
+    .lang-dropdown {
+        background: rgba(15, 23, 42, 0.98) !important;
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5),
+                    0 1px 0 rgba(255, 255, 255, 0.08) inset;
+        animation: slideDown 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-8px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .lang-option {
+        transition: all 0.2s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .lang-option::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: var(--accent-primary);
+        transform: translateX(-3px);
+        transition: transform 0.2s ease;
+    }
+    
+    .lang-option:active {
+        background: rgba(255, 255, 255, 0.08);
+    }
+    
+    .lang-option.active::before {
+        transform: translateX(0);
+    }
+    
+    /* Avatar improvements */
+    .avatar {
+        border: 2px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        transition: all 0.2s ease;
+    }
+    
+    .avatar:active {
+        transform: scale(0.94);
+        border-color: var(--accent-primary);
+    }
+    
+    /* Mobile menu button (for landing page) */
+    .mobile-menu-btn {
+        background: rgba(255, 255, 255, 0.06) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transition: all 0.2s ease;
+    }
+    
+    .mobile-menu-btn:active {
+        background: rgba(255, 255, 255, 0.12) !important;
+        transform: scale(0.94);
+    }
+    
+    .mobile-menu-btn.active .menu-icon span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    
+    .mobile-menu-btn.active .menu-icon span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .mobile-menu-btn.active .menu-icon span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+}
+
+/* ===== SMALL MOBILE OPTIMIZATIONS ===== */
+@media (max-width: 480px) {
+    .navbar {
+        box-shadow: 0 1px 16px rgba(0, 0, 0, 0.2),
+                    0 1px 0 rgba(255, 255, 255, 0.05) inset;
+    }
+    
+    .search-input {
+        font-size: 0.8125rem !important;
+    }
+    
+    .icon-btn,
+    .lang-btn,
+    .mobile-menu-btn {
+        min-width: 34px;
+        min-height: 34px;
+    }
+}
+
+/* ===== SAFE AREA SUPPORT (for notched devices) ===== */
+@supports (padding: max(0px)) {
+    @media (max-width: 768px) {
+        .navbar-container {
+            padding-left: max(1rem, env(safe-area-inset-left));
+            padding-right: max(1rem, env(safe-area-inset-right));
+        }
+        
+        .navbar-content {
+            padding-top: max(0, env(safe-area-inset-top));
+        }
+    }
+}
+
+/* ===== DARK MODE ENHANCEMENTS ===== */
+@media (prefers-color-scheme: dark) and (max-width: 768px) {
+    .navbar {
+        background: rgba(10, 15, 30, 0.98) !important;
+    }
+    
+    .search-input {
+        background: rgba(255, 255, 255, 0.04) !important;
+    }
+    
+    .icon-btn,
+    .lang-btn {
+        background: rgba(255, 255, 255, 0.04) !important;
+    }
+}
+
+/* ===== REDUCED MOTION SUPPORT ===== */
+@media (prefers-reduced-motion: reduce) {
+    .navbar,
+    .navbar-content,
+    .search-input,
+    .icon-btn,
+    .lang-btn,
+    .logo,
+    .avatar {
+        transition: none !important;
+        animation: none !important;
+    }
+}

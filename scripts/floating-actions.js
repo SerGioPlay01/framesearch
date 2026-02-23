@@ -48,7 +48,7 @@ class FloatingActionsManager {
                     
                     <!-- Privacy Settings -->
                     <button class="fab-btn privacy-btn" id="privacyFabBtn" title="Настройки конфиденциальности" aria-label="Настройки конфиденциальности">
-                        <span class="fab-label">Конфиденциальность</span>
+                        <span class="fab-label" data-i18n="cookie.settings.button">Конфиденциальность</span>
                         <i data-lucide="cookie"></i>
                     </button>
                     

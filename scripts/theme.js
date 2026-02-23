@@ -220,20 +220,27 @@ class ThemeManager {
     }
 
     createThemeModal() {
-        const t = (key) => window.i18n ? window.i18n.t(key) : key;
+        // Helper function to get translation
+        const t = (key) => {
+            if (typeof i18n !== 'undefined' && typeof i18n.t === 'function') {
+                return i18n.t(key);
+            }
+            return key;
+        };
         
-        const themeTranslations = {
-            'default': { name: t('theme.default.name'), desc: t('theme.default.desc') },
-            'purple': { name: t('theme.midnight'), desc: t('theme.midnight.desc') },
-            'ocean': { name: t('theme.ocean'), desc: t('theme.ocean.desc') },
-            'sunset': { name: t('theme.sunset'), desc: t('theme.sunset.desc') },
-            'forest': { name: t('theme.forest'), desc: t('theme.forest.desc') },
-            'rose': { name: t('theme.rose'), desc: t('theme.rose.desc') },
-            'mono': { name: t('theme.mono'), desc: t('theme.mono.desc') }
+        // Mapping theme keys to i18n keys
+        const themeI18nKeys = {
+            'default': { name: 'theme.default.name', desc: 'theme.default.desc' },
+            'purple': { name: 'theme.midnight', desc: 'theme.midnight.desc' },
+            'ocean': { name: 'theme.ocean', desc: 'theme.ocean.desc' },
+            'sunset': { name: 'theme.sunset', desc: 'theme.sunset.desc' },
+            'forest': { name: 'theme.forest', desc: 'theme.forest.desc' },
+            'rose': { name: 'theme.rose', desc: 'theme.rose.desc' },
+            'mono': { name: 'theme.mono', desc: 'theme.mono.desc' }
         };
         
         const themesHTML = Object.entries(this.themes).map(([key, theme]) => {
-            const trans = themeTranslations[key] || { name: theme.name, desc: theme.description };
+            const i18nKeys = themeI18nKeys[key] || { name: '', desc: '' };
             return `
             <div class="theme-option ${this.currentTheme === key ? 'active' : ''}" data-theme="${key}">
                 <div class="theme-preview" style="background: ${theme.colors['--bg-primary']}; border-color: ${theme.colors['--accent-primary']};">
@@ -244,8 +251,8 @@ class ThemeManager {
                     <div class="theme-icon">
                         <i data-lucide="${theme.icon}"></i>
                     </div>
-                    <h4>${trans.name}</h4>
-                    <p>${trans.desc}</p>
+                    <h4>${t(i18nKeys.name)}</h4>
+                    <p>${t(i18nKeys.desc)}</p>
                 </div>
                 <div class="theme-check">
                     <i data-lucide="check-circle"></i>
@@ -261,7 +268,7 @@ class ThemeManager {
                     <div class="modal-header">
                         <h2>
                             <i data-lucide="palette"></i>
-                            <span data-i18n="theme.settings">Настройка темы</span>
+                            <span>${t('theme.settings')}</span>
                         </h2>
                         <button class="modal-close" onclick="themeManager.closeModal()">
                             <i data-lucide="x"></i>
@@ -269,18 +276,18 @@ class ThemeManager {
                     </div>
 
                     <div class="modal-body">
-                        <p class="theme-description" data-i18n="theme.description">
-                            Выберите готовую тему или создайте свою уникальную
+                        <p class="theme-description">
+                            ${t('theme.description')}
                         </p>
                         
                         <div class="theme-tabs">
                             <button class="theme-tab active" data-tab="presets">
                                 <i data-lucide="layout-grid"></i>
-                                <span data-i18n="theme.tabs.presets">Готовые темы</span>
+                                <span>${t('theme.tabs.presets')}</span>
                             </button>
                             <button class="theme-tab" data-tab="custom">
                                 <i data-lucide="sliders"></i>
-                                <span data-i18n="theme.tabs.custom">Кастомизация</span>
+                                <span>${t('theme.tabs.custom')}</span>
                             </button>
                         </div>
 
@@ -292,54 +299,54 @@ class ThemeManager {
 
                         <div class="theme-tab-content" data-content="custom">
                             <div class="custom-theme-editor">
-                                <h3 data-i18n="theme.custom.title">Создайте свою тему</h3>
-                                <p style="color: #9ca3af; margin-bottom: 1.5rem;" data-i18n="theme.custom.subtitle">Настройте цвета и параметры интерфейса</p>
+                                <h3>${t('theme.custom.title')}</h3>
+                                <p style="color: #9ca3af; margin-bottom: 1.5rem;">${t('theme.custom.subtitle')}</p>
                                 
                                 <div class="color-controls">
                                     <div class="color-control-group">
                                         <label>
-                                            <span data-i18n="theme.custom.bg.primary">Основной фон</span>
+                                            <span>${t('theme.custom.bg.primary')}</span>
                                             <input type="color" id="customBgPrimary" value="#0f172a">
                                         </label>
                                         <label>
-                                            <span data-i18n="theme.custom.bg.secondary">Вторичный фон</span>
+                                            <span>${t('theme.custom.bg.secondary')}</span>
                                             <input type="color" id="customBgSecondary" value="#1e293b">
                                         </label>
                                         <label>
-                                            <span data-i18n="theme.custom.bg.tertiary">Третичный фон</span>
+                                            <span>${t('theme.custom.bg.tertiary')}</span>
                                             <input type="color" id="customBgTertiary" value="#334155">
                                         </label>
                                     </div>
 
                                     <div class="color-control-group">
                                         <label>
-                                            <span data-i18n="theme.custom.text.primary">Основной текст</span>
+                                            <span>${t('theme.custom.text.primary')}</span>
                                             <input type="color" id="customTextPrimary" value="#ffffff">
                                         </label>
                                         <label>
-                                            <span data-i18n="theme.custom.text.secondary">Вторичный текст</span>
+                                            <span>${t('theme.custom.text.secondary')}</span>
                                             <input type="color" id="customTextSecondary" value="#cbd5e1">
                                         </label>
                                     </div>
 
                                     <div class="color-control-group">
                                         <label>
-                                            <span data-i18n="theme.custom.accent.primary">Основной акцент</span>
+                                            <span>${t('theme.custom.accent.primary')}</span>
                                             <input type="color" id="customAccentPrimary" value="#a5b4fc">
                                         </label>
                                         <label>
-                                            <span data-i18n="theme.custom.accent.secondary">Вторичный акцент</span>
+                                            <span>${t('theme.custom.accent.secondary')}</span>
                                             <input type="color" id="customAccentSecondary" value="#818cf8">
                                         </label>
                                     </div>
 
                                     <div class="slider-control-group">
                                         <label>
-                                            <span><span data-i18n="theme.custom.border.radius">Скругление углов</span>: <span id="borderRadiusValue">12</span>px</span>
+                                            <span>${t('theme.custom.border.radius')}: <span id="borderRadiusValue">12</span>px</span>
                                             <input type="range" id="customBorderRadius" min="0" max="24" value="12" step="2">
                                         </label>
                                         <label>
-                                            <span><span data-i18n="theme.custom.hover.scale">Масштаб при наведении</span>: <span id="hoverScaleValue">1.05</span></span>
+                                            <span>${t('theme.custom.hover.scale')}: <span id="hoverScaleValue">1.05</span></span>
                                             <input type="range" id="customHoverScale" min="1.00" max="1.15" value="1.05" step="0.01">
                                         </label>
                                     </div>
@@ -348,23 +355,23 @@ class ThemeManager {
                                 <div class="custom-theme-actions">
                                     <button class="btn btn-secondary" onclick="themeManager.resetCustomTheme()">
                                         <i data-lucide="rotate-ccw"></i>
-                                        <span data-i18n="theme.custom.reset">Сбросить</span>
+                                        <span>${t('theme.custom.reset')}</span>
                                     </button>
                                     <button class="btn btn-primary" onclick="themeManager.applyCustomTheme()">
                                         <i data-lucide="check"></i>
-                                        <span data-i18n="theme.custom.apply">Применить</span>
+                                        <span>${t('theme.custom.apply')}</span>
                                     </button>
                                 </div>
 
                                 <div class="custom-theme-preview">
-                                    <h4 data-i18n="theme.custom.preview">Предпросмотр</h4>
+                                    <h4>${t('theme.custom.preview')}</h4>
                                     <div class="preview-card" id="customPreviewCard">
                                         <div class="preview-card-header">
-                                            <h5 data-i18n="theme.custom.preview.card">Пример карточки</h5>
-                                            <span class="preview-badge" data-i18n="theme.custom.preview.badge">HD</span>
+                                            <h5>${t('theme.custom.preview.card')}</h5>
+                                            <span class="preview-badge">${t('theme.custom.preview.badge')}</span>
                                         </div>
-                                        <p data-i18n="theme.custom.preview.text">Текст описания с вторичным цветом</p>
-                                        <button class="preview-button" data-i18n="theme.custom.preview.button">Кнопка</button>
+                                        <p>${t('theme.custom.preview.text')}</p>
+                                        <button class="preview-button">${t('theme.custom.preview.button')}</button>
                                     </div>
                                 </div>
                             </div>
@@ -685,6 +692,7 @@ window.themeManager = themeManager;
 
 // Initialize UI on load
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize theme manager immediately
     themeManager.init();
 });
 
@@ -696,8 +704,11 @@ window.addEventListener('languageChanged', () => {
     if (modal) {
         const wasActive = modal.classList.contains('active');
         modal.remove();
+        
+        // Recreate modal with new translations
         themeManager.createThemeModal();
-        themeManager.attachEventListeners(); // Re-attach event listeners after recreating modal
+        themeManager.attachEventListeners();
+        
         if (wasActive) {
             setTimeout(() => themeManager.openModal(), 100);
         }
