@@ -500,31 +500,7 @@ function initActionButtons() {
         });
     }
     
-    if (deleteBtn) {
-        deleteBtn.addEventListener('click', async () => {
-            const confirmMessage = i18n.t('video.confirmDelete') || 'Вы уверены, что хотите удалить этот контент?';
-            const successMessage = i18n.t('video.deleted') || 'Контент удален';
-            const errorMessage = i18n.t('video.deleteError') || 'Ошибка при удалении';
-            
-            if (confirm(confirmMessage)) {
-                try {
-                    await db.deleteVideo(currentVideo.id);
-                    
-                    // Delete associated episodes
-                    const episodes = await db.getEpisodes(currentVideo.id);
-                    for (const episode of episodes) {
-                        await db.deleteEpisode(episode.id);
-                    }
-                    
-                    alert(successMessage);
-                    window.location.href = '/app';
-                } catch (error) {
-                    logger.error('Error deleting video', error);
-                    alert(errorMessage);
-                }
-            }
-        });
-    }
+    // Delete button handler is now in video.js
 }
 
 function updateFavoriteButton() {
