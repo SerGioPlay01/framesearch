@@ -211,6 +211,10 @@ class NotesManager {
                     </div>
 
                     <div class="modal-footer">
+                        <button onclick="notesManager.importNotes()" class="btn btn-secondary">
+                            <i data-lucide="upload"></i>
+                            ${t('notes.import')}
+                        </button>
                         <button onclick="notesManager.exportNotes()" class="btn btn-secondary">
                             <i data-lucide="download"></i>
                             ${t('notes.export')}
@@ -335,8 +339,6 @@ class NotesManager {
             
             if (typeof dialog !== 'undefined' && dialog.alert) {
                 await dialog.alert(t('notes.noNotes'), t('notes.export'));
-            } else {
-                alert(t('notes.noNotes'));
             }
             return;
         }
@@ -365,6 +367,98 @@ class NotesManager {
         if (typeof logger !== 'undefined') {
             logger.success('Заметки экспортированы');
         }
+    }
+
+    // Импорт заметок из текстового файла
+    async importNotes() {
+        const t = (key) => {
+            if (typeof i18n !== 'undefined' && typeof i18n.t === 'function') {
+                return i18n.t(key);
+            }
+            return key;
+        };
+
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.txt';
+        
+        input.onchange = async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            try {
+                const text = await file.text();
+                const lines = text.split('\n');
+                let importedCount = 0;
+
+                // Простой парсинг: ищем строки с таймкодами [MM:SS] или [HH:MM:SS]
+                const timecodeRegex = /\[(\d{1,2}):(\d{2})(?::(\d{2}))?\]/;
+                
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (!line || line.startsWith('=') || line.startsWith('Заметки') || line.startsWith('Дата')) {
+                        continue;
+                    }
+
+                    const match = line.match(timecodeRegex);
+                    let timecode = null;
+                    let noteText = line;
+
+                    if (match) {
+                        // Извлекаем таймкод
+                        const hours = match[3] ? parseInt(match[1]) : 0;
+                        const minutes = match[3] ? parseInt(match[2]) : parseInt(match[1]);
+                        const seconds = match[3] ? parseInt(match[3]) : parseInt(match[2]);
+                        timecode = hours * 3600 + minutes * 60 + seconds;
+                        
+                        // Убираем таймкод и номер из текста
+                        noteText = line.replace(/^\d+\.\s*/, '').replace(timecodeRegex, '').trim();
+                    } else {
+                        // Убираем только номер
+                        noteText = line.replace(/^\d+\.\s*/, '').trim();
+                    }
+
+                    if (noteText && !noteText.startsWith('Дата:')) {
+                        await this.addNote(this.currentVideoId, noteText, timecode);
+                        importedCount++;
+                    }
+                }
+
+                if (importedCount > 0) {
+                    if (typeof logger !== 'undefined') {
+                        logger.success(`Импортировано заметок: ${importedCount}`);
+                    }
+                    
+                    // Обновить панель заметок
+                    this.openNotesPanel(this.currentVideoId);
+                    
+                    if (typeof dialog !== 'undefined' && dialog.alert) {
+                        await dialog.alert(
+                            `${t('notes.imported')}: ${importedCount}`,
+                            t('notes.import')
+                        );
+                    }
+                } else {
+                    if (typeof dialog !== 'undefined' && dialog.alert) {
+                        await dialog.alert(
+                            t('notes.noNotesFound'),
+                            t('notes.import')
+                        );
+                    }
+                }
+
+            } catch (error) {
+                console.error('Error importing notes:', error);
+                if (typeof dialog !== 'undefined' && dialog.alert) {
+                    await dialog.alert(
+                        t('notes.importError'),
+                        t('notes.import')
+                    );
+                }
+            }
+        };
+
+        input.click();
     }
 
     closeNotesPanel() {
