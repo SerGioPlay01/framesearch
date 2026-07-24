@@ -329,6 +329,6 @@
 
 **Framesearch v5.0.0** — Ваше персональное видеохранилище
 
-Made with ❤️ by SerGioPlay
+Made with ❤️ by PsyGioX
 
 </div>

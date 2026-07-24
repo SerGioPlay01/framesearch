@@ -2,7 +2,7 @@
  * Framesearch - Smart Tags Manager
  * Система умных тегов и автозаполнения
  * 
- * Автор: SerGioPlay
+ * Автор: PsyGioX
  * © 2026 Framesearch
  */
 

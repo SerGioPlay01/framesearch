@@ -2,7 +2,7 @@
  * Framesearch - Preloader Manager
  * Управление креативным прелоадером с анимациями
  * 
- * Автор: SerGioPlay
+ * Автор: PsyGioX
  * © 2026 Framesearch
  */
 

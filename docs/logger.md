@@ -280,7 +280,7 @@ MIT License - свободно используйте в своих проект
 
 ## 👨‍💻 Автор
 
-SerGioPlay - [GitHub](https://github.com/SerGioPlay01)
+PsyGioX - [GitHub](https://github.com/PsyGioX)
 
 ## 🤝 Вклад
 
@@ -291,4 +291,4 @@ SerGioPlay - [GitHub](https://github.com/SerGioPlay01)
 
 ## 📚 Связанные проекты
 
-- [Framesearch](https://github.com/SerGioPlay01/framesearch) - Персональное видеохранилище
+- [Framesearch](https://github.com/PsyGioX/framesearch) - Персональное видеохранилище

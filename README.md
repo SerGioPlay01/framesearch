@@ -59,7 +59,7 @@
 
 1. **Клонируйте репозиторий:**
 ```bash
-git clone https://github.com/SerGioPlay01/framesearch.git
+git clone https://github.com/PsyGioX/framesearch.git
 cd framesearch
 ```
 
@@ -297,11 +297,11 @@ Framesearch включает несколько независимых комп�
 
 ## 👨‍💻 Автор
 
-**SerGioPlay**
+**PsyGioX**
 
-- 🌐 Сайт: [sergioplay-dev.vercel.app](https://sergioplay-dev.vercel.app/)
-- 💻 GitHub: [@SerGioPlay01](https://github.com/SerGioPlay01)
-- 📦 Проект: [framesearch](https://github.com/SerGioPlay01/framesearch)
+- 🌐 Сайт: [https://psygiox-dev.vercel.app/](https://psygiox-dev.vercel.app/)
+- 💻 GitHub: [@PsyGioX](https://github.com/PsyGioX)
+- 📦 Проект: [framesearch](https://github.com/PsyGioX/framesearch)
 
 ---
 
@@ -311,7 +311,7 @@ Framesearch включает несколько независимых комп�
 
 - 📧 VK: [vk.com/framesearch_ru](https://vk.com/framesearch_ru)
 - 💬 Telegram: [t.me/framesearch_ru](https://t.me/framesearch_ru)
-- 🐛 Issues: [GitHub Issues](https://github.com/SerGioPlay01/framesearch/issues)
+- 🐛 Issues: [GitHub Issues](https://github.com/PsyGioX/framesearch/issues)
 
 ---
 
@@ -327,6 +327,6 @@ Framesearch включает несколько независимых комп�
 
 **© 2026 Framesearch. Все права защищены.**
 
-Made with ❤️ by SerGioPlay
+Made with ❤️ by PsyGioX
 
 </div>

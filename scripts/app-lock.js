@@ -2,10 +2,10 @@
  * Framesearch - App Lock Manager
  * Управление защитой приложения паролем
  * 
- * Автор: SerGioPlay
- * GitHub: https://github.com/SerGioPlay01
- * Проект: https://github.com/SerGioPlay01/framesearch
- * Сайт: https://sergioplay-dev.vercel.app/
+ * Автор: PsyGioX
+ * GitHub: https://github.com/PsyGioX
+ * Проект: https://github.com/PsyGioX/framesearch
+ * Сайт: https://PsyGioX-dev.vercel.app/
  * 
  * © 2026 Framesearch.  
  */

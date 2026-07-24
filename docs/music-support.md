@@ -269,4 +269,4 @@ const platforms = musicSourcesManager.getSupportedPlatforms();
 
 **Версия**: 1.0.0  
 **Дата**: 2026-02-21  
-**Автор**: SerGioPlay
+**Автор**: PsyGioX

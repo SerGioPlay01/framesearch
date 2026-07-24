@@ -2,7 +2,7 @@
  * Framesearch - Music Sources Manager
  * Поддержка музыкальных файлов и плейлистов
  * 
- * Автор: SerGioPlay
+ * Автор: PsyGioX
  * © 2026 Framesearch
  */
 

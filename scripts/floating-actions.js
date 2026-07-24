@@ -2,7 +2,7 @@
  * Framesearch - Floating Actions Manager
  * Управление единым блоком плавающих кнопок
  * 
- * Автор: SerGioPlay
+ * Автор: PsyGioX
  * © 2026 Framesearch
  */
 

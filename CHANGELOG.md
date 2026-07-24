@@ -176,4 +176,4 @@
 
 ---
 
-[1.0.0]: https://github.com/SerGioPlay01/framesearch/releases/tag/v1.0.0
+[1.0.0]: https://github.com/PsyGioX/framesearch/releases/tag/v1.0.0

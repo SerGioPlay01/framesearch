@@ -2,7 +2,7 @@
  * Framesearch - Notes & Timecodes Manager
  * Система заметок и таймкодов
  * 
- * Автор: SerGioPlay
+ * Автор: PsyGioX
  * © 2026 Framesearch
  */
 

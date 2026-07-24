@@ -51,7 +51,7 @@
 
 1. **Clone the repository:**
 ```bash
-git clone https://github.com/SerGioPlay01/framesearch.git
+git clone https://github.com/PsyGioX/framesearch.git
 cd framesearch
 ```
 
@@ -224,11 +224,11 @@ Project is distributed under **MIT** license. Details in [LICENSE](LICENSE) file
 
 ## 👨‍💻 Author
 
-**SerGioPlay**
+**PsyGioX**
 
-- 🌐 Website: [sergioplay-dev.vercel.app](https://sergioplay-dev.vercel.app/)
-- 💻 GitHub: [@SerGioPlay01](https://github.com/SerGioPlay01)
-- 📦 Project: [framesearch](https://github.com/SerGioPlay01/framesearch)
+- 🌐 Website: [PsyGioX-dev.vercel.app](https://PsyGioX-dev.vercel.app/)
+- 💻 GitHub: [@PsyGioX](https://github.com/PsyGioX)
+- 📦 Project: [framesearch](https://github.com/PsyGioX/framesearch)
 
 ---
 
@@ -238,7 +238,7 @@ If you have questions or suggestions:
 
 - 📧 VK: [vk.com/framesearch_ru](https://vk.com/framesearch_ru)
 - 💬 Telegram: [t.me/framesearch_ru](https://t.me/framesearch_ru)
-- 🐛 Issues: [GitHub Issues](https://github.com/SerGioPlay01/framesearch/issues)
+- 🐛 Issues: [GitHub Issues](https://github.com/PsyGioX/framesearch/issues)
 
 ---
 
@@ -254,6 +254,6 @@ If you like Framesearch, give it a ⭐ on GitHub!
 
 **© 2026 Framesearch. All rights reserved.**
 
-Made with ❤️ by SerGioPlay
+Made with ❤️ by PsyGioX
 
 </div>

@@ -2,7 +2,7 @@
  * Framesearch - Statistics & Analytics Manager
  * Система статистики и аналитики просмотров
  * 
- * Автор: SerGioPlay
+ * Автор: PsyGioX
  * © 2026 Framesearch
  */
 

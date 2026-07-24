@@ -2,7 +2,7 @@
  * Framesearch - Slideshow & Presentation Mode
  * Режим презентации и слайдшоу
  * 
- * Автор: SerGioPlay
+ * Автор: PsyGioX
  * © 2026 Framesearch
  */
 

@@ -129,11 +129,11 @@ i18n.setLanguage('en');
 
 ## 👨‍💻 Автор
 
-**SerGioPlay**
+**PsyGioX**
 
-- 🌐 Сайт: [sergioplay-dev.vercel.app](https://sergioplay-dev.vercel.app/)
-- 💻 GitHub: [@SerGioPlay01](https://github.com/SerGioPlay01)
-- 📦 Проект: [framesearch](https://github.com/SerGioPlay01/framesearch)
+- 🌐 Сайт: [PsyGioX-dev.vercel.app](https://PsyGioX-dev.vercel.app/)
+- 💻 GitHub: [@PsyGioX](https://github.com/PsyGioX)
+- 📦 Проект: [framesearch](https://github.com/PsyGioX/framesearch)
 
 ---
 
@@ -143,7 +143,7 @@ i18n.setLanguage('en');
 
 - 📧 VK: [vk.com/framesearch_ru](https://vk.com/framesearch_ru)
 - 💬 Telegram: [t.me/framesearch_ru](https://t.me/framesearch_ru)
-- 🐛 Issues: [GitHub Issues](https://github.com/SerGioPlay01/framesearch/issues)
+- 🐛 Issues: [GitHub Issues](https://github.com/PsyGioX/framesearch/issues)
 
 ---
 
@@ -157,6 +157,6 @@ i18n.setLanguage('en');
 
 **© 2026 Framesearch. Все права защищены.**
 
-Made with ❤️ by SerGioPlay
+Made with ❤️ by PsyGioX
 
 </div>

@@ -337,4 +337,4 @@ document.head.appendChild(loadedStyle);
 
 console.log('%c🎬 Framesearch Landing', 'font-size: 20px; font-weight: bold; color: #6366f1;');
 console.log('%cПерсональное видеохранилище нового поколения', 'font-size: 14px; color: #8b5cf6;');
-console.log('%c© 2026 SerGioPlay', 'font-size: 12px; color: #94a3b8;');
+console.log('%c© 2026 PsyGioX', 'font-size: 12px; color: #94a3b8;');

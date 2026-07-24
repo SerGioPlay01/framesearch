@@ -2,10 +2,10 @@
  * Framesearch - Система управления видеоконтентом
  * Internationalization (i18n) Module
  * 
- * Автор: SerGioPlay
- * GitHub: https://github.com/SerGioPlay01
- * Проект: https://github.com/SerGioPlay01/framesearch
- * Сайт: https://sergioplay-dev.vercel.app/
+ * Автор: PsyGioX
+ * GitHub: https://github.com/PsyGioX
+ * Проект: https://github.com/PsyGioX/framesearch
+ * Сайт: https://PsyGioX-dev.vercel.app/
  */
 
 class I18n {
